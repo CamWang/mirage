@@ -1,8 +1,8 @@
 {
   "targets": [
     {
-      "target_name": "napi",
-      "sources": [ "src/main.cpp" ],
+      "target_name": "inferno",
+      "sources": [ "src/binding.cpp","src/judger/judger.cpp","src/judger/task.cpp" ],
       'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")"],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags!': [ '-fno-exceptions' ],
