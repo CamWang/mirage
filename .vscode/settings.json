@@ -1,0 +1,7 @@
+{
+  "editor.tabSize": 2,
+  "files.associations": {
+    "vector": "cpp",
+    "string": "cpp"
+  }
+}
