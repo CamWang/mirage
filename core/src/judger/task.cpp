@@ -2,12 +2,12 @@
 
 Task::Task() {}
 
-Task::Task(const uint32_t i, const uint32_t p, const vector<string> d, const uint8_t l, const uint8_t t, const string s, const string c) {
-  id = i;
-  pid = p;
-  data = d;
-  lang = static_cast<Lang>(l);
-  type = static_cast<Type>(t);
-  spj = s;
-  code = c;
+Task::Task(uint32_t id, uint32_t pid, vector<string> data, uint8_t lang, uint8_t type, string spj, string code) {
+  this->id = id;
+  this->pid = pid;
+  this->data = data;
+  this->lang = static_cast<Lang>(lang);
+  this->type = static_cast<Type>(type);
+  this->spj = spj;
+  this->code = code;
 }
