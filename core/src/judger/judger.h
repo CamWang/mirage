@@ -7,29 +7,27 @@
 #include "task.h"
 using namespace std;
 
-const int flag = 10;
+const int flag = 10;311
 
-class Judger {
-  private:
-    Task task;
-    string work_dir;
-    string comp_cmd;
-    string run_cmd;
-    uint32_t mem_limit;
-    uint32_t time_limit;
+class Judger
+{
+private:
+  string work_dir;
+  string comp_cmd;
+  string run_cmd;
 
-  public:
-    // Setting up judger properties
-    Judger();
-    Judger(string dir, string comp_cmd, string run_cmd);
-    void SetTask(uint32_t id, uint32_t pid, vector<string> data, uint8_t lang, uint8_t type, string spj, string code);
-    void SetLimit(uint32_t mlmt, uint32_t tlmt);
+public:
+  Judger();
+  ~Judger();
 
-    // Judge process starts
-    void Init();        // Init judge environment
-    void Compile();     // Compile submitted code
-    void Rlimit();      // Init process resoure limit
-    void Judge();       // Judge submitted code
+  // Setting up judger properties
+  Judger(string dir, string comp_cmd, string run_cmd);
+
+  // Judge process starts
+  void Init();    // Init judge environment
+  void Compile(); // Compile submitted code
+  void Rlimit();  // Init process resoure limit
+  void Judge();   // Judge submitted code
 };
 
 #endif

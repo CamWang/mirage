@@ -1,0 +1,15 @@
+{
+  "direcotry": "/tmp",
+  "command" : [
+    {
+      "language": "c",
+      "compile": "gcc main.c -o main -std=c99 -static -Wall -fmax-errors=10",
+      "run": "./main"
+    },
+    {
+      "language": "cpp",
+      "compile": "g++ main.cpp -o main -std=c++11 -lm -static -Wall -fmax-errors=10 -fno-asm",
+      "run": "./main"
+    }
+  ]
+}
