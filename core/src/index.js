@@ -1,19 +1,49 @@
-const pino = require('pino');
+const pino = require("pino");
 
 const { Inferno } = require("../build/Release/inferno");
 const config = require("../assets/config.json");
 const task = require("../assets/task.json");
 
 const logger = pino({
-  prettyPrint: { colorize: true }
+  prettyPrint: { colorize: true },
 });
 
-const inferno;
+let inferno;
 
 try {
   inferno = new Inferno();
-  inferno.setJudger(config.direcotry, config.command[1].compile, config.command[1].run);
-  inferno.setTask(task.id, task.pid, task.tlmt, task.mlmt, task.lang, task.type, task.data, task.spj, task.code);
-} catch(err) {
+  logger.info(
+    inferno.setJudger(
+      config.direcotry,
+      config.command[1].source,
+      config.command[1].executable,
+      config.command[1].compile,
+      config.command[1].run
+    )
+  );
+  logger.info(
+    inferno.setTask(
+      task.id,
+      task.pid,
+      task.tlmt,
+      task.mlmt,
+      task.lang,
+      task.type,
+      task.data,
+      task.spj,
+      task.code
+    )
+  );
+} catch (err) {
   logger.error(err);
 }
+
+let result;
+
+try {
+  result = inferno.judge();
+} catch (err) {
+  logger.error(err);
+}
+
+logger.info(result);

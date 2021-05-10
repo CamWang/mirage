@@ -2,6 +2,8 @@
 #define CONST_H_
 
 #include <string>
+#include <iostream>
+#include <vector>
 using namespace std;
 
 enum class Lang
