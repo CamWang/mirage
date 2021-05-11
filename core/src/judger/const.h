@@ -6,6 +6,7 @@
 #include <vector>
 using namespace std;
 
+// Task language
 enum class Lang
 {
   c,    // C
@@ -18,6 +19,7 @@ enum class Lang
   php   // PHP
 };
 
+// Task judge result
 enum class Result
 {
   DEF, // Default
@@ -32,11 +34,12 @@ enum class Result
   AC   // Accepted
 };
 
+// Task type
 enum class Type
 {
-  normal,
-  output,
-  interact
+  normal,   // in and output file to judge
+  output,   // only use output file to judge
+  interact  // special judge
 };
 
 #endif

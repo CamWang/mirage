@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 void throwBindingError(Napi::Env env, const string &msg, const string &name);
+void log(const string& msg);
 
 class Inferno : public Napi::ObjectWrap<Inferno>
 {
@@ -94,26 +95,27 @@ Napi::Value Inferno::SetTask(const Napi::CallbackInfo &info)
 Napi::Value Inferno::Judge(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
+  log("Start Init");
   try {
     this->judger.Init(&(this->task));
   } catch(string msg) {
     throwBindingError(env, msg, "Judger::Init()");
   }
+  log("End Init");
+  log("Start Compile");
   try {
     this->judger.Compile();
   } catch(string msg) {
     throwBindingError(env, msg, "Judger::Compile()");
   }
-  try {
-    this->judger.Rlimit();
-  } catch(string msg) {
-    throwBindingError(env, msg, "Judger::Rlimit()");
-  }
+  log("End Compile");
+  log("Start Judge");
   try {
     this->judger.Judge();
   } catch(string msg) {
     throwBindingError(env, msg, "Judger::Judge()");
   }
+  log("End Jduge");
   Napi::Object result = Napi::Object::New(env);
   result.Set("id", 1);
   return result;
@@ -128,6 +130,10 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
 void throwBindingError(Napi::Env env, const string &msg, const string &name)
 {
   throw Napi::Error::New(env, "[Inferno] " + msg + " @binding.cpp - " + name);
+}
+
+void log(const string& msg) {
+  cout << "[Inferno] " << msg << endl;
 }
 
 NODE_API_MODULE(NODE_GYP_MODULE_NAME, Init);

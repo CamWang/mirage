@@ -1,21 +1,37 @@
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/time.h>
 #include <unistd.h>
+#include <dirent.h>
+#include <errno.h>
 #include <fstream>
+#include <map>
 
 #include "task.h"
 #include "const.h"
 #include "judger.h"
 
 const mode_t RWXRXX = (S_IXUSR|S_IRUSR|S_IWUSR|S_IXGRP|S_IRGRP|S_IXOTH);
-const string WORK_PATH_PREFIX = "/inferno/";
+const string WORK_PATH_PREFIX = "/judger/";
 
 inline bool IsDirExist(const string& filename) {
   struct stat buffer;
   return (stat (filename.c_str(), &buffer) == 0);
 }
 
-vector<char*> getSplitStringArray(string& str);
-string getFilename(string& str);
+inline bool compareExtension(const string& fn, const string& en) {
+  return fn.substr(fn.find_last_of(".") + 1) == en;
+}
+
+inline bool compareFilename(const string& a, const string& b) {
+  return a.substr(0, int(a.size()) - 3) == b.substr(0, int(b.size()) - 4);
+}
+
+vector<char*> getExecCompCmd(string& str);
+string getExecFilename(string& str);
+map<string, string> getDataMapFromDir(string& data_dir);
 
 Judger::Judger() {}
 
@@ -64,7 +80,7 @@ void Judger::Init(Task* task)
       throw "mkdir " + inferno_work_path + " error";
     }
   }
-  string work_path = this->work_dir + WORK_PATH_PREFIX + to_string((this->task)->id);
+  string work_path = this->work_dir = this->work_dir + WORK_PATH_PREFIX + to_string((this->task)->id);
   if (IsDirExist(work_path) || mkdir(work_path.c_str(), RWXRXX) == -1) {
     throw "mkdir " + work_path + " error";
   }
@@ -77,28 +93,88 @@ void Judger::Init(Task* task)
 
 void Judger::Compile()
 {
-  vector<char*> comp_cmd = getCompCmd(this->comp_cmd);
-  string filename = getFilename(this->comp_cmd);
-  string work_path = this->work_dir + WORK_PATH_PREFIX + to_string((this->task)->id);
-  cout << comp_cmd[0] << endl;
-  cout << filename << endl;
-  if (chdir(&work_path[0]) == -1) {
-    throw "change directory to " + work_path + " error";
+  vector<char*> comp_cmd = getExecCompCmd(this->comp_cmd);
+  string filename = getExecFilename(this->comp_cmd);
+  if (chdir(&this->work_dir[0]) == -1) {
+    throw "change directory to " + this->work_dir + " error";
   }
-  if (execvp(&filename[0], &comp_cmd[0]) == -1) {
-    throw "compile error";
+  pid_t pid;
+  if((pid = fork()) < 0) {
+    throw "compile run out of availiable process";
+  } else if (pid == 0) {
+    rlimit comp_lmt = {
+      this->ctlmt,
+      this->ctlmt
+    };
+    setrlimit(RLIMIT_CPU, &comp_lmt);
+    if (execvp(&filename[0], &comp_cmd[0]) == -1) {
+      throw "compile command execute error";
+    }
+  } else {
+    int status;
+    if (wait(&status) == -1 || status != 0) {
+      throw "compile error";
+    }
   }
 }
 
-void Judger::Rlimit()
+void Judger::Sandbox()
 {
+  chroot(&this->work_dir[0]);
 }
 
 void Judger::Judge()
 {
+  const ushort READ_PIPE = 0;
+  const ushort WRITE_PIPE = 1;
+  map<string, string> data_map = getDataMapFromDir((this->task)->data);
+  int sinPipe[2];
+  int soutPipe[2];
+  pid_t pid;
+  if (pipe(sinPipe) < 0) {
+    throw "create stdin pipe error";
+  }
+  if (pipe(soutPipe) < 0) {
+    close(sinPipe[READ_PIPE]);
+    close(sinPipe[WRITE_PIPE]);
+    throw "create stdoutPipe error";
+  }
+  if ((pid = fork()) < 0) {
+    throw "judge run out of availiable process";
+  } else if (pid == 0) {
+    if (dup2(sinPipe[READ_PIPE], STDIN_FILENO) == -1) {
+      exit(errno);
+    }
+    if (dup2(soutPipe[WRITE_PIPE], STDOUT_FILENO) == -1) {
+      exit(errno);
+    }
+    if (dup2(soutPipe[WRITE_PIPE], STDERR_FILENO) == -1) {
+      exit(errno);
+    }
+    close(sinPipe[READ_PIPE]);
+    close(sinPipe[WRITE_PIPE]);
+    close(soutPipe[READ_PIPE]);
+    close(soutPipe[WRITE_PIPE]);
+    vector<char*> run_cmd = getExecCompCmd(this->run_cmd);
+    string filename = getExecFilename(this->run_cmd);
+    this->Sandbox();
+    if (execlp(&filename[0], &comp_cmd[0]) == -1) {
+      exit(errno);
+    }
+  } else {
+    int wstatus;
+    rusage usage;
+    if (wait4(pid, &wstatus, , &usage))
+    for (map<string, string>::iterator d = data_map.begin(); d != data_map.end(); d++) {
+      
+    }
+  }
 }
 
-vector<char*> getCompCmd(string& str) {
+/**
+ * Returns the arg[] part of the exec() system call from the command string.
+ */
+vector<char*> getExecCompCmd(string& str) {
   vector<string> words;
   string word = "";
   for (int i = 0; i < int(str.size()); i++) {
@@ -119,7 +195,10 @@ vector<char*> getCompCmd(string& str) {
   return result;
 }
 
-string getFilename(string& str) {
+/**
+ * Returns the filename for exec() system call from the compile command string.
+ */
+string getExecFilename(string& str) {
   string word = "";
   for (int i = 0; i < int (str.size()); i++) {
     auto x = str[i];
@@ -130,4 +209,45 @@ string getFilename(string& str) {
     }
   }
   return word;
+}
+
+/**
+ * Returns a input file name and output file name pair of certain directory.
+ * 
+ * The input file must be ended as .in and output file must ended as .out.
+ * To pair up the input and output file, the file name before .in/.out must be
+ * the same.
+ * If input file not present or the files coudn't pair up, every output file will
+ * be returned as the value of the map. The key of the map will be "".
+ */
+map<string, string> getDataMapFromDir(string& data_dir) {
+  map<string, string> data_map;
+  DIR *dir;
+  struct dirent *ent;
+  vector<string> files;
+  if ((dir = opendir (&data_dir[0])) != NULL) {
+    while ((ent = readdir (dir)) != NULL && ent->d_name[0] != '.') {
+      files.push_back(string(ent->d_name));
+    }
+    closedir (dir);
+  } else {
+    throw "read data files error";
+  }
+  for (vector<string>::iterator i = files.begin(); i != files.end(); ++i) {
+    if (compareExtension(*i, "in")) {
+      for (vector<string>::iterator o = files.begin(); o != files.end(); ++o) {
+        if (compareExtension(*o, "out") && compareFilename(*i, *o)) {
+          data_map.insert(pair<string, string>(*i, *o));
+        }
+      }
+    }
+  }
+  if (data_map.size() == 0 && files.size() != 0) {
+    for (vector<string>::iterator o = files.begin(); o != files.end(); ++o) {
+      if (compareExtension(*o, "out")) {
+        data_map.insert(pair<string, string>("", *o));
+      }
+    }
+  }
+  return data_map;
 }

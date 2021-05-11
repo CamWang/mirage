@@ -16,6 +16,9 @@ private:
   string exec_name;
   string comp_cmd;
   string run_cmd;
+  uint32_t ctlmt = 10;
+  uint32_t rtlmt = 10;
+  bool debug = false;
   Task* task;
 
 public:
@@ -30,7 +33,7 @@ public:
   // Judge process starts
   void Init(Task* task);    // Init judge environment
   void Compile(); // Compile submitted code
-  void Rlimit();  // Init process resoure limit
+  void Sandbox();  // Init process sandbox, being called in Judge();
   void Judge();   // Judge submitted code
   void Clean();   // Do some chores
 };
