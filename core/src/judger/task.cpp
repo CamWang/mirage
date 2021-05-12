@@ -2,8 +2,7 @@
 
 Task::Task() {}
 
-Task::Task(uint32_t id, uint32_t pid, uint32_t tl, uint32_t ml, uint32_t lang, uint32_t type, string data, string spj, string code)
-{
+Task::Task(uint32_t id, uint32_t pid, uint32_t tl, uint32_t ml, uint32_t lang, uint32_t type, string data, string spj, string code) {
   this->id = id;
   this->pid = pid;
   this->tl = tl;
@@ -15,8 +14,7 @@ Task::Task(uint32_t id, uint32_t pid, uint32_t tl, uint32_t ml, uint32_t lang, u
   this->code = code;
 }
 
-ostream & operator<< (ostream & os, const Task &task)
-{
+ostream& operator<< (ostream& os, const Task& task) {
   os << "{id: " + to_string(task.id) +
     ", pid: " + to_string(task.pid) +
     ", time_limit: " + to_string(task.tl) +
@@ -29,8 +27,7 @@ ostream & operator<< (ostream & os, const Task &task)
   return os;
 }
 
-Task::operator string() const
-{
+Task::operator string() const {
   return "{id: " + to_string(this->id) +
     ", pid: " + to_string(this->pid) +
     ", time_limit: " + to_string(this->tl) +

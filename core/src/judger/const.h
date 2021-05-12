@@ -7,8 +7,7 @@
 using namespace std;
 
 // Task language
-enum class Lang
-{
+enum class Lang {
   c,    // C
   cpp,  // C++
   cs,   // C#
@@ -20,8 +19,7 @@ enum class Lang
 };
 
 // Task judge result
-enum class Result
-{
+enum class Result {
   DEF, // Default
   SCE, // Security Check Error
   CE,  // Compile Error
@@ -35,8 +33,7 @@ enum class Result
 };
 
 // Task type
-enum class Type
-{
+enum class Type {
   normal,   // in and output file to judge
   output,   // only use output file to judge
   interact  // special judge

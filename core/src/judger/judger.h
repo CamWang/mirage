@@ -8,8 +8,7 @@
 #include "task.h"
 using namespace std;
 
-class Judger
-{
+class Judger {
 private:
   string work_dir;
   string source_name;
@@ -24,7 +23,7 @@ private:
 public:
   Judger();
   ~Judger();
-  friend ostream & operator<<(ostream & os, const Judger &judger);
+  friend ostream& operator<<(ostream& os, const Judger& judger);
   operator string() const;
 
   // Setting up judger properties
