@@ -32,6 +32,11 @@ enum class Result {
   AC   // Accepted
 };
 
+enum class Mode {
+  OI,
+  ACM
+};
+
 // Task type
 enum class Type {
   normal,   // in and output file to judge

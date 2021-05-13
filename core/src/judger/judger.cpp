@@ -21,7 +21,13 @@ const string TW = "w";
 const string TAP = "a+";
 const string TR = "r";
 const string WORK_PATH_PREFIX = "/judger/";
-const unsigned long long BUF_SIZE = 2 << 10; // 2048
+const unsigned long BUF_SIZE = 2 << 10; // 2048
+const unsigned long SEC_MIC = 1000*1000;
+const unsigned long SEC_MIL = 1000;
+const unsigned long MIL_MIC = 1000;
+const unsigned long MB_B = 1024 * 1024;
+const unsigned long KB_B = 1024;
+const unsigned long MB_KB = 1024;
 
 inline bool IsDirExist(const string& filename) {
   struct stat buffer;
@@ -46,6 +52,8 @@ map<string, string> getDataMapFromDir(string& data_dir);
 int removeWorkDir(string& work_dir);
 // Filp AC flag at test case i of the record uint64, so the max testcase count is 64
 int flipAcFlag(uint64_t *record, int i);
+// Add up rusage
+void updateTotalTime(uint32_t *total_time, struct rusage *usage);
 
 Judger::Judger() {}
 
@@ -121,17 +129,21 @@ void Judger::Compile() {
         this->ctlmt };
     setrlimit(RLIMIT_CPU, &comp_lmt);
     if (execvp(filename.c_str(), &comp_cmd[0]) == -1) {
-      throw "compile command execute error";
+      (this->task)->result = Result::CE;
+      return;
     }
   } else {
     int status;
     if (wait(&status) == -1 || status != 0) {
-      throw "compile error";
+      (this->task)->result = Result::CE;
+      return;
     }
   }
 }
 
 void Judger::Sandbox() {
+  struct rlimit rlim;
+  
 }
 
 void Judger::Judge() {
@@ -140,6 +152,7 @@ void Judger::Judge() {
     throw "no data in the data directory";
   }
   uint testcase_index = 0;
+  uint32_t total_time = 0;
   for (map<string, string>::iterator d = data_map.begin(); d != data_map.end(); d++) {
     // change directory to test data directory
     if (chdir((this->task)->data.c_str()) == -1) {
@@ -151,6 +164,7 @@ void Judger::Judge() {
       throw "open data " + d->first + " error";
     }
     pid_t pid;
+    Mode mode = (this->task)->mode;
     if ((pid = fork()) < 0) {
       throw "judge run out of availiable process";
     } else if (pid == 0) {
@@ -192,8 +206,38 @@ void Judger::Judge() {
       exit(EXIT_SUCCESS);
     } else {
       // parent process
+      // get usage
       int stat = 0;
-      wait(&stat);
+      struct rusage usage;
+      if (wait4(pid, &stat, 0, &usage) == -1) {
+        switch (stat) {
+          case SIGCHLD:
+          case SIGALRM:
+            alarm(0);
+          case SIGKILL:
+          case SIGXCPU:
+            (this->task)->result = Result::TLE;
+            break;
+          case SIGXFSZ:
+            (this->task)->result = Result::OLE;
+            break;
+          default:
+            (this->task)->result = Result::RE;
+        }
+        return;
+      }
+      // calc run time
+      updateTotalTime(&total_time,&usage);
+      (this->task)->time = total_time / MIL_MIC;
+      if ((total_time / MIL_MIC) > (this->task)->tl) {
+        (this->task)->result = Result::TLE;
+        if (mode == Mode::ACM) {
+          return;
+        }
+      }
+      // get run memory
+      (this->task)->memory = usage.ru_maxrss;
+
       // compare
       char ubuf[BUF_SIZE] = {};
       char sbuf[BUF_SIZE] = {};
@@ -214,11 +258,16 @@ void Judger::Judge() {
           for (long unsigned int i = 0; i < sizeof(sbuf); i++) {
             if (sbuf[i] != ubuf[i]) {
               (this->task)->result = Result::WA;
+              if (mode == Mode::ACM) {
+                return;
+              }
             }
           }
         } else {
           (this->task)->result = Result::WA;
-          break;
+          if (mode == Mode::ACM) {
+            return;
+          }
         }
       }
       if (fclose(uout) == -1 || fclose(sout) == -1) {
@@ -228,7 +277,9 @@ void Judger::Judge() {
     if (close(tifd) == -1) {
       cout << "close test in file error" << endl;
     }
-    flipAcFlag(&((this->task)->record), testcase_index);
+    if ((this->task)->result == Result::DEF) {
+      flipAcFlag(&((this->task)->record), testcase_index);
+    }
     testcase_index++;
   }
   if ((this->task)->result == Result::DEF) {
@@ -341,6 +392,7 @@ int removeWorkDir(string& work_dir) {
   return rmdir(work_dir.c_str());
 }
 
+// Flip the accept for each test case of record
 int flipAcFlag(uint64_t *record, int i) {
   if (i < -1) {
     return -1;
@@ -350,4 +402,11 @@ int flipAcFlag(uint64_t *record, int i) {
     *record = *record << i;
   }
   return 0;
+}
+
+void updateTotalTime(uint32_t *total_time, struct rusage *usage) {
+  *total_time += (usage->ru_stime.tv_sec * SEC_MIC);
+  *total_time += (usage->ru_utime.tv_sec * SEC_MIC);
+  *total_time += (usage->ru_stime.tv_usec);
+  *total_time += (usage->ru_utime.tv_usec);
 }

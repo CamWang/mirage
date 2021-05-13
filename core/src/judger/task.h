@@ -12,10 +12,13 @@ public:
   uint32_t pid;                // Problem Id
   uint32_t tl;                 // Time Limit
   uint32_t ml;                 // Memory Limit
+  uint32_t time = 0;           // Task total run time
+  uint32_t memory = 0;         // Task total memory consumed
   string data;                 // Data Path
   Lang lang = Lang::cpp;       // Language
   Type type = Type::normal;    // Problem Type
   Result result = Result::DEF; // Judge Result
+  Mode mode = Mode::OI;        // Judge Mode, OI or ACM
   uint64_t record = 0;         // Judge Result for each test case. The order is from right to left.
   string spj;                  // Special Judge Path
   string code;                 // Solution Code

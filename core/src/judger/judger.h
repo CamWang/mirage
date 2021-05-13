@@ -15,8 +15,8 @@ private:
   string exec_name;
   string comp_cmd;
   string run_cmd;
-  uint32_t ctlmt = 10;
-  uint32_t rtlmt = 10;
+  uint32_t ctlmt = 10;  // compile time limit
+  uint32_t rtlmt = 10;  // run time limit
   bool debug = false;
   Task* task;
 
