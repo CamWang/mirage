@@ -20,16 +20,16 @@ enum class Lang {
 
 // Task judge result
 enum class Result {
-  DEF, // Default
-  SCE, // Security Check Error
-  CE,  // Compile Error
-  RE,  // Runtime Error
-  TLE, // Time Limit Exxceeded
-  MLE, // Memory Limit Exceeded
-  OLE, // Output Limit Exceeded
-  PE,  // Presentation Error
-  WA,  // Wrong Answer
-  AC   // Accepted
+  DEF, // Default 0
+  SCE, // Security Check Error 1
+  CE,  // Compile Error 2
+  RE,  // Runtime Error 3
+  TLE, // Time Limit Exxceeded 4
+  MLE, // Memory Limit Exceeded 5
+  OLE, // Output Limit Exceeded 6
+  PE,  // Presentation Error 7
+  WA,  // Wrong Answer 8
+  AC   // Accepted 9
 };
 
 enum class Mode {

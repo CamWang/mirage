@@ -142,8 +142,38 @@ void Judger::Compile() {
 }
 
 void Judger::Sandbox() {
+  // set Rlimit
   struct rlimit rlim;
-  
+  // set memory limit, send SIGXEGV when exceeds
+  rlim = { (this->task)->ml * KB_B, (this->task)->ml * KB_B};
+  if (setrlimit(RLIMIT_AS, &rlim) == -1) {
+    throw "set static memory limit error";
+  }
+  if (setrlimit(RLIMIT_DATA, &rlim) == -1) {
+    throw "set dynamic memory limit error";
+  }
+  // set core dump  limit
+  rlim = { 0, 0};
+  if (setrlimit(RLIMIT_CORE, &rlim) == -1) {
+    throw "set core dump limit error";
+  }
+  // set cpu time limit, send SIGXCPU when exceeds
+  uint tl = 1;
+  if(!((this->task)->tl < 1000)) {
+    tl = (this->task)->tl / 1000;
+    if (tl > 30) {
+      tl = 30;
+    }
+  }
+  rlim = { tl, tl };
+  if (setrlimit(RLIMIT_CPU, &rlim) == -1) {
+    throw "set cpu time limit error";
+  }
+  // set file size limit, send SIGXFSZ when exceeds
+  rlim = { 50 * MB_B, 50 * MB_B };
+  if (setrlimit(RLIMIT_FSIZE, &rlim) == -1) {
+    throw "set file size limit error";
+  }
 }
 
 void Judger::Judge() {
@@ -188,13 +218,14 @@ void Judger::Judge() {
       if (freopen(err_file.c_str(), TAP.c_str(), stderr) == NULL) {
         throw "open error out file error";
       }
-      this->Sandbox();
       // change work directory to workpath
       if (chdir(&(this->work_dir[0])) == -1) {
         throw "change child work directory error";
       }
+      // run sandbox
+      this->Sandbox();
       // run task code
-      if (system(this->run_cmd.c_str()) == -1) {
+      if (execl("/bin/sh", "sh", "-c", this->run_cmd.c_str(), (char *) NULL) == -1) {
         if (close(outfd) == -1 || close(errfd) == -1 || close(tifd) == -1) {
           cout << "close test out or test err or test in fd error" << endl;
         }
@@ -210,21 +241,28 @@ void Judger::Judge() {
       int stat = 0;
       struct rusage usage;
       if (wait4(pid, &stat, 0, &usage) == -1) {
-        switch (stat) {
-          case SIGCHLD:
-          case SIGALRM:
-            alarm(0);
-          case SIGKILL:
-          case SIGXCPU:
-            (this->task)->result = Result::TLE;
-            break;
-          case SIGXFSZ:
-            (this->task)->result = Result::OLE;
-            break;
-          default:
-            (this->task)->result = Result::RE;
-        }
         return;
+      }
+      // react to exit code
+      switch (stat) {
+        case SIGCHLD:
+        case SIGALRM:
+          if (!alarm(0)) {
+            throw "wait4 clean alarm error";
+          }
+          break;
+        case SIGKILL:
+        case SIGXCPU:
+          (this->task)->result = Result::TLE;
+          return;
+          break;
+        case SIGXFSZ:
+          (this->task)->result = Result::OLE;
+          return;
+          break;
+        default:
+          (this->task)->result = Result::RE;
+          return;
       }
       // calc run time
       updateTotalTime(&total_time,&usage);
