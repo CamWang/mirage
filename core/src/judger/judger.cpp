@@ -36,10 +36,16 @@ inline bool compareFilename(const string& a, const string& b) {
   return a.substr(0, int(a.size()) - 3) == b.substr(0, int(b.size()) - 4);
 }
 
+// Get compile command char* format for exec() from the compile command string
 vector<char*> getExecCompCmd(string& str);
+// Get filename for exec() from the compile command string
 string getExecFilename(string& str);
+// Get data map from data directory, map<[input file namee], [output file name]>
 map<string, string> getDataMapFromDir(string& data_dir);
+// Remove workdir for better storage management
 int removeWorkDir(string& work_dir);
+// Filp AC flag at test case i of the record uint64, so the max testcase count is 64
+int flipAcFlag(uint64_t *record, int i);
 
 Judger::Judger() {}
 
@@ -77,7 +83,7 @@ Judger::operator string() const {
 
 void Judger::Init(Task* task) {
   this->task = task;
-  // Work__Path defaults to /tmp/inferno
+  // Work__Path defaults to /tmp/inferno 
   string inferno_work_path = this->work_dir + WORK_PATH_PREFIX;
   if (!IsDirExist(inferno_work_path)) {
     if (mkdir(inferno_work_path.c_str(), RWXRXX) == -1) {
@@ -133,6 +139,7 @@ void Judger::Judge() {
   if (data_map.size() < 1) {
     throw "no data in the data directory";
   }
+  uint testcase_index = 0;
   for (map<string, string>::iterator d = data_map.begin(); d != data_map.end(); d++) {
     // change directory to test data directory
     if (chdir((this->task)->data.c_str()) == -1) {
@@ -221,8 +228,12 @@ void Judger::Judge() {
     if (close(tifd) == -1) {
       cout << "close test in file error" << endl;
     }
+    flipAcFlag(&((this->task)->record), testcase_index);
+    testcase_index++;
   }
-  (this->task)->result = Result::AC;
+  if ((this->task)->result == Result::DEF) {
+    (this->task)->result = Result::AC;
+  }
 }
 
 /**
@@ -328,4 +339,15 @@ int removeWorkDir(string& work_dir) {
     }
   }
   return rmdir(work_dir.c_str());
+}
+
+int flipAcFlag(uint64_t *record, int i) {
+  if (i < -1) {
+    return -1;
+  } else if (i == 0) {
+    *record = 1;
+  } else {
+    *record = *record << i;
+  }
+  return 0;
 }

@@ -105,6 +105,7 @@ Napi::Value Inferno::Judge(const Napi::CallbackInfo& info) {
   Napi::Object result = Napi::Object::New(env);
   result.Set("id", 1);
   result.Set("result", int((this->task).result));
+  result.Set("testcase", (this->task).record);
   return result;
 }
 

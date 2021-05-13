@@ -16,6 +16,7 @@ public:
   Lang lang = Lang::cpp;       // Language
   Type type = Type::normal;    // Problem Type
   Result result = Result::DEF; // Judge Result
+  uint64_t record = 0;         // Judge Result for each test case. The order is from right to left.
   string spj;                  // Special Judge Path
   string code;                 // Solution Code
 
