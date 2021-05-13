@@ -89,6 +89,9 @@ Judger::operator string() const {
     ", run_cmd:" + this->run_cmd + "}";
 }
 
+/**
+ * Init judge folder
+ */
 void Judger::Init(Task* task) {
   this->task = task;
   // Work__Path defaults to /tmp/inferno 
@@ -141,6 +144,12 @@ void Judger::Compile() {
   }
 }
 
+/**
+ * Create a sandbox for safe task execution
+ * 
+ * sandbox tech used:
+ * 1. rlimit
+ */
 void Judger::Sandbox() {
   // set Rlimit
   struct rlimit rlim;
@@ -176,6 +185,9 @@ void Judger::Sandbox() {
   }
 }
 
+/**
+ * Run task code and judge result
+ */
 void Judger::Judge() {
   map<string, string> data_map = getDataMapFromDir((this->task)->data);
   if (data_map.size() < 1) {

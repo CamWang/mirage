@@ -19,8 +19,12 @@ ostream& operator<< (ostream& os, const Task& task) {
     ", pid: " + to_string(task.pid) +
     ", time_limit: " + to_string(task.tl) +
     ", memory_limit: " + to_string(task.ml) +
+    ", time: " + to_string(task.time),
+    ", memory " + to_string(task.memory),
     ", lang: " + to_string(static_cast<int>(task.lang)) +
     ", type: " + to_string(static_cast<int>(task.type)) +
+    ", mode: " + to_string(static_cast<int>(task.mode)) +
+    ", record: " + to_string(static_cast<long>(task.record)) +
     ", data: " + task.data +
     ", spj: " + task.spj +
     ", code: " + task.code + "}";
@@ -32,8 +36,12 @@ Task::operator string() const {
     ", pid: " + to_string(this->pid) +
     ", time_limit: " + to_string(this->tl) +
     ", memory_limit: " + to_string(this->ml) +
+    ", time: " + to_string(this->time) +
+    ", memory: " + to_string(this->memory) +
     ", lang: " + to_string(static_cast<int>(this->lang)) +
     ", type: " + to_string(static_cast<int>(this->type)) +
+    ", mode: " + to_string(static_cast<int>(this->mode)) +
+    ", record: " + to_string(static_cast<long>(this->record)) +
     ", data: " + this->data +
     ", spj: " + this->spj +
     ", code: " + this->code + "}";
