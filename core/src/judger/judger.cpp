@@ -3,6 +3,9 @@
 #include <sys/resource.h>
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/prctl.h>      // seccomp
+#include <linux/seccomp.h>  // seccomp
+#include <linux/filter.h>   // seccomp
 #include <fcntl.h>
 #include <dirent.h>
 #include <unistd.h>
@@ -14,6 +17,8 @@
 #include "task.h"
 #include "const.h"
 #include "judger.h"
+
+#include "seccomp-bpf.h"
 
 const mode_t RWXRXX = (S_IXUSR | S_IRUSR | S_IWUSR | S_IXGRP | S_IRGRP | S_IXOTH);
 const mode_t RWRW = (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
@@ -44,16 +49,24 @@ inline bool compareFilename(const string& a, const string& b) {
 
 // Get compile command char* format for exec() from the compile command string
 vector<char*> getExecCompCmd(string& str);
+
 // Get filename for exec() from the compile command string
 string getExecFilename(string& str);
+
 // Get data map from data directory, map<[input file namee], [output file name]>
 map<string, string> getDataMapFromDir(string& data_dir);
+
 // Remove workdir for better storage management
 int removeWorkDir(string& work_dir);
+
 // Filp AC flag at test case i of the record uint64, so the max testcase count is 64
 int flipAcFlag(uint64_t *record, int i);
+
 // Add up rusage
 void updateTotalTime(uint32_t *total_time, struct rusage *usage);
+
+// Set up seccomp systemcall filter
+static int installSyscallFilter(void);
 
 Judger::Judger() {}
 
@@ -183,6 +196,10 @@ void Judger::Sandbox() {
   if (setrlimit(RLIMIT_FSIZE, &rlim) == -1) {
     throw "set file size limit error";
   }
+
+  // if (installSyscallFilter() == -1) {
+  //   throw "install systemcall filter fail";
+  // }
 }
 
 /**
@@ -195,6 +212,7 @@ void Judger::Judge() {
   }
   uint testcase_index = 0;
   uint32_t total_time = 0;
+  Mode mode = (this->task)->mode;
   for (map<string, string>::iterator d = data_map.begin(); d != data_map.end(); d++) {
     // change directory to test data directory
     if (chdir((this->task)->data.c_str()) == -1) {
@@ -206,7 +224,6 @@ void Judger::Judge() {
       throw "open data " + d->first + " error";
     }
     pid_t pid;
-    Mode mode = (this->task)->mode;
     if ((pid = fork()) < 0) {
       throw "judge run out of availiable process";
     } else if (pid == 0) {
@@ -237,15 +254,16 @@ void Judger::Judge() {
       // run sandbox
       this->Sandbox();
       // run task code
-      if (execl("/bin/sh", "sh", "-c", this->run_cmd.c_str(), (char *) NULL) == -1) {
-        if (close(outfd) == -1 || close(errfd) == -1 || close(tifd) == -1) {
-          cout << "close test out or test err or test in fd error" << endl;
-        }
+      if (execl("/bin/sh", "sh", "-c", this->run_cmd.c_str(), (char *) NULL)== -1) {
+      // if (system(this->run_cmd.c_str()) == -1) {
+        // if (close(outfd) == -1 || close(errfd) == -1 || close(tifd) == -1) {
+        //   cerr << "close test out or test err or test in fd error" << endl;
+        // }
         exit(EXIT_FAILURE);
       }
-      if (close(outfd) == -1 || close(errfd) == -1) {
-        cout << "close test out or test err fd error" << endl;
-      }
+      // if (close(outfd) == -1 || close(errfd) == -1) {
+      //   cerr << "close test out or test err fd error" << endl;
+      // }
       exit(EXIT_SUCCESS);
     } else {
       // parent process
@@ -256,7 +274,10 @@ void Judger::Judge() {
         return;
       }
       // react to exit code
+      cout << stat << endl;
       switch (stat) {
+        case EXIT_SUCCESS:
+          break;
         case SIGCHLD:
         case SIGALRM:
           if (!alarm(0)) {
@@ -266,15 +287,21 @@ void Judger::Judge() {
         case SIGKILL:
         case SIGXCPU:
           (this->task)->result = Result::TLE;
-          return;
+          if (mode == Mode::ACM) {
+            return;
+          }
           break;
         case SIGXFSZ:
           (this->task)->result = Result::OLE;
-          return;
+          if (mode == Mode::ACM) {
+            return;
+          }
           break;
         default:
           (this->task)->result = Result::RE;
-          return;
+          if (mode == Mode::ACM) {
+            return;
+          }
       }
       // calc run time
       updateTotalTime(&total_time,&usage);
@@ -289,39 +316,41 @@ void Judger::Judge() {
       (this->task)->memory = usage.ru_maxrss;
 
       // compare
-      char ubuf[BUF_SIZE] = {};
-      char sbuf[BUF_SIZE] = {};
-      FILE* uout, * sout;
-      string ufile = "./out";
-      string sfile = (this->task)->data + "/" + d->second;
-      if (chdir(this->work_dir.c_str()) == -1) {
-        throw "change directory to work directory error when compare";
-      }
-      if ((uout = fopen(ufile.c_str(), TR.c_str())) == NULL) {
-        throw "open user out file error";
-      }
-      if ((sout = fopen(sfile.c_str(), TR.c_str())) == NULL) {
-        throw "open standard data: " + d->second + " error";
-      }
-      while (fgets(sbuf, BUF_SIZE, sout)) {
-        if (fgets(ubuf, BUF_SIZE, uout)) {
-          for (long unsigned int i = 0; i < sizeof(sbuf); i++) {
-            if (sbuf[i] != ubuf[i]) {
-              (this->task)->result = Result::WA;
-              if (mode == Mode::ACM) {
-                return;
+      if ((this->task)->result == Result::DEF) {
+        char ubuf[BUF_SIZE] = {};
+        char sbuf[BUF_SIZE] = {};
+        FILE* uout, * sout;
+        string ufile = "./out";
+        string sfile = (this->task)->data + "/" + d->second;
+        if (chdir(this->work_dir.c_str()) == -1) {
+          throw "change directory to work directory error when compare";
+        }
+        if ((uout = fopen(ufile.c_str(), TR.c_str())) == NULL) {
+          throw "open user out file error";
+        }
+        if ((sout = fopen(sfile.c_str(), TR.c_str())) == NULL) {
+          throw "open standard data: " + d->second + " error";
+        }
+        while (fgets(sbuf, BUF_SIZE, sout)) {
+          if (fgets(ubuf, BUF_SIZE, uout)) {
+            for (long unsigned int i = 0; i < sizeof(sbuf); i++) {
+              if (sbuf[i] != ubuf[i]) {
+                (this->task)->result = Result::WA;
+                if (mode == Mode::ACM) {
+                  return;
+                }
               }
             }
-          }
-        } else {
-          (this->task)->result = Result::WA;
-          if (mode == Mode::ACM) {
-            return;
+          } else {
+            (this->task)->result = Result::WA;
+            if (mode == Mode::ACM) {
+              return;
+            }
           }
         }
-      }
-      if (fclose(uout) == -1 || fclose(sout) == -1) {
-        cout << "close user out or standard out error" << endl;
+        if (fclose(uout) == -1 || fclose(sout) == -1) {
+          cout << "close user out or standard out error" << endl;
+        }
       }
     }
     if (close(tifd) == -1) {
@@ -459,4 +488,40 @@ void updateTotalTime(uint32_t *total_time, struct rusage *usage) {
   *total_time += (usage->ru_utime.tv_sec * SEC_MIC);
   *total_time += (usage->ru_stime.tv_usec);
   *total_time += (usage->ru_utime.tv_usec);
+}
+
+/**
+ *  Install systemcall filter
+ */
+static int installSyscallFilter(void) {
+  struct sock_filter filter[] = {
+    VALIDATE_ARCHITECTURE,
+    EXAMINE_SYSCALL,
+    ALLOW_SYSCALL(read), ALLOW_SYSCALL(write), ALLOW_SYSCALL(open), ALLOW_SYSCALL(fstat), ALLOW_SYSCALL(lseek),
+    ALLOW_SYSCALL(mprotect), ALLOW_SYSCALL(munmap), ALLOW_SYSCALL(brk), ALLOW_SYSCALL(rt_sigprocmask), ALLOW_SYSCALL(writev),
+    ALLOW_SYSCALL(access), ALLOW_SYSCALL(getpid), ALLOW_SYSCALL(execve), ALLOW_SYSCALL(uname), ALLOW_SYSCALL(sysinfo),
+    ALLOW_SYSCALL(arch_prctl), ALLOW_SYSCALL(gettid), ALLOW_SYSCALL(exit_group), ALLOW_SYSCALL(tgkill), ALLOW_SYSCALL(fchmodat),
+    ALLOW_SYSCALL(splice), ALLOW_SYSCALL(dup3), ALLOW_SYSCALL(readlink), ALLOW_SYSCALL(set_robust_list), ALLOW_SYSCALL(mq_open),
+    ALLOW_SYSCALL(futex), ALLOW_SYSCALL(set_thread_area), ALLOW_SYSCALL(clock_gettime), ALLOW_SYSCALL(pread64), ALLOW_SYSCALL(ioprio_get),
+    ALLOW_SYSCALL(rt_sigreturn),
+#ifdef __NR_sigreturn
+    ALLOW_SYSCALL(sigreturn),
+#endif
+    KILL_PROCESS,
+  };
+
+  struct sock_fprog prog = {
+    static_cast<ushort>(sizeof(filter)/sizeof(filter[0])),
+    filter,
+  };
+
+  if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)) {
+    cerr << "prctl(NO_NEW_PRIVS) error" << endl;
+    return -1;
+  }
+  if (prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, &prog)) {
+    cerr << "prctl(SECCOMP) error" << endl;
+    return -1;
+  }
+  return 0;
 }

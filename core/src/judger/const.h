@@ -23,7 +23,7 @@ enum class Result {
   DEF, // Default 0
   SCE, // Security Check Error 1
   CE,  // Compile Error 2
-  RE,  // Runtime Error 3
+  RE,  // Runtime Error 3 may be MLE and child process being killed
   TLE, // Time Limit Exxceeded 4
   MLE, // Memory Limit Exceeded 5
   OLE, // Output Limit Exceeded 6

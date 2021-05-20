@@ -1,19 +1,26 @@
 const Koa = require("koa");
 const serve = require("koa-static");
 const router = require("./router");
+const config = require("./config");
+const Database = require("./db");
 
 class Server {
-  constructor(port) {
-    this.init(port);
+  constructor() {
+    this.init();
   }
 
-  init(port) {
-    if (Number.isInteger(port)) {
-      this.setupServer(port)
+  init() {
+    this.setupServer();
+  }
+
+  setupDatabase() {
+    global.Database = new Database();
+  }
+
+  setupServer() {
+    if (!Number.isInteger(config.server.port)) {
+      throw TypeError("[server] wrong port setting");
     }
-  }
-
-  setupServer(port) {
     const app = new Koa();
     app.use(serve('dist'), {
       gzip: true,
@@ -21,7 +28,7 @@ class Server {
     });
     app.use(router.routes());
     app.use(router.allowedMethods());
-    app.listen(port);
+    app.listen(config.server.port);
   }
 }
 
