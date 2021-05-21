@@ -1,38 +1,61 @@
 const { MongoClient } = require("mongodb");
+const config = require("../config");
+const assert = require("assert");
+
+let log;
 
 class Database {
-  constructor(config) {
-    this.uri = this.getUri(config);
+  constructor() {
+    log = global.logger;
+    this.uri = this.getUri();
+    this.setupDatabase();
   }
 
-  getUri(config) {
+  setupDatabase() {
+    log.info(this.uri);
+    const dbName = "mirage";
+    const client = new MongoClient(this.uri, {
+      useNewUrlParser: true, 
+      useUnifiedTopology: true
+    });
+    client.connect((err) => {
+      if (err == null) {
+        log.info("database connected");
+        global.db = client.db(dbName);
+      } else {
+        log.error("database connect fail " + err);
+      }
+    })
+  }
+
+  getUri() {
     let uri = "";
-    if (typeof config.protocol == "string" && config.protocol.length > 0) {
-      uri += `${config.protocol}://`;
+    if (typeof config.db.protocol == "string" && config.db.protocol.length > 0) {
+      uri += `${config.db.protocol}://`;
     } else {
-      throw TypeError("[db] no protocol");
+      log.error("config.db.protocol wrong");
     }
     if (
-      typeof config.username == "string" &&
-      typeof config.password == "string" &&
-      config.username.length > 0 &&
-      config.password.length > 0
+      typeof config.db.username == "string" &&
+      typeof config.db.password == "string" &&
+      config.db.username.length > 0 &&
+      config.db.password.length > 0
     ) {
-      uri += `${config.username}:${config.password}@`;
+      uri += `${config.db.username}:${config.db.password}@`;
     }
     if (
-      typeof config.hostname == "string" && 
-      config.hostname.length > 0 &&
-      Number.isInteger(config.port) &&
-      config.port > 0
+      typeof config.db.hostname == "string" && 
+      config.db.hostname.length > 0 &&
+      Number.isInteger(config.db.port) &&
+      config.db.port > 0
     ) {
-      uri += `${config.hostname}:${config.port}`;
+      uri += `${config.db.hostname}:${config.db.port}`;
     } else {
-      throw TypeError("[db] no hostname");
+      log.error("config.db.hostname wrong");
     }
-    if (Array.isArray(config.options)) {
-      if (config.options.length > 0) {
-        uri += `/?${config.options.join("&")}`;
+    if (Array.isArray(config.db.options)) {
+      if (config.db.options.length > 0) {
+        uri += `/?${config.db.options.join("&")}`;
       }
     }
     return uri;
