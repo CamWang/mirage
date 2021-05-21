@@ -15,6 +15,9 @@ try {
   logger.info(
     inferno.setJudger(
       config.direcotry,
+      config.ptrace,
+      config.seccomp,
+      config.rlimit,
       config.command[1].source,
       config.command[1].executable,
       config.command[1].compile,

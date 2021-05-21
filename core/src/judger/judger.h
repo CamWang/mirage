@@ -17,7 +17,11 @@ private:
   string run_cmd;
   uint32_t ctlmt = 10;  // compile time limit
   uint32_t rtlmt = 10;  // run time limit
+  int cec = 0;          // user solution run exit code
   bool debug = false;
+  bool isPtrace = false;
+  bool isSeccomp = false;
+  bool isRlimit = false;
   Task* task;
 
 public:
@@ -35,6 +39,22 @@ public:
   void Sandbox();  // Init process sandbox, being called in Judge();
   void Judge();   // Judge submitted code
   void Clean();   // Do some chores
+
+  int GetCec() {
+    return this->cec;
+  }
+
+  void SetPtrace(bool ptrace) {
+    this->isPtrace = ptrace;
+  }
+
+  void SetSeccomp(bool seccomp) {
+    this->isSeccomp = seccomp;
+  }
+
+  void SetRlimit(bool rlimit) {
+    this->isRlimit = rlimit;
+  }
 };
 
 #endif

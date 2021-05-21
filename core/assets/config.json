@@ -1,5 +1,8 @@
 {
   "direcotry": "/tmp",
+  "ptrace": false,
+  "seccomp": false,
+  "rlimit": false,
   "command" : [
     {
       "language": "c",

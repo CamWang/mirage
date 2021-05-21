@@ -3,6 +3,9 @@
 #include <sys/resource.h>
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/ptrace.h>
+#include <sys/user.h>
+#include <sys/reg.h>
 #include <sys/prctl.h>      // seccomp
 #include <linux/seccomp.h>  // seccomp
 #include <linux/filter.h>   // seccomp
@@ -164,44 +167,47 @@ void Judger::Compile() {
  * 1. rlimit
  */
 void Judger::Sandbox() {
-  // set Rlimit
-  struct rlimit rlim;
-  // set memory limit, send SIGXEGV when exceeds
-  rlim = { (this->task)->ml * KB_B, (this->task)->ml * KB_B};
-  if (setrlimit(RLIMIT_AS, &rlim) == -1) {
-    throw "set static memory limit error";
-  }
-  if (setrlimit(RLIMIT_DATA, &rlim) == -1) {
-    throw "set dynamic memory limit error";
-  }
-  // set core dump  limit
-  rlim = { 0, 0};
-  if (setrlimit(RLIMIT_CORE, &rlim) == -1) {
-    throw "set core dump limit error";
-  }
-  // set cpu time limit, send SIGXCPU when exceeds
-  uint tl = 1;
-  if(!((this->task)->tl < 1000)) {
-    tl = (this->task)->tl / 1000;
-    if (tl > 30) {
-      tl = 30;
+  if (this->isRlimit) {
+    // set Rlimit
+    struct rlimit rlim;
+    // set memory limit, send SIGXEGV when exceeds
+    rlim = { (this->task)->ml * KB_B, (this->task)->ml * KB_B};
+    if (setrlimit(RLIMIT_AS, &rlim) == -1) {
+      throw "set static memory limit error";
+    }
+    if (setrlimit(RLIMIT_DATA, &rlim) == -1) {
+      throw "set dynamic memory limit error";
+    }
+    // set core dump  limit
+    rlim = { 0, 0};
+    if (setrlimit(RLIMIT_CORE, &rlim) == -1) {
+      throw "set core dump limit error";
+    }
+    // set cpu time limit, send SIGXCPU when exceeds
+    uint tl = 1;
+    if(!((this->task)->tl < 1000)) {
+      tl = (this->task)->tl / 1000;
+      if (tl > 30) {
+        tl = 30;
+      }
+    }
+    rlim = { tl, tl };
+    if (setrlimit(RLIMIT_CPU, &rlim) == -1) {
+      throw "set cpu time limit error";
+    }
+    // set file size limit, send SIGXFSZ when exceeds
+    rlim = { 50 * MB_B, 50 * MB_B };
+    if (setrlimit(RLIMIT_FSIZE, &rlim) == -1) {
+      throw "set file size limit error";
     }
   }
-  rlim = { tl, tl };
-  if (setrlimit(RLIMIT_CPU, &rlim) == -1) {
-    throw "set cpu time limit error";
-  }
-  // set file size limit, send SIGXFSZ when exceeds
-  rlim = { 50 * MB_B, 50 * MB_B };
-  if (setrlimit(RLIMIT_FSIZE, &rlim) == -1) {
-    throw "set file size limit error";
-  }
 
-  // if (installSyscallFilter() == -1) {
-  //   throw "install systemcall filter fail";
-  // }
+  if (this->isSeccomp) {
+    if (installSyscallFilter() == -1) {
+      throw "install systemcall filter fail";
+    }
+  }
 }
-
 /**
  * Run task code and judge result
  */
@@ -213,6 +219,12 @@ void Judger::Judge() {
   uint testcase_index = 0;
   uint32_t total_time = 0;
   Mode mode = (this->task)->mode;
+
+  long orig_rax;
+  int status;
+  int is_calling = 0;
+  struct user_regs_struct regs;
+  
   for (map<string, string>::iterator d = data_map.begin(); d != data_map.end(); d++) {
     // change directory to test data directory
     if (chdir((this->task)->data.c_str()) == -1) {
@@ -253,6 +265,12 @@ void Judger::Judge() {
       }
       // run sandbox
       this->Sandbox();
+
+      // ptrace 
+      if (this->isPtrace) {
+        ptrace(PTRACE_TRACEME, 0, NULL, NULL);
+      }
+
       // run task code
       if (execl("/bin/sh", "sh", "-c", this->run_cmd.c_str(), (char *) NULL)== -1) {
       // if (system(this->run_cmd.c_str()) == -1) {
@@ -267,6 +285,25 @@ void Judger::Judge() {
       exit(EXIT_SUCCESS);
     } else {
       // parent process
+      // ptrace
+      if (this->isPtrace) {
+        while(1) {
+          wait(&status);
+          if (WIFEXITED(status)) {
+            break;
+          }
+          orig_rax = ptrace(PTRACE_PEEKUSER, pid, 8 * ORIG_RAX, 0);
+          ptrace(PTRACE_GETREGS, pid, 0 , &regs);
+          if (!is_calling) {
+            is_calling = 1;
+            cout << orig_rax << " called" << endl;
+          } else {
+            is_calling = 0;
+          }
+          ptrace(PTRACE_SYSCALL, pid, 0, 0);
+        }
+      }
+
       // get usage
       int stat = 0;
       struct rusage usage;
@@ -274,7 +311,7 @@ void Judger::Judge() {
         return;
       }
       // react to exit code
-      cout << stat << endl;
+      this->cec = stat;
       switch (stat) {
         case EXIT_SUCCESS:
           break;
@@ -497,13 +534,18 @@ static int installSyscallFilter(void) {
   struct sock_filter filter[] = {
     VALIDATE_ARCHITECTURE,
     EXAMINE_SYSCALL,
-    ALLOW_SYSCALL(read), ALLOW_SYSCALL(write), ALLOW_SYSCALL(open), ALLOW_SYSCALL(fstat), ALLOW_SYSCALL(lseek),
-    ALLOW_SYSCALL(mprotect), ALLOW_SYSCALL(munmap), ALLOW_SYSCALL(brk), ALLOW_SYSCALL(rt_sigprocmask), ALLOW_SYSCALL(writev),
-    ALLOW_SYSCALL(access), ALLOW_SYSCALL(getpid), ALLOW_SYSCALL(execve), ALLOW_SYSCALL(uname), ALLOW_SYSCALL(sysinfo),
-    ALLOW_SYSCALL(arch_prctl), ALLOW_SYSCALL(gettid), ALLOW_SYSCALL(exit_group), ALLOW_SYSCALL(tgkill), ALLOW_SYSCALL(fchmodat),
-    ALLOW_SYSCALL(splice), ALLOW_SYSCALL(dup3), ALLOW_SYSCALL(readlink), ALLOW_SYSCALL(set_robust_list), ALLOW_SYSCALL(mq_open),
-    ALLOW_SYSCALL(futex), ALLOW_SYSCALL(set_thread_area), ALLOW_SYSCALL(clock_gettime), ALLOW_SYSCALL(pread64), ALLOW_SYSCALL(ioprio_get),
-    ALLOW_SYSCALL(rt_sigreturn),
+    ALLOW_SYSCALL(read), ALLOW_SYSCALL(write), ALLOW_SYSCALL(open), ALLOW_SYSCALL(fstat), 
+    ALLOW_SYSCALL(lseek), ALLOW_SYSCALL(mprotect), ALLOW_SYSCALL(munmap), ALLOW_SYSCALL(brk), 
+    ALLOW_SYSCALL(rt_sigprocmask), ALLOW_SYSCALL(writev), ALLOW_SYSCALL(access), ALLOW_SYSCALL(getpid), 
+    ALLOW_SYSCALL(execve), ALLOW_SYSCALL(uname), ALLOW_SYSCALL(sysinfo), ALLOW_SYSCALL(arch_prctl), 
+    ALLOW_SYSCALL(gettid), ALLOW_SYSCALL(exit_group), ALLOW_SYSCALL(tgkill), ALLOW_SYSCALL(fchmodat),
+    ALLOW_SYSCALL(splice), ALLOW_SYSCALL(dup3), ALLOW_SYSCALL(readlink), ALLOW_SYSCALL(set_robust_list), 
+    ALLOW_SYSCALL(mq_open), ALLOW_SYSCALL(futex), ALLOW_SYSCALL(set_thread_area), ALLOW_SYSCALL(clock_gettime), 
+    ALLOW_SYSCALL(pread64), ALLOW_SYSCALL(ioprio_get), ALLOW_SYSCALL(rt_sigreturn), ALLOW_SYSCALL(openat),
+    ALLOW_SYSCALL(wait4), ALLOW_SYSCALL(mmap), ALLOW_SYSCALL(close), ALLOW_SYSCALL(getuid), 
+    ALLOW_SYSCALL(getgid), ALLOW_SYSCALL(rt_sigaction), ALLOW_SYSCALL(geteuid), ALLOW_SYSCALL(getppid),
+    ALLOW_SYSCALL(stat), ALLOW_SYSCALL(getcwd), ALLOW_SYSCALL(getegid), ALLOW_SYSCALL(clone),
+    ALLOW_SYSCALL(exit_group), ALLOW_SYSCALL(wait4),
 #ifdef __NR_sigreturn
     ALLOW_SYSCALL(sigreturn),
 #endif

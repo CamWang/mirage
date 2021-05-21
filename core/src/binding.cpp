@@ -37,20 +37,33 @@ Inferno::Inferno(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Inferno>(inf
 
 Napi::Value Inferno::SetJudger(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  if (info.Length() < 5)   {
+  if (info.Length() < 6)   {
     throwBindingError(env, "argument number error", "Inferno::Inferno()");
   }
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 6; i++) {
+    if (i == 1 || i == 2 || i == 3) {
+      if (!info[i].IsBoolean()) {
+        throwBindingError(env, "argument type error", "Inferno::Inferno()");
+      } else {
+        continue;
+      }
+    } 
     if (!info[i].IsString()) {
       throwBindingError(env, "argument type error", "Inferno::Inferno()");
     }
   }
   string dir = info[0].As<Napi::String>().Utf8Value();
-  string source_name = info[1].As<Napi::String>().Utf8Value();
-  string exec_name = info[2].As<Napi::String>().Utf8Value();
-  string comp_cmd = info[3].As<Napi::String>().Utf8Value();
-  string run_cmd = info[4].As<Napi::String>().Utf8Value();
+  bool ptrace = info[1].As<Napi::Boolean>().Value();
+  bool seccomp = info[2].As<Napi::Boolean>().Value();
+  bool rlimit = info[3].As<Napi::Boolean>().Value();
+  string source_name = info[4].As<Napi::String>().Utf8Value();
+  string exec_name = info[5].As<Napi::String>().Utf8Value();
+  string comp_cmd = info[6].As<Napi::String>().Utf8Value();
+  string run_cmd = info[7].As<Napi::String>().Utf8Value();
   this->judger = Judger(dir, source_name, exec_name, comp_cmd, run_cmd);
+  this->judger.SetPtrace(ptrace);
+  this->judger.SetSeccomp(seccomp);
+  this->judger.SetRlimit(rlimit);
   return Napi::String::New(env, string(this->judger));
 }
 
@@ -104,6 +117,7 @@ Napi::Value Inferno::Judge(const Napi::CallbackInfo& info) {
   log("End Jduge");
   Napi::Object result = Napi::Object::New(env);
   result.Set("id", 1);
+  result.Set("cec", this->judger.GetCec());
   result.Set("result", int((this->task).result));
   result.Set("testcase", (this->task).record);
   result.Set("timerun", (this->task).time);
