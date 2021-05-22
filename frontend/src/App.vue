@@ -1,19 +1,14 @@
 <template>
   <v-app>
 
-  <v-app-bar app>
-    <router-view name="head"></router-view>
-  </v-app-bar>
+  <router-view name="head"></router-view>
 
-  <v-main class="grey lighten-3 pb-5">
-    <v-container fluid>
-      <router-view></router-view>
-    </v-container>
+  <v-main class="pb-5">
+    <router-view></router-view>
   </v-main>
 
-  <v-footer app>
-    <router-view name="foot"></router-view>
-  </v-footer>
+  <router-view name="foot"></router-view>
+  
 </v-app>
 </template>
 
