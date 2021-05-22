@@ -1,5 +1,6 @@
 const Koa = require("koa");
 const serve = require("koa-static");
+const { historyApiFallback } = require("koa2-connect-history-api-fallback");
 const winston = require("winston");
 
 const router = require("./router");
@@ -65,9 +66,11 @@ class Server {
       gzip: true,
       maxage: 3600
     });
+    app.use(historyApiFallback({ whiteList: ['/api']}));
     app.use(router.routes());
     app.use(router.allowedMethods());
     app.listen(config.server.port);
+    global.koa = app;
   }
 }
 

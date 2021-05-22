@@ -1,5 +1,6 @@
 import Vue from 'vue';
-import App from './App'
+import App from './App';
+import router from './router';
 import vuetify from '@/plugins/vuetify';
 import axios from 'axios';
 
@@ -10,6 +11,7 @@ new Vue({
   },
   template: "<App/>",
   vuetify,
+  router,
 });
 
 window.axios = axios;

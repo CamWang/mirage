@@ -12,7 +12,6 @@ class Database {
   }
 
   setupDatabase() {
-    log.info(this.uri);
     const dbName = "mirage";
     const client = new MongoClient(this.uri, {
       useNewUrlParser: true, 

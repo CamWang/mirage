@@ -19,7 +19,6 @@ module.exports = {
   },
 
   plugins: [
-    new FriendlyErrorsWebpackPlugin(),
     new CleanWebpackPlugin(),
     new WebpackBar({
       basic: false
@@ -33,6 +32,12 @@ module.exports = {
     // new BundleAnalyzerPlugin({
     //   openAnalyzer: true
     // }),
+    new FriendlyErrorsWebpackPlugin({
+      compilationSuccessInfo: {
+        messages: ["Mirage Frontend is running at: http://localhost:8080"],
+      },
+      clearConsole: true
+    }),
   ],
 
   module: {
@@ -101,6 +106,8 @@ module.exports = {
   devServer: {
     open: true,
     host: "localhost",
+    quiet: true,
+    overlay: true
   },
 
   // devtool: 'eval-cheap-module-source-map',

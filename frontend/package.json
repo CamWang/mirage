@@ -5,8 +5,8 @@
   "repository": "github:CamWang/mirage",
   "main": "src/index.js",
   "scripts": {
-    "build": "webpack --node-env production && rm -rf ../backend/dist && cp -r dist ../backend",
-    "dev": "webpack serve --node-env development"
+    "build": "webpack --mode production && rm -rf ../backend/dist && cp -r dist ../backend",
+    "dev": "webpack serve --mode development"
   },
   "keywords": [
     "mirage",
@@ -45,6 +45,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "vue": "^2.6.12",
+    "vue-router": "^3.5.1",
     "vuetify": "^2.4.9"
   }
 }
