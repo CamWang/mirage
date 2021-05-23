@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import vuetify from '@/plugins/vuetify';
-import axios from 'axios';
+import { vuetify, i18n } from '@/plugins/vuetify';
+import axios from './api';
+// import '../mock';
 
-new Vue({
+Vue.prototype.axios = axios;
+
+window.vm = new Vue({
   el: "#app",
   components: {
     App
@@ -12,6 +15,5 @@ new Vue({
   template: "<App/>",
   vuetify,
   router,
+  i18n
 });
-
-window.axios = axios;

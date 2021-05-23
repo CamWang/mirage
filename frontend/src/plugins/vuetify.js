@@ -1,26 +1,31 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
-import colors from 'vuetify/lib/util/colors';
+import VueI18n from 'vue-i18n';
+import * as locale from '../locale';
+import theme from './theme';
 
 Vue.use(Vuetify);
+Vue.use(VueI18n);
+
+const i18n = new VueI18n({
+  locale: 'en',
+  messages: locale.messages,
+  dateTimeFormats: locale.time
+});
 
 const options = {
-  theme: {
-    themes: {
-      light: {
-        primary: colors.blue.accent4,
-        secondary: colors.blueGrey.darken1,
-        accent: colors.shades.black,
-        error: colors.red.darken3,
-      },
-      dark: {
-
-      }
-    }
-  },
+  theme,
   icons: {
     iconfont: 'mdiSvg',
   },
+  lang: {
+    t: (key, ...params) => i18n.t(key, params),
+  },
 };
 
-export default new Vuetify(options);
+const vuetify = new Vuetify(options);
+
+export {
+  vuetify,
+  i18n,
+};
