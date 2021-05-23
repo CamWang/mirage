@@ -10,11 +10,11 @@ export default [{
     foot: Foot
   }
 },{
-  path: "/register",
-  name: "register",
+  path: "/login",
+  name: "login",
   components: {
     head: Head,
-    default: () => import("../views/Register.vue"),
+    default: () => import("../views/Login.vue"),
     foot: Foot
   }
 }];

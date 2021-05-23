@@ -11,6 +11,7 @@ const {
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const webpack = require("webpack")
 
 module.exports = {
 
@@ -31,6 +32,9 @@ module.exports = {
     }),
     // new BundleAnalyzerPlugin({
     //   openAnalyzer: true
+    // }),
+    // new webpack.SourceMapDevToolPlugin({
+    //   exclude: 'node_modules'
     // }),
     new FriendlyErrorsWebpackPlugin({
       compilationSuccessInfo: {
@@ -110,7 +114,7 @@ module.exports = {
     overlay: true
   },
 
-  // devtool: 'eval-cheap-module-source-map',
+  devtool: 'source-map',
 
   resolve: {
     extensions: ['.js', '.json', '.vue'],

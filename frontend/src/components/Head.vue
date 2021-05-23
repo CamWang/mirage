@@ -57,10 +57,26 @@ export default {
 
   methods: {
     changeTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      let isDark = this.$vuetify.theme.dark;
+      this.$vuetify.theme.dark = !isDark;
+      if (isDark) {
+        this.$notify({
+          text: this.$t('notify.theme.light'),
+          type: "success"
+        });
+      } else {
+        this.$notify({
+          text: this.$t('notify.theme.dark'),
+          type: "success"
+        });
+      }
     },
     changeLang(locale) {
       this.$i18n.locale = locale;
+      this.$notify({
+        text: this.$t('notify.lang.change'),
+        type: "success"
+      });
     }
   }
 }

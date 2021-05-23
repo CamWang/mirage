@@ -3,7 +3,8 @@
     <v-row class="d-flex justify-center">
       <v-col class="col-lg-8 col-md-10 col-12">
         <v-sheet min-height="20vh" rounded="lg">
-          <v-btn @click="getIt"></v-btn>
+          <v-btn @click="getIt">Request</v-btn>
+          <v-btn @click="notify">Notify</v-btn>
         </v-sheet>
       </v-col>
     </v-row>
@@ -21,12 +22,15 @@ export default {
 
   methods: {
     getIt() {
-      this.axios.get('/news')
+      this.axios.get('/new')
       .then(response => {
-        console.log(response);
       })
       .catch(error => {
-        console.log(error);
+      });
+    },
+    notify() {
+      this.$notify({
+        title: 'Hello User!'
       });
     }
   },

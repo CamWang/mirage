@@ -3,6 +3,15 @@ import zhHans from 'vuetify/lib/locale/zh-Hans';
 const message = {
   ...zhHans,
   name: "简体中文",
+  notify: {
+    theme: {
+      dark: "暗黑模式已开启",
+      light: "白天模式已开启"
+    },
+    lang: {
+      change: "语言切换成功"
+    }
+  },
   head: {
     title: "Mirage OJ",
     tab: {

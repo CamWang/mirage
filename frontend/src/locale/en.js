@@ -3,6 +3,15 @@ import en from 'vuetify/lib/locale/en'
 const message = {
   ...en,
   name: "English",
+  notify: {
+    theme: {
+      dark: "Dark♂ Mode On",
+      light: "Bright Mode On"
+    },
+    lang: {
+      change: "Language Changed"
+    }
+  },
   head: {
     title: "Mirage OJ",
     tab: {

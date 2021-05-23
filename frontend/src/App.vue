@@ -8,6 +8,7 @@
   </v-main>
 
   <router-view name="foot"></router-view>
+  <notification></notification>
   
 </v-app>
 </template>
