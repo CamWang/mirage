@@ -3,13 +3,13 @@
 
   <router-view name="head"></router-view>
 
-  <v-main class="pb-5">
+  <v-main>
     <transition name="fade">
       <router-view class="router"></router-view>
     </transition>
   </v-main>
 
-  <router-view name="foot"></router-view>
+  <router-view name="foot" v-if="false"></router-view>
   <notification></notification>
   
 </v-app>

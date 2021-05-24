@@ -38,27 +38,42 @@
     </v-card>
 
     <div class="text-center">
-      <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+      <v-dialog
+        v-model="dialog"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+      >
         <v-card>
-          <v-toolbar
-          dark
-          color="primary"
-        >
-          <v-btn
-            icon
-            dark
-            @click="dialog = false"
-          >
-            <v-icon>{{ mdiClose }}</v-icon>
-          </v-btn>
-          <v-toolbar-title>{{ $t('home.news') }}</v-toolbar-title>
-        </v-toolbar>
-          <v-card-text class="pt-5" ref="highlight">
-            <h5 class="text-lg-h4 text-h5 my-3 text--primary">{{ newsList[selected?selected:0].title }}</h5>
-            <p class="mb-lg-12 mb-8">{{ newsList[selected?selected:0].author }} - {{ $d(new Date(newsList[selected?selected:0].time), 'short') }}</p>
-            <vue-markdown class="text--primary" :source="newsList[selected?selected:0].content">
-            </vue-markdown>
-          </v-card-text>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="dialog = false">
+              <v-icon>{{ mdiClose }}</v-icon>
+            </v-btn>
+            <v-toolbar-title>{{ $t("home.news") }}</v-toolbar-title>
+          </v-toolbar>
+          <v-row>
+            <v-col class="col-lg-8 col-md-10 col-12">
+              <v-card-text class="pt-5" ref="highlight">
+                <h5 class="text-lg-h4 text-h5 my-3 text--primary">
+                  {{ newsList[selected ? selected : 0].title }}
+                </h5>
+                <p class="mb-lg-12 mb-8">
+                  {{ newsList[selected ? selected : 0].author }} -
+                  {{
+                    $d(
+                      new Date(newsList[selected ? selected : 0].time),
+                      "short"
+                    )
+                  }}
+                </p>
+                <vue-markdown
+                  class="text--primary"
+                  :source="newsList[selected ? selected : 0].content"
+                >
+                </vue-markdown>
+              </v-card-text>
+            </v-col>
+          </v-row>
         </v-card>
       </v-dialog>
     </div>
@@ -81,15 +96,17 @@ export default {
 
       dialog: false,
       isLoading: false,
-      newsList: [{
-        id:0,
-        title: "",
-        subtitle: "",
-        author: "",
-        time: 0,
-        content: "",
-        type: ""
-      }],
+      newsList: [
+        {
+          id: 0,
+          title: "",
+          subtitle: "",
+          author: "",
+          time: 0,
+          content: "",
+          type: "",
+        },
+      ],
       selected: 0,
 
       page: 1,
@@ -105,12 +122,12 @@ export default {
     },
     isFirstPage() {
       return this.page == 1;
-    }
+    },
   },
   methods: {
     getNews() {
       this.axios
-        .get("/news", { params: { page: this.page }})
+        .get("/news", { params: { page: this.page } })
         .then((response) => {
           this.newsList = response.data.news;
           this.total = response.data.total;
@@ -128,10 +145,9 @@ export default {
     lastPage() {
       this.page--;
       this.getNews();
-    }
+    },
   },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
