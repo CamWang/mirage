@@ -1,3 +1,9 @@
 html {
   overflow-y: auto !important;
 }
+
+code {
+  background: #282a36!important;
+  color: #f8f8f2!important;
+  max-width: 1000px;
+}

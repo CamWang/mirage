@@ -20,6 +20,9 @@ const message = {
       contest: "Contest",
       blog: "Blog"
     }
+  },
+  home: {
+    news: "News"
   }
 }
 

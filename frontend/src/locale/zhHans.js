@@ -20,6 +20,9 @@ const message = {
       contest: "比赛",
       blog: "博客"
     }
+  },
+  home: {
+    news: "新闻"
   }
 }
 
