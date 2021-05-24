@@ -8,6 +8,9 @@ export default [{
     head: Head,
     default: () => import("../views/Register.vue"),
     foot: Foot
+  },
+  meta: {
+    requiresAuth: false
   }
 },{
   path: "/login",
@@ -16,5 +19,8 @@ export default [{
     head: Head,
     default: () => import("../views/Login.vue"),
     foot: Foot
+  },
+  meta: {
+    requiresAuth: false
   }
 }];

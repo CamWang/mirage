@@ -16,7 +16,7 @@ const webpack = require("webpack")
 module.exports = {
 
   output: {
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
 
   plugins: [
@@ -111,7 +111,8 @@ module.exports = {
     open: true,
     host: "localhost",
     quiet: true,
-    overlay: true
+    overlay: true,
+    historyApiFallback: true
   },
 
   devtool: 'source-map',

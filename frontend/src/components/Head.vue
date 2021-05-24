@@ -5,10 +5,10 @@
     </v-toolbar-title>
     <v-tabs>
       <v-tabs-slider color="secondary"></v-tabs-slider>
-      <v-tab class="tab">{{ $t('head.tab.home') }}</v-tab>
-      <v-tab class="tab">{{ $t('head.tab.problem') }}</v-tab>
-      <v-tab class="tab">{{ $t('head.tab.contest') }}</v-tab>
-      <v-tab class="tab">{{ $t('head.tab.blog') }}</v-tab>
+      <v-tab class="tab" to="/">{{ $t('head.tab.home') }}</v-tab>
+      <v-tab class="tab" to="/problem">{{ $t('head.tab.problem') }}</v-tab>
+      <v-tab class="tab" to="/contest">{{ $t('head.tab.contest') }}</v-tab>
+      <v-tab class="tab" to="/blog">{{ $t('head.tab.blog') }}</v-tab>
     </v-tabs>
     <v-spacer></v-spacer>
     <v-btn icon @click="changeTheme">
