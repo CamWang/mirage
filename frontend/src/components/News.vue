@@ -52,12 +52,12 @@
             <v-toolbar-title>{{ $t("home.news") }}</v-toolbar-title>
           </v-toolbar>
           <v-row>
-            <v-col class="col-lg-8 col-md-10 col-12">
-              <v-card-text class="pt-5" ref="highlight">
+            <v-col class="col-lg-7 col-md-9 col-12 p-0">
+              <v-card-text class="pt-5">
                 <h5 class="text-lg-h4 text-h5 my-3 text--primary">
                   {{ newsList[selected ? selected : 0].title }}
                 </h5>
-                <p class="mb-lg-12 mb-8">
+                <p class="mb-lg-10 mb-6">
                   {{ newsList[selected ? selected : 0].author }} -
                   {{
                     $d(
@@ -67,8 +67,9 @@
                   }}
                 </p>
                 <vue-markdown
-                  class="text--primary"
+                  class="text--primary text-news"
                   :source="newsList[selected ? selected : 0].content"
+                  ref="highlight"
                 >
                 </vue-markdown>
               </v-card-text>
@@ -150,4 +151,5 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

@@ -21,6 +21,8 @@ function initHighlight(block, cls) {
   }
 }
 \`\`\`
+
+Mathematical Formula by Katex:
 $$\\begin{array}{c}
 
 \\nabla \\times \\vec{\\mathbf{B}} -\\, \\frac1c\\, \\frac{\\partial\\vec{\\mathbf{E}}}{\\partial t} &
@@ -39,9 +41,7 @@ $$\\begin{array}{c}
     subtitle: "Last week, Google unveiled during its new Android 12 operating system at its Google I/O conference. With the iOS 15 announcement around the corner at WWDC next month, which features of Android 12 would you like Apple to copy?",
     author: "José Adorno",
     time: 1616036312000,
-    content: `For months, Rep. Liz Cheney (R-Wyo.) has decried former president Donald Trump’s false claims of massive election fraud — a stance that cost her a leadership position in the House earlier this month.
-But when pressed on Sunday about whether Trump’s falsehoods were the cause of Republican moves to pass restrictive new voting laws in dozens of states, Cheney disputed the suggestion.
-“I think you have to look at the specifics of each one of those efforts,” Cheney said on “Axios on HBO,” arguing that some of the bills had been misrepresented.`,
+    content: `For months, Rep. Liz Cheney (R-Wyo.) has decried former president Donald Trump’s false claims of massive election fraud — a stance that cost her a leadership position in the House earlier this month.\nBut when pressed on Sunday about whether Trump’s falsehoods were the cause of Republican moves to pass restrictive new voting laws in dozens of states, Cheney disputed the suggestion.\n“I think you have to look at the specifics of each one of those efforts,” Cheney said on “Axios on HBO,” arguing that some of the bills had been misrepresented.`,
     type: ""
   },
   {
