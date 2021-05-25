@@ -2,6 +2,7 @@
   <div>
     <v-card :loading="isLoading">
       <v-toolbar dense flat>
+        <v-app-bar-nav-icon><v-btn icon @click="refreshNews"><v-icon>{{ mdiNews }}</v-icon></v-btn></v-app-bar-nav-icon>
         <v-toolbar-title>News</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :disabled="isFirstPage" @click="!isFirstPage && lastPage">
@@ -83,7 +84,9 @@
 
 <script>
 import VueMarkdown from "vue-markdown/src/VueMarkdown";
-import { mdiMagnify, mdiClose, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
+import { mdiMagnify, mdiClose, mdiChevronLeft, mdiChevronRight, mdiNewspaperVariantMultipleOutline } from "@mdi/js";
+import { debounce } from "lodash-es";
+
 export default {
   components: {
     VueMarkdown,
@@ -94,6 +97,7 @@ export default {
       mdiClose,
       mdiChevronRight,
       mdiChevronLeft,
+      mdiNews: mdiNewspaperVariantMultipleOutline,
 
       dialog: false,
       isLoading: false,
@@ -127,6 +131,7 @@ export default {
   },
   methods: {
     getNews() {
+      this.isLoading = true;
       this.axios
         .get("/news", { params: { page: this.page } })
         .then((response) => {
@@ -137,8 +142,14 @@ export default {
           this.$notify({
             title: error.message,
           });
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
+    refreshNews:debounce(function() {
+      this.getNews()
+    }, 1000, {leading: true, maxWait: 2000}),
     nextPage() {
       this.page++;
       this.getNews();
