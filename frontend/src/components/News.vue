@@ -2,7 +2,11 @@
   <div>
     <v-card :loading="isLoading">
       <v-toolbar dense flat>
-        <v-app-bar-nav-icon><v-btn icon @click="refreshNews"><v-icon>{{ mdiNews }}</v-icon></v-btn></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon
+          ><v-btn icon @click="refreshNews"
+            ><v-icon>{{ mdiNews }}</v-icon></v-btn
+          ></v-app-bar-nav-icon
+        >
         <v-toolbar-title>{{ $t("home.news") }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :disabled="isFirstPage" @click="!isFirstPage && lastPage">
@@ -84,7 +88,13 @@
 
 <script>
 import VueMarkdown from "vue-markdown/src/VueMarkdown";
-import { mdiMagnify, mdiClose, mdiChevronLeft, mdiChevronRight, mdiNewspaperVariantMultipleOutline } from "@mdi/js";
+import {
+  mdiMagnify,
+  mdiClose,
+  mdiChevronLeft,
+  mdiChevronRight,
+  mdiNewspaperVariantMultipleOutline,
+} from "@mdi/js";
 import { debounce } from "lodash-es";
 
 export default {
@@ -147,9 +157,13 @@ export default {
           this.isLoading = false;
         });
     },
-    refreshNews:debounce(function() {
-      this.getNews()
-    }, 1000, {leading: true, maxWait: 2000}),
+    refreshNews: debounce(
+      function() {
+        this.getNews();
+      },
+      1000,
+      { leading: true, maxWait: 2000 }
+    ),
     nextPage() {
       this.page++;
       this.getNews();
@@ -162,5 +176,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

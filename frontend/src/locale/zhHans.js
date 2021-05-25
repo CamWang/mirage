@@ -1,7 +1,9 @@
 import zhHans from 'vuetify/lib/locale/zh-Hans';
 
 const message = {
-  ...zhHans,
+  $vuetify: {
+    ...zhHans
+  },
   name: "简体中文",
   notify: {
     theme: {
@@ -23,6 +25,25 @@ const message = {
   },
   home: {
     news: "新闻"
+  },
+  problem: {
+    title: "问题列表",
+    list: {
+      number: "#",
+      title: "标题",
+      tags: "标签",
+      submit: "提交",
+      success: "成功"
+    }
+  },
+  blog: {
+    title: "博客列表",
+    list: {
+      number: "#",
+      title: "标题",
+      tags: "标签",
+      author: "作者"
+    }
   }
 }
 

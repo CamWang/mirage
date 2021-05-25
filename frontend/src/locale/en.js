@@ -1,7 +1,9 @@
 import en from 'vuetify/lib/locale/en'
 
 const message = {
-  ...en,
+  $vuetify: {
+    ...en
+  },
   name: "English",
   notify: {
     theme: {
@@ -23,6 +25,25 @@ const message = {
   },
   home: {
     news: "News"
+  },
+  problem: {
+    title: "Problems",
+    list: {
+      number: "#",
+      title: "Title",
+      tags: "Tags",
+      submit: "Submitted",
+      success: "Successed"
+    }
+  },
+  blog: {
+    title: "Blogs",
+    list: {
+      number: "#",
+      title: "Title",
+      tags: "Tags",
+      author: "Author"
+    }
   }
 }
 
