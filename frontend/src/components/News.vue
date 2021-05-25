@@ -3,7 +3,7 @@
     <v-card :loading="isLoading">
       <v-toolbar dense flat>
         <v-app-bar-nav-icon><v-btn icon @click="refreshNews"><v-icon>{{ mdiNews }}</v-icon></v-btn></v-app-bar-nav-icon>
-        <v-toolbar-title>News</v-toolbar-title>
+        <v-toolbar-title>{{ $t("home.news") }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :disabled="isFirstPage" @click="!isFirstPage && lastPage">
           <v-icon>{{ mdiChevronLeft }}</v-icon>

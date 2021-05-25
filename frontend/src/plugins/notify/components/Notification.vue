@@ -324,7 +324,7 @@ export default {
   box-sizing: border-box;
   text-align: left;
   font-size: 12px;
-  padding: 10px 5px 0 0;
+  padding: 8px 5px 0 0;
   margin: 0 5px 5px;
   color: white;
 }
