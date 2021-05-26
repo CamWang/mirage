@@ -1,6 +1,17 @@
 import colors from 'vuetify/lib/util/colors';
 
+const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+let dark = false
+
+if (prefersDarkScheme.matches) {
+  dark = true;
+}
+
+console.log("################# " + dark);
+
 export default {
+  dark,
   themes: {
     light: {
       primary: colors.indigo.accent4,

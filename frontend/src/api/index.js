@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
-import '../mock';
+import './mock';
 
 const request = axios.create({
   baseURL: "/api",
