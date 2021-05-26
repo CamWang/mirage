@@ -48,6 +48,21 @@ const message = {
       tags: "Tags",
       author: "Author"
     }
+  },
+  contest: {
+    title: "Contests",
+    list: {
+      title: "Title",
+      tags: "Tags",
+      start: "Start",
+      end: "End",
+      last: "Last",
+      mode: {
+        name: "Mode",
+        public: "Public",
+        private: "Private"
+      }
+    }
   }
 }
 

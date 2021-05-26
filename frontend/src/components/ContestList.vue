@@ -2,11 +2,11 @@
     <v-card :loading="isLoading">
       <v-toolbar dense flat>
         <v-app-bar-nav-icon>
-          <v-btn icon @click="refreshProblems">
-            <v-icon>{{ mdiBookEducation }}</v-icon>
+          <v-btn icon @click="refreshContests">
+            <v-icon>{{ mdiTrophy }}</v-icon>
           </v-btn>
         </v-app-bar-nav-icon>
-        <v-toolbar-title>{{ $t("problem.title") }}</v-toolbar-title>
+        <v-toolbar-title>{{ $t("contest.title") }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :disabled="isFirstPage" @click="!isFirstPage && lastPage">
           <v-icon>{{ mdiChevronLeft }}</v-icon>
@@ -19,7 +19,7 @@
         </v-btn>
       </v-toolbar>
 
-      <v-data-table :headers="headers" :items="problemList" >
+      <v-data-table :headers="headers" :items="contestList" >
         <!-- eslint-disable-next-line -->
         <template v-slot:item.tags="{ item }">
           <v-chip
@@ -32,6 +32,41 @@
             {{ tag.text }}
           </v-chip>
         </template>
+        <!-- eslint-disable-next-line -->
+        <template v-slot:item.mode="{ item }">
+          <v-chip
+            v-if="item.mode === 'public'"
+            class="mx-2"
+            color="green"
+            label
+            outlined
+          >
+            <v-icon left>
+              {{ mdiPublic }}
+            </v-icon>
+            {{ $t("contest.list.mode.public") }}
+          </v-chip>
+          <v-chip
+            v-else
+            class="mx-2"
+            color="red"
+            label
+            outlined
+          >
+            <v-icon left>
+              {{ mdiLockOutline }}
+            </v-icon>
+            {{ $t("contest.list.mode.private") }}
+          </v-chip>
+        </template>
+        <!-- eslint-disable-next-line -->
+        <template v-slot:item.start="{ item }">
+          {{ $d(new Date(item.start), 'long') }}
+        </template>
+        <!-- eslint-disable-next-line -->
+        <template v-slot:item.end="{ item }">
+          {{ $d(new Date(item.end), 'long') }}
+        </template>
       </v-data-table>
     </v-card>
 </template>
@@ -42,12 +77,14 @@ import {
   mdiClose,
   mdiChevronLeft,
   mdiChevronRight,
-  mdiBookEducation,
+  mdiTrophyVariantOutline,
+  mdiAccountMultipleCheckOutline,
+  mdiLockOutline,
 } from "@mdi/js";
 import { debounce } from "lodash-es";
 
 export default {
-  name: "ProblemList",
+  name: "ContestList",
 
   data() {
     return {
@@ -55,35 +92,37 @@ export default {
       mdiClose,
       mdiChevronLeft,
       mdiChevronRight,
-      mdiBookEducation,
+      mdiTrophy: mdiTrophyVariantOutline,
+      mdiPublic: mdiAccountMultipleCheckOutline,
+      mdiLockOutline,
 
       headers: [
         {
-          text: this.$t("problem.list.number"),
+          text: this.$t("contest.list.title"),
           align: "start",
-          sortable: true,
-          value: "id",
-        },
-        {
-          text: this.$t("problem.list.title"),
+          sortable: false,
           value: "title",
         },
         {
-          text: this.$t("problem.list.tags"),
+          text: this.$t("contest.list.start"),
+          value: "start",
+        },
+        {
+          text: this.$t("contest.list.end"),
+          value: "end",
+        },
+        {
+          text: this.$t("contest.list.tags"),
           value: "tags",
         },
         {
-          text: this.$t("problem.list.submit"),
-          value: "submit",
-        },
-        {
-          text: this.$t("problem.list.success"),
-          value: "success",
+          text: this.$t("contest.list.mode.name"),
+          value: "mode",
         },
       ],
 
       isLoading: false,
-      problemList: [],
+      contestList: [],
       total: 1,
       page: 1,
       selected: 0,
@@ -91,7 +130,7 @@ export default {
   },
 
   mounted() {
-    this.getProblems();
+    this.getContests();
   },
 
   computed: {
@@ -104,12 +143,12 @@ export default {
   },
 
   methods: {
-    getProblems() {
+    getContests() {
       this.isLoading = true;
       this.axios
-        .get("/problem", { params: { page: this.page } })
+        .get("/contest", { params: { page: this.page } })
         .then((response) => {
-          this.problemList = response.data.problem;
+          this.contestList = response.data.contest;
           this.total = response.data.total;
         })
         .catch((error) => {
@@ -121,20 +160,20 @@ export default {
           this.isLoading = false;
         });
     },
-    refreshProblems: debounce(
+    refreshContests: debounce(
       function() {
-        this.getProblems();
+        this.getContests();
       },
       1000,
       { leading: true, maxWait: 2000 }
     ),
     nextPage() {
       this.page++;
-      this.getProblems();
+      this.getContests();
     },
     lastPage() {
       this.page--;
-      this.getProblems();
+      this.getContests();
     },
   },
 };

@@ -48,6 +48,21 @@ const message = {
       tags: "标签",
       author: "作者"
     }
+  },
+  contest: {
+    title: "比赛列表",
+    list: {
+      title: "名称",
+      tags: "标签",
+      start: "开始时间",
+      end: "结束时间",
+      last: "持续时间",
+      mode: {
+        name: "参加模式",
+        public: "公开比赛",
+        private: "私有比赛"
+      }
+    }
   }
 }
 

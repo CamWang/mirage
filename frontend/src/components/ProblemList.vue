@@ -4,7 +4,7 @@
       <v-toolbar dense flat>
         <v-app-bar-nav-icon>
           <v-btn icon @click="refreshProblems">
-            <v-icon>{{ mdiBookEducation }}</v-icon>
+            <v-icon>{{ mdiBookEditOutline }}</v-icon>
           </v-btn>
         </v-app-bar-nav-icon>
         <v-toolbar-title>{{ $t("problem.title") }}</v-toolbar-title>
@@ -49,7 +49,7 @@ import {
   mdiClose,
   mdiChevronLeft,
   mdiChevronRight,
-  mdiBookEducation,
+  mdiBookEditOutline,
 } from "@mdi/js";
 import { debounce } from "lodash-es";
 
@@ -62,7 +62,7 @@ export default {
       mdiClose,
       mdiChevronLeft,
       mdiChevronRight,
-      mdiBookEducation,
+      mdiBookEditOutline,
 
       headers: [
         {
