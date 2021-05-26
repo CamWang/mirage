@@ -3,7 +3,6 @@ import Foot from '../components/Foot';
 
 export default [{
   path: "/problem",
-  name: "problem",
   components: {
     head: Head,
     default: () => import("../views/Problem.vue"),
@@ -12,10 +11,12 @@ export default [{
   children: [
     {
       path: '/',
+      name: "problemList",
       component: () => import("../components/ProblemList.vue"),
     },
     {
-      path: 'detail',
+      path: 'detail/:id',
+      name: "problemDetail",
       component: () => import("../components/ProblemDetail.vue"),
     }
   ],

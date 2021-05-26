@@ -3,7 +3,6 @@ import Foot from '../components/Foot';
 
 export default [{
   path: "/contest",
-  name: "contest",
   components: {
     head: Head,
     default: () => import("../views/Contest.vue"),
@@ -12,6 +11,7 @@ export default [{
   children: [
     {
       path: '/',
+      name: "contestList",
       component: () => import("../components/ContestList.vue"),
     },
     {

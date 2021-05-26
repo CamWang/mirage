@@ -41,7 +41,7 @@ import parseNumericValue from "../parser";
 import { Id, split, listToDirection, Timer } from "../utils";
 
 const defaults = {
-  position: ["top", "right"],
+  position: ["bottom", "right"],
   velocityAnimation: {
     enter: (el) => {
       var height = el.clientHeight;

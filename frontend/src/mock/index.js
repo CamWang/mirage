@@ -5,7 +5,7 @@ import news from './data/news';
 import problem from './data/problem';
 import blog from './data/blog';
 
-const mock = new MockAdapter(axios, { delayResponse: 500 });
+const mock = new MockAdapter(axios, { delayResponse: 300 });
 
 mock.onGet('/news').reply(200, {
   news: news.slice(0,5),

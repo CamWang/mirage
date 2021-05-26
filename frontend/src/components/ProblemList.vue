@@ -20,7 +20,11 @@
         </v-btn>
       </v-toolbar>
 
-      <v-data-table :headers="headers" :items="problemList" >
+      <v-data-table :headers="headers" :items="problemList" ref="problemList">
+        <!-- eslint-disable-next-line -->
+        <template v-slot:item.success="{ item }">
+          {{ getPassrate(item) }}
+        </template>
         <!-- eslint-disable-next-line -->
         <template v-slot:item.tags="{ item }">
           <v-chip
@@ -28,6 +32,7 @@
             :key="index"
             :color="tag.color"
             text-color="white"
+            class="mr-1"
             small
           >
             {{ tag.text }}
@@ -79,7 +84,7 @@ export default {
           value: "submit",
         },
         {
-          text: this.$t("problem.list.success"),
+          text: this.$t("problem.list.passrate"),
           value: "success",
         },
       ],
@@ -94,6 +99,13 @@ export default {
 
   mounted() {
     this.getProblems();
+    this.$on("click:row", (payload) => {
+      goDetail(payload[0].id);
+      console.log(payload);
+    })
+  },
+  beforeDestroy() {
+    this.$off("click:row");
   },
 
   computed: {
@@ -138,6 +150,20 @@ export default {
       this.page--;
       this.getProblems();
     },
+    getPassrate(item) {
+      if (item.submit && item.success) {
+        if (item.submit == item.success) {
+          return "100%";
+        } else {
+          return Math.floor((item.success / item.submit) * 100) + "%";
+        }
+      } else {
+        return "0%";
+      }
+    },
+    goDetail(id) {
+      console.log(id);
+    }
   },
 };
 </script>

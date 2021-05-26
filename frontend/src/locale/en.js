@@ -33,13 +33,17 @@ const message = {
       title: "Title",
       tags: "Tags",
       submit: "Submitted",
-      success: "Successed"
-    }
+      passrate: "Passrate"
+    },
+    author: "Author",
+    timelimit: "Time Limit",
+    memorylimit: "Memory Limit",
+    spj: "Special Judge",
   },
   blog: {
     title: "Blogs",
     list: {
-      number: "#",
+      date: "Date",
       title: "Title",
       tags: "Tags",
       author: "Author"
@@ -60,6 +64,10 @@ const time = {
     weekday: 'long',
     hour: 'numeric',
     minute: 'numeric'
+  },
+  blog: {
+    month: 'short',
+    day: 'numeric'
   }
 }
 

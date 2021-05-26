@@ -2,6 +2,12 @@ const problems = [
   {
     id: 1,
     title: "A + B 问题",
+    author: "admin",
+    timelimit: 500,
+    memorylimit: 10,
+    spj: "",
+    content: "",
+    type: "",
     tags: [
       {
         text: "Special Judge",
@@ -13,10 +19,17 @@ const problems = [
       }
     ],
     submit: 21683,
-    success: 11482
+    success: 11482,
+    
   },{
     id: 2,
     title: "你好，世界！",
+    author: "admin",
+    timelimit: 1000,
+    memorylimit: 15,
+    spj: "",
+    content: "",
+    type: "",
     tags: [
       {
         text: "字符串",
@@ -35,6 +48,12 @@ const problems = [
   },{
     id: 3,
     title: "回文字串",
+    author: "admin",
+    timelimit: 500,
+    memorylimit: 10,
+    spj: "",
+    content: "",
+    type: "",
     tags: [
       {
         text: "字符串",
@@ -50,6 +69,12 @@ const problems = [
   },{
     id: 4,
     title: "冒泡排序",
+    author: "admin",
+    timelimit: 500,
+    memorylimit: 10,
+    spj: "",
+    content: "",
+    type: "",
     tags: [
       {
         text: "算法",
@@ -65,6 +90,12 @@ const problems = [
   },{
     id: 5,
     title: "矩阵乘法",
+    author: "admin",
+    timelimit: 500,
+    memorylimit: 10,
+    spj: "",
+    content: "",
+    type: "",
     tags: [
       {
         text: "数学",
@@ -80,6 +111,12 @@ const problems = [
   },{
     id: 6,
     title: "平衡二叉树",
+    author: "admin",
+    timelimit: 500,
+    memorylimit: 10,
+    spj: "",
+    content: "",
+    type: "",
     tags: [
       {
         text: "树结构",
@@ -95,6 +132,12 @@ const problems = [
   },{
     id: 7,
     title: "最小生成树",
+    author: "admin",
+    timelimit: 500,
+    memorylimit: 10,
+    spj: "",
+    content: "",
+    type: "",
     tags: [
       {
         text: "树结构",

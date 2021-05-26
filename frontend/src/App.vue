@@ -4,7 +4,7 @@
   <router-view name="head"></router-view>
 
   <v-main>
-    <transition name="fade">
+    <transition name="component-fade">
       <router-view class="router"></router-view>
     </transition>
   </v-main>
@@ -29,13 +29,10 @@ export default {
   position:absolute;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity .3s ease;
 }
-
-.fade-enter-from,
-.fade-leave-to {
+.component-fade-enter, .component-fade-leave-to {
   opacity: 0;
 }
 </style>

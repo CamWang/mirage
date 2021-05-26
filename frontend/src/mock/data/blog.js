@@ -7,8 +7,9 @@ const blogs = [
       {
         text: "CSS",
         color: "orange",
-      }
+      },
     ],
+    time: 1621928522000
   },{
     id: 2,
     title: "CSS is a Strongly Typed Language",
@@ -19,6 +20,7 @@ const blogs = [
         color: "orange",
       }
     ],
+    time: 1621842122000
   },{
     id: 3,
     title: "The Importance of Career Laddering",
@@ -29,6 +31,7 @@ const blogs = [
         color: "green",
       }
     ],
+    time: 1621921292000
   },{
     id: 4,
     title: "Wrangling Control Over PDFs with the Adobe PDF Embed API",
@@ -37,8 +40,13 @@ const blogs = [
       {
         text: "Adobe",
         color: "red",
+      },
+      {
+        text: "Frontend",
+        color: "primary",
       }
     ],
+    time: 1621992199000
   },{
     id: 5,
     title: "Can We Create a “Resize Hack” With Container Queries?",
@@ -49,6 +57,7 @@ const blogs = [
         color: "cyan",
       }
     ],
+    time: 1621928522000
   },{
     id: 6,
     title: "Notion API",
@@ -59,6 +68,7 @@ const blogs = [
         color: "red",
       }
     ],
+    time: 1621599088000
   },
 ];
 

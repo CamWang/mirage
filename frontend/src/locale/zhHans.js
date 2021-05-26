@@ -33,13 +33,17 @@ const message = {
       title: "标题",
       tags: "标签",
       submit: "提交",
-      success: "成功"
-    }
+      passrate: "通过率"
+    },
+    author: "作者",
+    timelimit: "时间限制",
+    memorylimit: "内存限制",
+    spj: "特判",
   },
   blog: {
     title: "博客列表",
     list: {
-      number: "#",
+      date: "日期",
       title: "标题",
       tags: "标签",
       author: "作者"
@@ -61,6 +65,10 @@ const time = {
     hour: 'numeric',
     minute: 'numeric',
     hour12: true
+  },
+  blog: {
+    month: 'short',
+    day: 'numeric'
   }
 }
 

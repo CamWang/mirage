@@ -21,11 +21,16 @@
 
       <v-data-table :headers="headers" :items="blogList" >
         <!-- eslint-disable-next-line -->
+        <template v-slot:item.time="{ item }">
+          {{ $d(new Date(item.time), 'blog') }}
+        </template>
+        <!-- eslint-disable-next-line -->
         <template v-slot:item.tags="{ item }">
           <v-chip
             v-for="(tag, index) in item.tags"
             :key="index"
             :color="tag.color"
+            class="mr-1"
             text-color="white"
             small
           >
@@ -59,10 +64,10 @@ export default {
 
       headers: [
         {
-          text: this.$t("blog.list.number"),
+          text: this.$t("blog.list.date"),
           align: "start",
           sortable: true,
-          value: "id",
+          value: "time",
         },
         {
           text: this.$t("blog.list.title"),

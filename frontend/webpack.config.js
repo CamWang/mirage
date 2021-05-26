@@ -110,6 +110,7 @@ module.exports = {
   devServer: {
     open: true,
     host: "localhost",
+    // useLocalIp: true,
     quiet: true,
     overlay: true,
     historyApiFallback: true
