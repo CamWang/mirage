@@ -52,6 +52,12 @@ const getters = {
   },
   getUser(state) {
     return state.user;
+  },
+  isAdmin(state) {
+    return state.user.role === "admin";
+  },
+  isTeacher(state) {
+    return state.user.role === "teacher";
   }
 }
 

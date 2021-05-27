@@ -5,6 +5,25 @@ const message = {
     ...zhHans
   },
   name: "简体中文",
+  axios: {
+    request: {
+      error: "请求失败",
+    },
+    response: {
+      error: "服务错误",
+    },
+  },
+  auth: {
+    login: "登录后可执行此操作",
+    denied: "权限不足",
+    lowa: "需要最低",
+    auth: "权限",
+    teacher: "教师",
+    admin: "管理员",
+  },
+  refresh: {
+    success: "刷新成功"
+  },
   notify: {
     theme: {
       dark: "暗黑模式已开启",

@@ -96,6 +96,7 @@ import {
   mdiNewspaperVariantMultipleOutline,
 } from "@mdi/js";
 import { debounce } from "lodash-es";
+import notify from '../plugins/notify';
 
 export default {
   components: {
@@ -130,6 +131,7 @@ export default {
   },
   mounted() {
     this.getNews();
+    console.log(this.$store)
   },
   computed: {
     isLastPage() {
@@ -140,18 +142,22 @@ export default {
     },
   },
   methods: {
-    getNews() {
+    getNews(refresh) {
       this.isLoading = true;
       this.axios
         .get("/news", { params: { page: this.page } })
         .then((response) => {
           this.newsList = response.data.news;
           this.total = response.data.total;
+          if (refresh) {
+            this.$notify({
+              title: this.$t("refresh.success"),
+              type: "success"
+            })
+          }
         })
         .catch((error) => {
-          this.$notify({
-            title: error.message,
-          });
+          
         })
         .finally(() => {
           this.isLoading = false;
@@ -159,7 +165,7 @@ export default {
     },
     refreshNews: debounce(
       function() {
-        this.getNews();
+        this.getNews(true);
       },
       1000,
       { leading: true, maxWait: 2000 }

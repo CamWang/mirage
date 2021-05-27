@@ -23,21 +23,6 @@ export default {
   },
 
   methods: {
-    getIt() {
-      this.axios
-        .get("/new")
-        .then((response) => {})
-        .catch((error) => {
-          this.$notify.error({
-            title: "",
-          });
-        });
-    },
-    notify() {
-      this.$notify({
-        title: "Hello User!",
-      });
-    },
   },
 
   mounted() {},

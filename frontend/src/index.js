@@ -1,10 +1,11 @@
 import Vue from 'vue';
-import App from './App';
-import router from './router';
-import { vuetify, i18n } from '@/plugins/vuetify';
+import App from '@/App';
+import router from '@/router';
+import vuetify from '@/plugins/vuetify';
 import Hljs from "@/plugins/highlight";
-import axios from './api';
-// import '../mock';
+import i18n from "@/locale";
+import axios from '@/api';
+import store from '@/store'
 
 Vue.use(Hljs);
 
@@ -18,5 +19,6 @@ new Vue({
   template: "<App/>",
   vuetify,
   router,
-  i18n
+  i18n,
+  store
 });

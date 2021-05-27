@@ -23,8 +23,8 @@
                 border="left"
                 dark
               >
-                <div class="body-1">{{ item.title }}</div>
-                <div class="body-2">{{ item.text }}</div>
+                <div class="text-body-2">{{ item.title }}</div>
+                <div class="text-caption">{{ item.text }}</div>
               </v-alert>
             </div>
           </slot>
@@ -303,6 +303,7 @@ export default {
   display: block;
   position: fixed;
   z-index: 5000;
+  padding-bottom: 10px;
 }
 .notification-wrapper {
   display: block;
@@ -324,8 +325,7 @@ export default {
   box-sizing: border-box;
   text-align: left;
   font-size: 12px;
-  padding: 8px 5px 0 0;
-  margin: 0 5px 5px;
+  margin: 0 10px 6px 0;
   color: white;
 }
 .v-fade-enter-active,

@@ -61,12 +61,12 @@ export default {
       this.$vuetify.theme.dark = !isDark;
       if (isDark) {
         this.$notify({
-          text: this.$t('notify.theme.light'),
+          title: this.$t('notify.theme.light'),
           type: "success"
         });
       } else {
         this.$notify({
-          text: this.$t('notify.theme.dark'),
+          title: this.$t('notify.theme.dark'),
           type: "success"
         });
       }
@@ -74,7 +74,7 @@ export default {
     changeLang(locale) {
       this.$i18n.locale = locale;
       this.$notify({
-        text: this.$t('notify.lang.change'),
+        title: this.$t('notify.lang.change'),
         type: "success"
       });
     }

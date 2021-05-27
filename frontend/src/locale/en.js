@@ -5,6 +5,32 @@ const message = {
     ...en
   },
   name: "English",
+  axios: {
+    request: {
+      error: "Request Error",
+    },
+    response: {
+      error: "Service Error",
+    },
+  },
+  auth: {
+    login: "Login Required",
+    denied: "Permission Denied",
+    toolow: (role) => {
+      const mes = "You must have a minimum role of ";
+      if (role === "teacher") {
+        return mes + "@:auth.teacher";
+      } else {
+        return mes + "@:auth.admin";
+      }
+    },
+    auth: "",
+    teacher: "Teacher",
+    admin: "Admin",
+  },
+  refresh: {
+    success: "Refreshed"
+  },
   notify: {
     theme: {
       dark: "Dark♂ Mode On",

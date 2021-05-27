@@ -13,6 +13,7 @@ export default [{
       path: '/',
       name: "problemList",
       component: () => import("../components/ProblemList.vue"),
+      meta: { auth: true }
     },
     {
       path: 'detail/:id',
