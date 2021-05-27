@@ -26,7 +26,9 @@ module.exports = {
     }),
     new VueLoaderPlugin(),
     new VuetifyLoaderPlugin(),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      ignoreOrder: true,
+    }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
