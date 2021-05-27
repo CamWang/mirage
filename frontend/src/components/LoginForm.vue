@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="430" class="mx-auto my-lg-16 my-md-12 my-8">
+  <v-card max-width="450" class="mx-auto my-lg-16 my-md-12 my-8">
     <v-list-item>
       <v-list-item-content class="mt-lg-10 mt-md-8 mt-4 mb-4 px-2">
         <v-list-item-title class="headline">
@@ -51,11 +51,13 @@
 <script>
 import { mdiAccountCircleOutline, mdiLockOutline } from "@mdi/js";
 import verifyObj from "@/utils/verify";
+
 export default {
   name: "LoginForm",
   data() {
     return {
-      ...verifyObj,
+      ruleUsername: verifyObj.ruleUsername,
+      rulePassword: verifyObj.rulePassword,
       mdiAccountCircleOutline,
       mdiLockOutline,
 
@@ -74,7 +76,7 @@ export default {
     goRegister() {
       this.$router.push("/register")
     },
-  },
+  }
 };
 </script>
 

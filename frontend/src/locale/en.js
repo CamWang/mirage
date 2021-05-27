@@ -117,7 +117,7 @@ const message = {
     email: "E-mail",
     id: "School ID",
     verify: "Verification Code",
-    term: "Terms of Use",
+    term: "Please read and agree terms of use.",
   },
 
   verify: {
@@ -125,7 +125,8 @@ const message = {
     stringMin: " must be more than {min} characters",
     numberMin: " must greater than {min}",
     stringMax: " must be less than {max} characters",
-    numberMax: " must less than {max}"
+    numberMax: " must less than {max}",
+    email: "Please enter valid email address",
   }
 }
 

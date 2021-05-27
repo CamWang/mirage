@@ -1,4 +1,5 @@
 <template>
+  <v-col class="col-md-10 col-12">
     <v-card :loading="isLoading">
       <v-toolbar dense flat>
         <v-app-bar-nav-icon>
@@ -19,7 +20,7 @@
         </v-btn>
       </v-toolbar>
 
-      <v-data-table :headers="headers" :items="contestList" >
+      <v-data-table :headers="headers" :items="contestList">
         <!-- eslint-disable-next-line -->
         <template v-slot:item.tags="{ item }">
           <v-chip
@@ -46,13 +47,7 @@
             </v-icon>
             {{ $t("contest.list.mode.public") }}
           </v-chip>
-          <v-chip
-            v-else
-            class="mx-2"
-            color="red"
-            label
-            outlined
-          >
+          <v-chip v-else class="mx-2" color="red" label outlined>
             <v-icon left>
               {{ mdiLockOutline }}
             </v-icon>
@@ -61,14 +56,15 @@
         </template>
         <!-- eslint-disable-next-line -->
         <template v-slot:item.start="{ item }">
-          {{ $d(new Date(item.start), 'long') }}
+          {{ $d(new Date(item.start), "long") }}
         </template>
         <!-- eslint-disable-next-line -->
         <template v-slot:item.end="{ item }">
-          {{ $d(new Date(item.end), 'long') }}
+          {{ $d(new Date(item.end), "long") }}
         </template>
       </v-data-table>
     </v-card>
+  </v-col>
 </template>
 
 <script>

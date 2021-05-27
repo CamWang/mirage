@@ -118,7 +118,7 @@ const message = {
     id: "学号",
     email: "电子邮箱",
     verify: "验证码",
-    term: "用户使用协议",
+    term: "请阅读并同意用户协议",
   },
 
   verify: {
@@ -126,7 +126,8 @@ const message = {
     stringMin: " 至少 {min} 字符",
     numberMin: " 必须大于 {min}",
     stringMax: " 至多 {max} 字符",
-    numberMax: " 必须小于 {max}"
+    numberMax: " 必须小于 {max}",
+    email: "请输入格式正确的邮箱地址",
   }
 }
 

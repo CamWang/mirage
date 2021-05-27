@@ -1,5 +1,5 @@
 <template>
-  <v-col class="col-lg-8 col-md-10 col-12">
+  <v-col class="col-md-10 col-12">
     <v-card :loading="isLoading">
       <v-toolbar dense flat>
         <v-app-bar-nav-icon>
@@ -102,7 +102,7 @@ export default {
     this.$on("click:row", (payload) => {
       goDetail(payload[0].id);
       console.log(payload);
-    })
+    });
   },
   beforeDestroy() {
     this.$off("click:row");
@@ -163,7 +163,7 @@ export default {
     },
     goDetail(id) {
       console.log(id);
-    }
+    },
   },
 };
 </script>

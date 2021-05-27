@@ -1,4 +1,5 @@
 <template>
+  <v-col class="col-md-10 col-12">
     <v-card :loading="isLoading">
       <v-toolbar dense flat>
         <v-app-bar-nav-icon>
@@ -19,10 +20,10 @@
         </v-btn>
       </v-toolbar>
 
-      <v-data-table :headers="headers" :items="blogList" >
+      <v-data-table :headers="headers" :items="blogList">
         <!-- eslint-disable-next-line -->
         <template v-slot:item.time="{ item }">
-          {{ $d(new Date(item.time), 'blog') }}
+          {{ $d(new Date(item.time), "blog") }}
         </template>
         <!-- eslint-disable-next-line -->
         <template v-slot:item.tags="{ item }">
@@ -39,6 +40,7 @@
         </template>
       </v-data-table>
     </v-card>
+  </v-col>
 </template>
 
 <script>
