@@ -54,10 +54,10 @@ const getters = {
     return state.user;
   },
   isAdmin(state) {
-    return state.user.role === "admin";
+    return state.user && state.user.role === "admin";
   },
   isTeacher(state) {
-    return state.user.role === "teacher";
+    return state.user && state.user.role === "teacher";
   }
 }
 

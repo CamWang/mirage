@@ -16,7 +16,10 @@ const message = {
   auth: {
     login: "登录后可执行此操作",
     denied: "权限不足",
-    lowa: "需要最低",
+    toolow: {
+      teacher: "需要最低老师权限来访问",
+      admin: "需要最低管理员权限来访问",
+    },
     auth: "权限",
     teacher: "教师",
     admin: "管理员",

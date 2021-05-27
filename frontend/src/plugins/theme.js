@@ -20,17 +20,17 @@ export default {
       error: colors.red.darken1,
       info: colors.teal.base,
       success:colors.green.accent4,
-      warning: colors.yellow.accent3,
+      warning: colors.amber.accent4  ,
       ambient: colors.grey.lighten4,
     },
     dark: {
       primary: colors.indigo.accent2,
       secondary: colors.indigo.darken1,
       accent: colors.cyan.base,
-      error: colors.red.darken4,
+      error: colors.red.darken3,
       info: colors.teal.base,
       success:colors.green.darken3,
-      warning: colors.yellow.accent4,
+      warning: colors.orange.accent4,
       ambient: colors.shades.black
     }
   }

@@ -21,10 +21,11 @@
                 class="mb-0"
                 :color="item.type?item.type:'primary'"
                 border="left"
+                :type="item.type?item.type:'info'"
                 dark
               >
-                <div class="text-body-2">{{ item.title }}</div>
-                <div class="text-caption">{{ item.text }}</div>
+                <div class="text-body-1">{{ item.title }}</div>
+                <div class="text-body-2">{{ item.text }}</div>
               </v-alert>
             </div>
           </slot>
@@ -72,7 +73,7 @@ export default {
     },
     width: {
       type: [Number, String],
-      default: 300,
+      default: 340,
     },
     reverse: {
       type: Boolean,

@@ -3,10 +3,10 @@ import Router from 'vue-router';
 import store from '@/store'
 import i18n from '@/locale';
 
-import user from './user';
-import problem from './problem';
-import contest from './contest';
-import blog from './blog';
+import user from './routers/user';
+import problem from './routers/problem';
+import contest from './routers/contest';
+import blog from './routers/blog';
 
 import Head from '@/components/Head';
 import Foot from '@/components/Foot';
@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
         if (!(store.getters["user/isTeacher"] || store.getters["user/isAdmin"])) {
           Vue.notify({
             title: i18n.t("auth.denied"),
-            text: i18n.t("auth.toolow", { role: "teacher" }),
+            text: i18n.t("auth.toolow.teacher"),
             type: "warning"
           });
           return;
@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
         if (!(store.getters["user/isTeacher"] || store.getters["user/isAdmin"])) {
           Vue.notify({
             title: i18n.t("auth.denied"),
-            text: i18n.t("auth.toolow", { role: "admin" }),
+            text: i18n.t("auth.toolow.admin"),
             type: "warning"
           });
           return;

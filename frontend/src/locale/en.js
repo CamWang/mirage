@@ -16,15 +16,10 @@ const message = {
   auth: {
     login: "Login Required",
     denied: "Permission Denied",
-    toolow: (role) => {
-      const mes = "You must have a minimum role of ";
-      if (role === "teacher") {
-        return mes + "@:auth.teacher";
-      } else {
-        return mes + "@:auth.admin";
-      }
+    toolow: {
+      teacher: "You must have a minimum role of Teacher",
+      admin: "You must have a minimum role of Admin",
     },
-    auth: "",
     teacher: "Teacher",
     admin: "Admin",
   },
