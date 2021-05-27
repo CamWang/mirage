@@ -16,8 +16,10 @@ const time = {
   zhHans: zhHans.time
 }
 
+const lang = window.sessionStorage.getItem("lang") || "en";
+
 const i18n = new VueI18n({
-  locale: 'en',
+  locale: lang,
   messages: messages,
   dateTimeFormats: time
 });

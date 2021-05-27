@@ -131,7 +131,6 @@ export default {
   },
   mounted() {
     this.getNews();
-    console.log(this.$store)
   },
   computed: {
     isLastPage() {

@@ -21,7 +21,4 @@ export default [{
       component: () => import("@/components/ProblemDetail.vue"),
     }
   ],
-  meta: {
-    requiresAuth: false
-  }
 }];

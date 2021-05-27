@@ -19,7 +19,4 @@ export default [{
       component: () => import("@/components/ContestDetail.vue"),
     }
   ],
-  meta: {
-    requiresAuth: false
-  }
 }];

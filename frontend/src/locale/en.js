@@ -5,6 +5,8 @@ const message = {
     ...en
   },
   name: "English",
+
+  // Notification
   axios: {
     request: {
       error: "Request Error",
@@ -13,6 +15,7 @@ const message = {
       error: "Service Error",
     },
   },
+
   auth: {
     login: "Login Required",
     denied: "Permission Denied",
@@ -23,9 +26,11 @@ const message = {
     teacher: "Teacher",
     admin: "Admin",
   },
+
   refresh: {
     success: "Refreshed"
   },
+
   notify: {
     theme: {
       dark: "Dark♂ Mode On",
@@ -35,6 +40,8 @@ const message = {
       change: "Language Changed"
     }
   },
+
+  // Page Content
   head: {
     title: "Mirage OJ",
     tab: {
@@ -44,9 +51,11 @@ const message = {
       blog: "Blog"
     }
   },
+
   home: {
     news: "News"
   },
+
   problem: {
     title: "Problems",
     list: {
@@ -61,6 +70,7 @@ const message = {
     memorylimit: "Memory Limit",
     spj: "Special Judge",
   },
+
   blog: {
     title: "Blogs",
     list: {
@@ -70,6 +80,7 @@ const message = {
       author: "Author"
     }
   },
+
   contest: {
     title: "Contests",
     list: {
@@ -84,6 +95,37 @@ const message = {
         private: "Private"
       }
     }
+  },
+
+  login: {
+    title: "Login",
+    subtitle: "We've been expecting you.",
+    button: "Login",
+  },
+  register: {
+    title: "Register",
+    subtitle: "Hello and welcome.",
+    button: "Register",
+  },
+
+  form: {
+    username: "Username",
+    password: "Password",
+    school: "School",
+    class: "Class",
+    avatar: "Avatar",
+    email: "E-mail",
+    id: "School ID",
+    verify: "Verification Code",
+    term: "Terms of Use",
+  },
+
+  verify: {
+    required: " is required",
+    stringMin: " must be more than {min} characters",
+    numberMin: " must greater than {min}",
+    stringMax: " must be less than {max} characters",
+    numberMax: " must less than {max}"
   }
 }
 

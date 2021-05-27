@@ -59,6 +59,8 @@ export default {
     changeTheme() {
       let isDark = this.$vuetify.theme.dark;
       this.$vuetify.theme.dark = !isDark;
+      window.sessionStorage.setItem("dark", isDark?"false":"true");
+      console.log(window.sessionStorage.getItem("dark"));
       if (isDark) {
         this.$notify({
           title: this.$t('notify.theme.light'),
@@ -73,6 +75,7 @@ export default {
     },
     changeLang(locale) {
       this.$i18n.locale = locale;
+      window.sessionStorage.setItem("lang", locale);
       this.$notify({
         title: this.$t('notify.lang.change'),
         type: "success"

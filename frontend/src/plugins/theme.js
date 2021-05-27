@@ -2,13 +2,16 @@ import colors from 'vuetify/lib/util/colors';
 
 const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
-let dark = false
-
+// System dark sheme detects
+let dark = false;
 if (prefersDarkScheme.matches) {
   dark = true;
 }
-
-console.log("################# " + dark);
+// If user have set theme to a certain value before use it
+let sessionDark = window.sessionStorage.getItem("dark");
+if (sessionDark != null) {
+  dark = sessionDark === "true"? true: false;
+}
 
 export default {
   dark,

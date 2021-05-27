@@ -20,7 +20,4 @@ export default [{
       component: () => import("@/components/BlogDetail.vue"),
     }
   ],
-  meta: {
-    requiresAuth: false
-  }
 }];
