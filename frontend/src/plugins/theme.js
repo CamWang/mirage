@@ -18,12 +18,12 @@ export default {
   themes: {
     light: {
       primary: colors.indigo.accent4,
-      secondary: colors.indigo.accent1,
+      secondary: colors.indigo.accent3,
       accent: colors.indigo.base,
       error: colors.red.darken1,
       info: colors.teal.base,
       success:colors.green.accent4,
-      warning: colors.amber.accent4  ,
+      warning: colors.orange.base,
       ambient: colors.grey.lighten4,
     },
     dark: {
@@ -32,9 +32,11 @@ export default {
       accent: colors.cyan.base,
       error: colors.red.darken3,
       info: colors.teal.base,
-      success:colors.green.darken3,
+      success:colors.green.darken2,
       warning: colors.orange.accent4,
-      ambient: colors.shades.black
+      ambient: colors.shades.black,
+      orange: colors.orange.darken3,
+      red: colors.red.darken3,
     }
   }
 }
