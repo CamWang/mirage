@@ -13,6 +13,7 @@
     <v-form class="pb-5" v-model="valid" ref="login">
       <v-container class="px-4">
         <v-text-field
+          class="my-1"
           :append-icon="mdiAccountCircleOutline"
           :label="$t('form.username')"
           v-model="username"
@@ -22,13 +23,16 @@
           required
         ></v-text-field>
         <v-text-field
-          :append-icon="mdiLockOutline"
+          class="my-1"
           :label="$t('form.password')"
+          :type="showPassword ? 'text' : 'password'"
+          :append-icon="showPassword ? mdiEye : mdiEyeOff"
           v-model="password"
           :rules="rulePassword"
           clearable
           outlined
           required
+          @click:append="showPassword = !showPassword"
         ></v-text-field>
         <div class="my-lg-5 my-md-3 my-2 text-center">
           <v-btn
@@ -49,7 +53,7 @@
 </template>
 
 <script>
-import { mdiAccountCircleOutline, mdiLockOutline } from "@mdi/js";
+import { mdiAccountCircleOutline, mdiEye, mdiEyeOff, mdiEmailOutline } from "@mdi/js";
 import verifyObj from "@/utils/verify";
 
 export default {
@@ -59,9 +63,11 @@ export default {
       ruleUsername: verifyObj.ruleUsername,
       rulePassword: verifyObj.rulePassword,
       mdiAccountCircleOutline,
-      mdiLockOutline,
+      mdiEye,
+      mdiEyeOff,
 
       valid: false,
+      showPassword: false,
 
       username: "",
       password: "",
