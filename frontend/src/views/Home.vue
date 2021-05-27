@@ -47,6 +47,6 @@ export default {
 <style scoped>
 .container {
   background-image: url("../assets/bg.svg");
-  background-position: top -250px right -250px;
+  background-position: top -180px right -240px;
 }
 </style>

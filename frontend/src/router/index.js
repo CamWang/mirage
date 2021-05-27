@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from '../store'
+
 import user from './user';
 import problem from './problem';
 import contest from './contest';
@@ -10,7 +12,7 @@ import Foot from '../components/Foot';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     ...user,
@@ -30,4 +32,20 @@ export default new Router({
       }
     }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.getLoginState) {
+      next({
+        path: '/login',
+      })
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
+export default router
