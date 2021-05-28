@@ -10,7 +10,6 @@ export default {
     Vue.mixin({
       updated: function() {
         if (this.$refs.highlight) {
-          console.log(this.$refs.highlight);
           let targets = this.$refs.highlight.$el.querySelectorAll("code");
           targets.forEach((target) => {
             hljs.highlightBlock(target);

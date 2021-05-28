@@ -56,7 +56,7 @@
             {{ $t("login.button") }}
           </v-btn>
 
-          <v-btn color="success" class="mr-4" @click="submit">
+          <v-btn color="success" class="mr-4" @click="register">
             {{ $t("register.button") }}
           </v-btn>
         </div>
@@ -92,8 +92,14 @@ export default {
     };
   },
   methods: {
-    submit() {
+    register() {
       if (this.$refs.register.validate()) {
+
+      } else {
+        this.$notify({
+          title: this.$t('notify.verify'),
+          type: "warning"
+        });
       }
     },
     goLogin() {

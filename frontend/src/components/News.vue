@@ -56,7 +56,7 @@
             </v-btn>
             <v-toolbar-title>{{ $t("home.news") }}</v-toolbar-title>
           </v-toolbar>
-          <v-row>
+          <v-row class="mr-0">
             <v-col class="col-lg-7 col-md-9 col-12 p-0">
               <v-card-text class="pt-5">
                 <h5 class="text-lg-h4 text-h5 my-3 text--primary">

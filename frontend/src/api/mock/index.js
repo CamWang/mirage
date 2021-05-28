@@ -5,6 +5,8 @@ import news from './data/news';
 import problem from './data/problem';
 import blog from './data/blog';
 import contest from './data/contest';
+import user from './data/user';
+import message from './data/message';
 
 const mock = new MockAdapter(axios, { delayResponse: 300 });
 

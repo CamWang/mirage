@@ -38,7 +38,8 @@ const message = {
     },
     lang: {
       change: "Language Changed"
-    }
+    },
+    verify: "Please fill in the form correctly.",
   },
 
   // Page Content

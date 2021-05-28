@@ -33,10 +33,11 @@ export default {
       error: colors.red.darken3,
       info: colors.teal.base,
       success:colors.green.darken2,
-      warning: colors.orange.accent4,
+      warning: colors.orange.darken3,
       ambient: colors.shades.black,
       orange: colors.orange.darken3,
-      red: colors.red.darken3,
+      red: colors.red.darken2,
+      cyan: colors.cyan.darken3,
     }
   }
 }

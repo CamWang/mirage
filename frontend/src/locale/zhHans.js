@@ -39,7 +39,8 @@ const message = {
     },
     lang: {
       change: "语言切换成功"
-    }
+    },
+    verify: "请按正确格式填写表单内容",
   },
 
   // 页面内容
