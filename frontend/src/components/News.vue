@@ -71,12 +71,13 @@
                     )
                   }}
                 </p>
-                <vue-markdown
+                <!-- <vue-markdown
                   class="text--primary text-news"
                   :source="newsList[selected ? selected : 0].content"
                   ref="highlight"
                 >
-                </vue-markdown>
+                </vue-markdown> -->
+                
               </v-card-text>
             </v-col>
           </v-row>
@@ -87,7 +88,6 @@
 </template>
 
 <script>
-import VueMarkdown from "vue-markdown/src/VueMarkdown";
 import {
   mdiMagnify,
   mdiClose,
@@ -96,7 +96,6 @@ import {
   mdiNewspaperVariantMultipleOutline,
 } from "@mdi/js";
 import { debounce } from "lodash-es";
-import notify from '../plugins/notify';
 
 export default {
   components: {
