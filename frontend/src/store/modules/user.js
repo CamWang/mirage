@@ -1,6 +1,6 @@
-const state = () => ({
-  user: window.sessionStorage.getItem('user') || null
-});
+const state = {
+  user: null
+};
 
 const mutations = {
   setUser(state, user) {
@@ -18,31 +18,35 @@ const actions = {
    * @param {object} user    user entity
    * @param {function} success success callback
    * @param {function} logined already logined callback
+   * @example store.dispatch('login', user)
    */
-  login(context, user, success, logined) {
+  login(context, params) {
     if (context.state.user) {
-      logined();
+      params.logined();
       return;
     }
-    window.sessionStorage.setItem('user', user);
-    context.commit('setUser', user);
-    success();
+    if (process.env.NODE_ENV === "development") {
+      console.log("[vuex] user login: ", params.data);
+    }
+    window.sessionStorage.setItem('user', params.data);
+    context.commit('setUser', params.data);
+    params.success();
   },
 
   /**
    * 
    * @param {object} context 
-   * @param {function} success 
-   * @param {function} logouted 
+   * @param {function} success  success logout callback
+   * @param {function} logouted logout callback
    */
-  logout(context, success, logouted) {
+  logout(context, params) {
     if (!context.state.user) {
-      logouted();
+      params.logouted();
       return;
     }
     window.sessionStorage.removeItem('user', user);
     context.commit('removeUser');
-    success();
+    params.success();
   }
 }
 

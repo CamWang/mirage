@@ -41,6 +41,19 @@ const message = {
       change: "语言切换成功"
     },
     verify: "请按正确格式填写表单内容",
+    login: {
+      success: "成功登录",
+      fail: "登录失败，请检查用户名和密码",
+      logined: "已登录请先退出登录",
+    },
+    register: {
+      success: "成功注册",
+      fail: "注册失败，请联系管理员",
+      repeat: "该用户名已被占用"
+    },
+    logout: {
+      logouted: "已经登出了",
+    }
   },
 
   // 页面内容

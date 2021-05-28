@@ -1,5 +1,9 @@
 <template>
-  <v-card max-width="450" class="mx-auto my-lg-16 my-md-12 my-8">
+  <v-card
+    max-width="450"
+    class="mx-auto my-lg-16 my-md-12 my-8"
+    :loading="isLoading"
+  >
     <v-list-item>
       <v-list-item-content class="mt-lg-10 mt-md-8 mt-4 mb-4 px-2">
         <v-list-item-title class="headline">
@@ -35,11 +39,7 @@
           @click:append="showPassword = !showPassword"
         ></v-text-field>
         <div class="my-lg-5 my-md-3 my-2 text-center">
-          <v-btn
-            color="secondary"
-            class="mr-4"
-            @click="goRegister"
-          >
+          <v-btn color="secondary" class="mr-4" @click="goRegister">
             {{ $t("register.button") }}
           </v-btn>
 
@@ -66,6 +66,7 @@ export default {
       mdiEye,
       mdiEyeOff,
 
+      isLoading: false,
       valid: false,
       showPassword: false,
 
@@ -75,9 +76,34 @@ export default {
   },
   methods: {
     login() {
-      console.log("login");
       if (this.$refs.login.validate()) {
-        
+        this.isLoading = true;
+        this.axios
+          .post("/login", { params: { username: this.username, password: this.password} })
+          .then((reponse) => {
+            this.$store.dispatch("user/login", {
+              data: reponse.data.user,
+              success: () => {
+                this.$notify({
+                  title: this.$t('notify.login.success'),
+                  type: "success"
+                });
+                this.goHome();
+              },
+              logined:() => {
+                this.$notify({
+                  title: this.$t('notify.login.logined'),
+                  type: "warning"
+                });
+              }
+            })
+          })
+          .catch((error) => {
+
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
       } else {
         this.$notify({
           title: this.$t('notify.verify'),
@@ -86,8 +112,11 @@ export default {
       }
     },
     goRegister() {
-      this.$router.push("/register")
+      this.$router.push("/register");
     },
+    goHome() {
+      this.$router.push("/");
+    }
   }
 };
 </script>

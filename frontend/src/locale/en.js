@@ -40,6 +40,19 @@ const message = {
       change: "Language Changed"
     },
     verify: "Please fill in the form correctly.",
+    login: {
+      success: "Log in successfully",
+      fail: "Please check username or password",
+      logined: "Please logout first",
+    },
+    register: {
+      success: "Sign up successfully",
+      fail: "Register fail",
+      repeat: "Username already been taken"
+    },
+    logout: {
+      logouted: "Already logout",
+    }
   },
 
   // Page Content

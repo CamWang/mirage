@@ -1,14 +1,14 @@
 <template>
   <v-app-bar app>
     <v-toolbar-title class="title">
-      {{ $t('head.title') }}
+      {{ $t("head.title") }}
     </v-toolbar-title>
     <v-tabs>
       <v-tabs-slider color="secondary"></v-tabs-slider>
-      <v-tab class="tab" to="/">{{ $t('head.tab.home') }}</v-tab>
-      <v-tab class="tab" to="/problem">{{ $t('head.tab.problem') }}</v-tab>
-      <v-tab class="tab" to="/contest">{{ $t('head.tab.contest') }}</v-tab>
-      <v-tab class="tab" to="/blog">{{ $t('head.tab.blog') }}</v-tab>
+      <v-tab class="tab" to="/">{{ $t("head.tab.home") }}</v-tab>
+      <v-tab class="tab" to="/problem">{{ $t("head.tab.problem") }}</v-tab>
+      <v-tab class="tab" to="/contest">{{ $t("head.tab.contest") }}</v-tab>
+      <v-tab class="tab" to="/blog">{{ $t("head.tab.blog") }}</v-tab>
     </v-tabs>
     <v-spacer></v-spacer>
     <v-btn icon @click="changeTheme">
@@ -16,11 +16,7 @@
     </v-btn>
     <v-menu offset-y open-on-hover>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          v-bind="attrs"
-          v-on="on"
-          icon
-        >
+        <v-btn v-bind="attrs" v-on="on" icon>
           <v-icon>{{ mdiWeb }}</v-icon>
         </v-btn>
       </template>
@@ -30,15 +26,38 @@
           :key="index"
           @click="changeLang(locale)"
         >
-          <v-list-item-title>{{ $t('name', locale) }}</v-list-item-title>
+          <v-list-item-title>{{ $t("name", locale) }}</v-list-item-title>
         </v-list-item>
       </v-list>
+    </v-menu>
+    <v-menu bottom min-width="200px" rounded offset-y open-on-hover>
+      <template v-slot:activator="{ on }">
+        <v-btn icon x-large v-on="on" class="mx-lg-6 mx-md-4 mx-2">
+          <v-avatar color="secondary" size="48">
+            <img
+                :src="getAvatarSrc()"
+              >
+          </v-avatar>
+        </v-btn>
+      </template>
+      <v-card>
+        <v-list>
+          <v-list-item>
+            <v-list-item-avatar>
+              <img
+                :src="getAvatarSrc()"
+              >
+            </v-list-item-avatar>
+          </v-list-item>
+        </v-list>
+      </v-card>
     </v-menu>
   </v-app-bar>
 </template>
 
 <script>
-import { mdiBrightness6, mdiWeb } from '@mdi/js';
+import { mdiBrightness6, mdiWeb } from "@mdi/js";
+import { mapGetters } from "vuex";
 export default {
   name: "tophead",
 
@@ -47,29 +66,36 @@ export default {
       mdiDarkMode: mdiBrightness6,
       mdiWeb: mdiWeb,
 
-      locales: []
-    }
+      locales: [],
+    };
+  },
+
+  computed: {
+    ...mapGetters("user", {
+      user: 'getUser'
+    })
   },
 
   mounted() {
     this.locales = this.$i18n.availableLocales;
+    console.log(this.user);
   },
 
   methods: {
     changeTheme() {
       let isDark = this.$vuetify.theme.dark;
       this.$vuetify.theme.dark = !isDark;
-      window.sessionStorage.setItem("dark", isDark?"false":"true");
+      window.sessionStorage.setItem("dark", isDark ? "false" : "true");
       console.log(window.sessionStorage.getItem("dark"));
       if (isDark) {
         this.$notify({
-          title: this.$t('notify.theme.light'),
-          type: "success"
+          title: this.$t("notify.theme.light"),
+          type: "success",
         });
       } else {
         this.$notify({
-          title: this.$t('notify.theme.dark'),
-          type: "success"
+          title: this.$t("notify.theme.dark"),
+          type: "success",
         });
       }
     },
@@ -77,21 +103,29 @@ export default {
       this.$i18n.locale = locale;
       window.sessionStorage.setItem("lang", locale);
       this.$notify({
-        title: this.$t('notify.lang.change'),
-        type: "success"
+        title: this.$t("notify.lang.change"),
+        type: "success",
       });
+    },
+
+    getAvatarSrc() {
+      if (this.user && this.user.avatar) {
+        return this.user.avatar;
+      } else {
+        return "static/avatar.svg"
+      }
     }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-  .title {
-    width: 180px;
-    padding-left: 10px;
-    text-align: left;
-  }
-  .tab {
-    width: 100px;
-  }
+.title {
+  width: 180px;
+  padding-left: 10px;
+  text-align: left;
+}
+.tab {
+  width: 100px;
+}
 </style>

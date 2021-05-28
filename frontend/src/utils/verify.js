@@ -27,15 +27,15 @@ const rules = [
     required: true,
     type: "string",
     min: 3,
-    max: 20,
+    max: 32,
     regex: null,
   },
   {
     key: "password",
     required: true,
     type: "string",
-    min: 5,
-    max: 20,
+    min: 4,
+    max: 32,
     regex: null,
   },
   {

@@ -29,3 +29,15 @@ mock.onGet("/contest").reply(200, {
   contest,
   total: 1
 });
+
+mock.onPost("/login").reply(function(config) {
+  const params = JSON.parse(config.data);
+  const { username, password } = params.params;
+  return [200, {
+    user: user.filter(elem => {
+      return elem.username === username && elem.password === password;
+    })[0],
+  }];
+});
+
+mock.onPost("/register").reply(200);

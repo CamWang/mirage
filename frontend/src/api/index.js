@@ -21,10 +21,14 @@ request.interceptors.request.use((config) => {
 });
 
 request.interceptors.response.use((response) => {
-  console.log(response);
+  if (process.env.NODE_ENV === "development") {
+    console.log("[axios] response: ", response);
+  }
   return response;
 }, function (error) {
-  console.log(error);
+  if (process.env.NODE_ENV === "development") {
+    console.log("[axios] response error: ", error);
+  }
   Vue.notify({
     title: i18n.t("axios.response.error"),
     text: error.message,
