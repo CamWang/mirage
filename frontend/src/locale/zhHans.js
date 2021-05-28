@@ -65,7 +65,11 @@ const message = {
       problem: "问题",
       contest: "比赛",
       blog: "博客"
-    }
+    },
+    profile: "个人信息",
+    submit: "解题记录",
+    contest: "比赛作业",
+    random: "随机一题"
   },
 
   home: {

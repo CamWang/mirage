@@ -31,7 +31,7 @@
       </v-list>
     </v-menu>
 
-    <v-menu bottom min-width="220px" rounded offset-y open-on-hover>
+    <v-menu bottom min-width="260px" rounded offset-y open-on-hover>
       <template v-slot:activator="{ on }">
         <v-btn icon x-large v-on="on" class="mx-lg-6 mx-md-4 mx-2">
           <v-avatar size="46">
@@ -48,7 +48,7 @@
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>{{ user.nickname }}</v-list-item-title>
-              <v-list-item-subtitle>{{ user.username }}</v-list-item-subtitle>
+              <v-list-item-subtitle class="mt-1">{{ $t("auth." + user.role) }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-tooltip bottom>
@@ -62,6 +62,35 @@
             </v-list-item-action>
           </v-list-item>
         </v-list>
+        <v-divider></v-divider>
+        <v-list dense>
+        <v-list-item-group color="primary">
+          <v-list-item @click="goLogin">
+            <v-list-item-icon>
+              <v-icon> {{ mdiProfile }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>{{ $t("head.profile") }}</v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="goLogin">
+            <v-list-item-icon>
+              <v-icon> {{ mdiBalloon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>{{ $t("head.submit") }}</v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="goLogin">
+            <v-list-item-icon>
+              <v-icon> {{ mdiTrophy }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>{{ $t("head.contest") }}</v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="goLogin">
+            <v-list-item-icon>
+              <v-icon> {{ mdiDice }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>{{ $t("head.random") }}</v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
       </v-card>
 
       <v-list v-else dense>
@@ -93,6 +122,10 @@ import {
   mdiLoginVariant,
   mdiLogoutVariant,
   mdiAccountPlusOutline,
+  mdiCardAccountDetailsOutline,
+  mdiTrophyOutline,
+  mdiBalloon,
+  mdiDice3Outline,
 } from "@mdi/js";
 import { mapGetters } from "vuex";
 export default {
@@ -101,10 +134,14 @@ export default {
   data() {
     return {
       mdiWeb,
+      mdiBalloon,
       mdiDarkMode: mdiBrightness6,
       mdiLogin: mdiLoginVariant,
       mdiLogout: mdiLogoutVariant,
       mdiRegister: mdiAccountPlusOutline,
+      mdiProfile: mdiCardAccountDetailsOutline,
+      mdiTrophy: mdiTrophyOutline,
+      mdiDice: mdiDice3Outline,
 
       locales: [],
     };

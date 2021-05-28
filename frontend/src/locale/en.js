@@ -23,8 +23,10 @@ const message = {
       teacher: "You must have a minimum role of Teacher",
       admin: "You must have a minimum role of Admin",
     },
+    auth: "Authorization",
     teacher: "Teacher",
     admin: "Admin",
+    user: "User",
   },
 
   refresh: {
@@ -64,7 +66,11 @@ const message = {
       problem: "Problem",
       contest: "Contest",
       blog: "Blog"
-    }
+    },
+    profile: "Profile",
+    submit: "Submissions",
+    contest: "Contests",
+    random: "I Feel Lucky"
   },
 
   home: {
