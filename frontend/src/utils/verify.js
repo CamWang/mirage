@@ -59,9 +59,15 @@ for (const rule of rules) {
   let ruleList = [];
   let name = rule.key;
   if (rule.required) {
-    ruleList.push(
-      (v) => !!v || `${i18n.t(`form.${name}`)} ${i18n.t("verify.required")}`
-    );
+    if (rule.key === "term") {
+      ruleList.push(
+        (v) => !!v || `${i18n.t(`form.${name}`)}`
+      );
+    } else {
+      ruleList.push(
+        (v) => !!v || `${i18n.t(`form.${name}`)} ${i18n.t("verify.required")}`
+      );
+    }
   }
   if (rule.min) {
     if (rule.type === "string") {
