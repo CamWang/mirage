@@ -13,6 +13,13 @@ import Foot from '@/components/Foot';
 
 Vue.use(Router);
 
+// catch redundant route error
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((error) => {
+  });
+};
+
 const router = new Router({
   mode: 'history',
   routes: [

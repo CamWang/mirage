@@ -53,6 +53,7 @@ const message = {
     },
     logout: {
       logouted: "已经登出了",
+      success: "成功登出",
     }
   },
 
@@ -121,6 +122,10 @@ const message = {
     title: "注册",
     subtitle: "喜欢您来。",
     button: "注册",
+  },
+
+  logout: {
+    button: "登出",
   },
 
   form: {

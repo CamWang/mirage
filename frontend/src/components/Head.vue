@@ -30,41 +30,81 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-menu bottom min-width="200px" rounded offset-y open-on-hover>
+
+    <v-menu bottom min-width="220px" rounded offset-y open-on-hover>
       <template v-slot:activator="{ on }">
         <v-btn icon x-large v-on="on" class="mx-lg-6 mx-md-4 mx-2">
-          <v-avatar color="secondary" size="48">
-            <img
-                :src="getAvatarSrc()"
-              >
+          <v-avatar size="46">
+            <img :src="getAvatarSrc()" />
           </v-avatar>
         </v-btn>
       </template>
-      <v-card>
+
+      <v-card v-if="user">
         <v-list>
           <v-list-item>
-            <v-list-item-avatar>
-              <img
-                :src="getAvatarSrc()"
-              >
+            <v-list-item-avatar size="48">
+              <img :src="getAvatarSrc()" />
             </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{ user.nickname }}</v-list-item-title>
+              <v-list-item-subtitle>{{ user.username }}</v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn @click="logout" v-on="on" v-bind="attrs" icon>
+                    <v-icon>{{ mdiLogout }}</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t("logout.button") }}</span>
+              </v-tooltip>
+            </v-list-item-action>
           </v-list-item>
         </v-list>
       </v-card>
+
+      <v-list v-else dense>
+        <v-list-item-group color="primary">
+          <v-list-item @click="goLogin">
+            <v-list-item-icon>
+              <v-icon> {{ mdiLogin }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>{{ $t("login.button") }}</v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="goRegister">
+            <v-list-item-icon>
+              <v-icon>{{ mdiRegister }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>{{
+              $t("register.button")
+            }}</v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
     </v-menu>
   </v-app-bar>
 </template>
 
 <script>
-import { mdiBrightness6, mdiWeb } from "@mdi/js";
+import {
+  mdiBrightness6,
+  mdiWeb,
+  mdiLoginVariant,
+  mdiLogoutVariant,
+  mdiAccountPlusOutline,
+} from "@mdi/js";
 import { mapGetters } from "vuex";
 export default {
   name: "tophead",
 
   data() {
     return {
+      mdiWeb,
       mdiDarkMode: mdiBrightness6,
-      mdiWeb: mdiWeb,
+      mdiLogin: mdiLoginVariant,
+      mdiLogout: mdiLogoutVariant,
+      mdiRegister: mdiAccountPlusOutline,
 
       locales: [],
     };
@@ -72,13 +112,12 @@ export default {
 
   computed: {
     ...mapGetters("user", {
-      user: 'getUser'
-    })
+      user: "getUser",
+    }),
   },
 
   mounted() {
     this.locales = this.$i18n.availableLocales;
-    console.log(this.user);
   },
 
   methods: {
@@ -112,9 +151,36 @@ export default {
       if (this.user && this.user.avatar) {
         return this.user.avatar;
       } else {
-        return "static/avatar.svg"
+        return "static/default.svg";
       }
-    }
+    },
+
+    logout() {
+      this.$store.dispatch("user/logout", {
+        success: () => {
+          this.$notify({
+            title: this.$t('notify.logout.success'),
+            type: 'success'
+          });
+          this.goLogin();
+        },
+        logouted: () => {
+          this.$notify({
+            title: this.$t('notify.logout.logouted'),
+            type: 'warning'
+          });
+          this.goLogin();
+        }
+      });
+    },
+
+    goLogin() {
+      (this.$route.path !== "/login") && this.$router.push("/login");
+    },
+
+    goRegister() {
+      (this.$route.path !== "/register") && this.$router.push("/register");
+    },
   },
 };
 </script>

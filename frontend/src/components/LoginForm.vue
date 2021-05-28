@@ -112,10 +112,10 @@ export default {
       }
     },
     goRegister() {
-      this.$router.push("/register");
+      (this.$route.path !== "/register") && this.$router.push("/register");
     },
     goHome() {
-      this.$router.push("/");
+      (this.$route.path !== "/home") && this.$router.push("/");
     }
   }
 };

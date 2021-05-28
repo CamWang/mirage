@@ -22,7 +22,7 @@ const actions = {
    */
   login(context, params) {
     if (context.state.user) {
-      params.logined();
+      params.logined && params.logined();
       return;
     }
     if (process.env.NODE_ENV === "development") {
@@ -30,7 +30,7 @@ const actions = {
     }
     window.sessionStorage.setItem('user', params.data);
     context.commit('setUser', params.data);
-    params.success();
+    params.success && params.success();
   },
 
   /**
@@ -41,12 +41,12 @@ const actions = {
    */
   logout(context, params) {
     if (!context.state.user) {
-      params.logouted();
+      params.logouted && params.logouted();
       return;
     }
-    window.sessionStorage.removeItem('user', user);
+    window.sessionStorage.removeItem('user');
     context.commit('removeUser');
-    params.success();
+    params.success && params.success();
   }
 }
 

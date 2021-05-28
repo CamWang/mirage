@@ -52,6 +52,7 @@ const message = {
     },
     logout: {
       logouted: "Already logout",
+      success: "Logout successfully",
     }
   },
 
@@ -120,6 +121,10 @@ const message = {
     title: "Register",
     subtitle: "Hello and welcome.",
     button: "Register",
+  },
+
+  logout: {
+    button: "Logout"
   },
 
   form: {

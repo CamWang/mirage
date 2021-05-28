@@ -103,7 +103,7 @@ export default {
       }
     },
     goLogin() {
-      this.$router.push("/login");
+      (this.$route.path !== "/login") && this.$router.push("/login");
     },
   },
 };
