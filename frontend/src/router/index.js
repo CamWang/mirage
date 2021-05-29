@@ -35,8 +35,10 @@ const router = new Router({
         default: () => import("../views/Home"),
         foot: Foot
       },
-      meta: {
-        requiresAuth: false
+      meta: {             // meta for route filter
+        auth: false,      // need login to access
+        teacher: false,   // need teacher to access
+        admin: false,     // need admin to access
       }
     }
   ]
@@ -44,6 +46,7 @@ const router = new Router({
 
 /**
  * login guard
+ * @description use meta in route defination to do an auth filter
  */
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.auth)) {
