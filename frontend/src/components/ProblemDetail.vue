@@ -1,17 +1,27 @@
 <template>
   <v-col class="col-12 pa-0 d-flex">
     <div class="left">Left</div>
-    <div class="resizer" id="resizer"></div>
-    <div class="right">Right</div>
+    <div class="resizer no-select" id="resizer">|</div>
+    <div class="right">
+      <Ace />
+    </div>
   </v-col>
 </template>
 
 <script>
+import Ace from "@/plugins/ace/Ace";
 export default {
   name: "ProblemDetail",
+
+  components: {
+    Ace
+  },
   
   data() {
     return {
+      content: "",
+      lang: "",
+
       resizer: {},
       left: {},
       right: {},
@@ -39,6 +49,12 @@ export default {
       this.resizer.style.removeProperty('cursor');
       document.body.style.removeProperty('cursor');
 
+      this.left.style.userSelect = 'none';
+      this.left.style.pointerEvents = 'none';
+
+      this.right.style.userSelect = 'none';
+      this.right.style.pointerEvents = 'none';
+
       document.removeEventListener('mousemove', mouseMoveHandler);
       document.removeEventListener('mouseup', mouseUpHandler);
     }
@@ -46,6 +62,13 @@ export default {
     const mouseDownHandler = (e) => {
       this.x = e.clientX;
       this.leftWidth = this.left.getBoundingClientRect().width;
+
+      this.left.style.removeProperty('user-select');
+      this.left.style.removeProperty('pointer-events');
+
+      this.right.style.removeProperty('user-select');
+      this.right.style.removeProperty('pointer-events');
+
       document.addEventListener('mousemove', mouseMoveHandler);
       document.addEventListener('mouseup', mouseUpHandler);
     }
@@ -73,16 +96,30 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: calc(100vh - 64px);
+}
+
+@media (max-width: 960px) {
+  .left {
+    height: calc(100vh - 56px);
+  }
 }
 
 .resizer {
-  background-color: #cbd5e0;
+  color: #333;
+  background-color: #c1d5e0;
+  font-weight: 200;
   cursor: ew-resize;
-  width: 2px;
+  width: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
 }
 
 .right {
   min-width: 25%;
+  position: relative;
   flex: 1 1 0%;
   display: flex;
   align-items: center;
