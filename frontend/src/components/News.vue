@@ -45,20 +45,18 @@
     <div class="text-center">
       <v-dialog
         v-model="dialog"
-        fullscreen
-        hide-overlay
-        transition="dialog-bottom-transition"
+        max-width="800"
+        class="no-scrollbar"
       >
         <v-card>
-          <v-toolbar dark color="primary">
+          <v-toolbar dark color="primary" dense>
             <v-btn icon dark @click="dialog = false">
               <v-icon>{{ mdiClose }}</v-icon>
             </v-btn>
             <v-toolbar-title>{{ $t("home.news") }}</v-toolbar-title>
           </v-toolbar>
-          <v-row class="mr-0">
-            <v-col class="col-lg-7 col-md-9 col-12 p-0">
-              <v-card-text class="pt-5">
+          <v-row class="ma-0">
+              <v-card-text class="pt-6 pb-10">
                 <h5 class="text-lg-h4 text-h5 my-3 text--primary">
                   {{ newsList[selected ? selected : 0].title }}
                 </h5>
@@ -76,7 +74,6 @@
                   ref="highlight"
                 >{{ newsList[selected ? selected : 0].content }}</Marked>
               </v-card-text>
-            </v-col>
           </v-row>
         </v-card>
       </v-dialog>
@@ -179,7 +176,4 @@ export default {
 </script>
 
 <style scoped>
-br {
-  line-height: 150%;
-}
 </style>

@@ -82,6 +82,10 @@ module.exports = {
         ]
       },
       {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
         test: /\.css$/i,
         use: [
           MiniCssExtractPlugin.loader,
@@ -92,10 +96,6 @@ module.exports = {
             }
           }
         ],
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
