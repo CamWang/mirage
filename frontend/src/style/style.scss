@@ -3,6 +3,10 @@ html {
   overflow-y: auto !important;
 }
 
+.hljs {
+  margin-bottom: 10px;
+}
+
 code {
   background: #282a36!important;
   color: #f8f8f2!important;
@@ -16,12 +20,14 @@ code {
 .text-news {
   font-size: 1rem !important;
   font-weight: 400;
-  line-height: 1.5rem;
+  line-height: 1.6rem;
   font-family: Georgia, fangsong, serif;
 }
 
-.text-news p {
-  margin: 10px 0;
+.text-news {
+  p {
+    margin: 5px 0;
+  }
 }
 
 .no-scrollbar::-webkit-scrollbar {

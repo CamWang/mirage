@@ -70,7 +70,7 @@
                   }}
                 </p>
                 <Marked
-                  class="text--primary text-news"
+                  class="text--primary text-news line-break"
                   ref="highlight"
                 >{{ newsList[selected ? selected : 0].content }}</Marked>
               </v-card-text>
