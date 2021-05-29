@@ -71,13 +71,10 @@
                     )
                   }}
                 </p>
-                <!-- <vue-markdown
+                <Marked
                   class="text--primary text-news"
-                  :source="newsList[selected ? selected : 0].content"
                   ref="highlight"
-                >
-                </vue-markdown> -->
-                
+                >{{ newsList[selected ? selected : 0].content }}</Marked>
               </v-card-text>
             </v-col>
           </v-row>
@@ -96,10 +93,11 @@ import {
   mdiNewspaperVariantMultipleOutline,
 } from "@mdi/js";
 import { debounce } from "lodash-es";
+import Marked from "@/plugins/marked/Marked";
 
 export default {
   components: {
-    VueMarkdown,
+    Marked
   },
   data() {
     return {
@@ -180,4 +178,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+br {
+  line-height: 150%;
+}
+</style>

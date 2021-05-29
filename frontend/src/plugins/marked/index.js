@@ -1,5 +1,3 @@
-import VueMarkdownComponent from './VueMarkdown'
+import Marked from "./index"
 
-export function install(Vue) {
-  Vue.component('vue-markdown', VueMarkdownComponent)
-}
+export default Marked;
