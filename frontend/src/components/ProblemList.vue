@@ -22,7 +22,11 @@
 
       <v-data-table :headers="headers" :items="problemList" ref="problemList">
         <!-- eslint-disable-next-line -->
-        <template v-slot:item.success="{ item }">
+        <template v-slot:item.title="{ item }">
+          <a style="color: inherit" @click="goDetail(item)">{{ item.title }}</a>
+        </template>
+        <!-- eslint-disable-next-line -->
+        <template v-slot:item.success="{ item }" @click="{ goDetail(item) }">
           {{ getPassrate(item) }}
         </template>
         <!-- eslint-disable-next-line -->
@@ -161,8 +165,8 @@ export default {
         return "0%";
       }
     },
-    goDetail(id) {
-      console.log(id);
+    goDetail(item) {
+      this.$router.push(`/problem/detail/${item.id}`);
     },
   },
 };
