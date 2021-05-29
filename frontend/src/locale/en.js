@@ -90,6 +90,11 @@ const message = {
     timelimit: "Time Limit",
     memorylimit: "Memory Limit",
     spj: "Special Judge",
+    detail: {
+      lang: "Language",
+      submit: "Submit",
+      editor: "Editor",
+    }
   },
 
   blog: {

@@ -24,7 +24,7 @@ export default {
 <style>
 @import './style/style.scss';
 </style>
-<style scoped>
+<style>
 .router {
   position:absolute;
 }

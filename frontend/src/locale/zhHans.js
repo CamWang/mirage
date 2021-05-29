@@ -89,6 +89,11 @@ const message = {
     timelimit: "时间限制",
     memorylimit: "内存限制",
     spj: "特判",
+    detail: {
+      lang: "编程语言",
+      editor: "编辑器",
+      submit: "提交题解",
+    }
   },
 
   blog: {

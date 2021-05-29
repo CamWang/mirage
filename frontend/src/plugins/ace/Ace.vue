@@ -1,5 +1,5 @@
 <template>
-  <div id="editor"></div>
+  <div class="editor" ref="ace"></div>
 </template>
 
 <script>
@@ -7,6 +7,8 @@ import "./js/src-noconflict/ace";
 import "./js/src-noconflict/ext-beautify";
 import "./js/src-noconflict/ext-language_tools";
 import "./js/src-noconflict/mode-c_cpp";
+import "./js/src-noconflict/mode-java";
+import "./js/src-noconflict/mode-javascript";
 import "./js/src-noconflict/theme-monokai";
 
 export default {
@@ -14,22 +16,58 @@ export default {
     return {
       editor: {},
       code: "",
+      lang: "c_cpp",
+      tabSize: 2,
+      fontSize: 16,
     };
   },
 
   mounted() {
-    const editor = ace.edit("editor");
+    const editor = ace.edit(this.$refs.ace, {
+      fontSize: this.fontSize,
+      tabSize: this.tabSize
+    });
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/c_cpp");
+    this.editor = editor;
+  },
+
+  methods: {
+    changeLanguage(lang) {
+      if (lang !== this.lang) {
+        switch(lang) {
+          case 'C': 
+          case 'C++': {
+            this.editor.session.setMode("ace/mode/c_cpp");
+            this.lang = 'c_cpp';
+            break;
+          }
+          case 'Java': {
+            this.editor.session.setMode("ace/mode/java");
+            this.lang = 'java';
+            break;
+          }
+          case 'JavaScript': {
+            this.editor.session.setMode("ace/mode/javascript");
+            this.lang = 'javascript';
+            break;
+          }
+        }
+        this.$notify({
+          title: this.$t("notify.lang.change"),
+          type: "success",
+        })
+      }
+    },
   }
 };
 </script>
 
 <style scoped>
-  #editor { 
+  .editor { 
     position: absolute;
-    height: 100%;
+    top: 48px;
+    height: calc(100% - 48px);
     width: 100%;
-    font-size: 16px;
   }
 </style>

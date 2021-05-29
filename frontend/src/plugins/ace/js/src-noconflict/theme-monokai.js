@@ -3,7 +3,7 @@ ace.define("ace/theme/monokai",["require","exports","module","ace/lib/dom"], fun
 exports.isDark = true;
 exports.cssClass = "ace-monokai";
 exports.cssText = ".ace-monokai .ace_gutter {\
-background: #212121;\
+background: #1a1a1a;\
 color: #8F908A\
 }\
 .ace-monokai .ace_print-margin {\
@@ -11,17 +11,17 @@ width: 1px;\
 background: #555651\
 }\
 .ace-monokai {\
-background-color: ##1a1a1a;\
+background-color: #212121;\
 color: #F8F8F2\
 }\
 .ace-monokai .ace_cursor {\
 color: #F8F8F0\
 }\
 .ace-monokai .ace_marker-layer .ace_selection {\
-background: #61747e\
+background: #49483E\
 }\
 .ace-monokai.ace_multiselect .ace_selection.ace_start {\
-box-shadow: 0 0 3px 0px ##1a1a1a;\
+box-shadow: 0 0 3px 0px #212121;\
 }\
 .ace-monokai .ace_marker-layer .ace_step {\
 background: rgb(102, 82, 0)\
