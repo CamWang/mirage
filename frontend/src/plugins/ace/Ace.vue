@@ -10,6 +10,7 @@ import "./js/src-noconflict/mode-c_cpp";
 import "./js/src-noconflict/mode-java";
 import "./js/src-noconflict/mode-javascript";
 import "./js/src-noconflict/theme-monokai";
+import "./js/src-noconflict/theme-xcode";
 
 export default {
   data() {
@@ -19,6 +20,7 @@ export default {
       lang: "c_cpp",
       tabSize: 2,
       fontSize: 16,
+      dark: true,
     };
   },
 
@@ -59,6 +61,18 @@ export default {
         })
       }
     },
+  },
+
+  watch: {
+    '$vuetify.theme.dark': function() {
+      if (this.$vuetify.theme.dark && !this.dark) {
+        this.editor.setTheme("ace/theme/monokai");
+        this.dark = true;
+      } else if(this.dark){
+        this.editor.setTheme("ace/theme/xcode");
+        this.dark = false;
+      }
+    }
   }
 };
 </script>

@@ -155,7 +155,7 @@ export default {
 
 .resizer {
   color: #333;
-  background-color: #c1d5e0;
+  background-color: #8eacbb;
   font-weight: 200;
   cursor: ew-resize;
   width: 5px;
