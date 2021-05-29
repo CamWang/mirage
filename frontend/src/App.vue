@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style>
-@import './style/style.css';
+@import './style/style.scss';
 </style>
 <style scoped>
 .router {
