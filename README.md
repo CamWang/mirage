@@ -1,4 +1,4 @@
-<img src="./docs/logo.svg" width="200">
+<img src="./docs/logo.png" width="200">
 
 # Mirage
 A online judge system built on nodejs and vuejs.
