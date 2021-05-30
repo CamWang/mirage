@@ -124,7 +124,7 @@ export default {
 
   methods: {
     changeLang(lang) {
-      this.$refs.ace.editor.changeLanguage(lang);
+      this.$refs.ace.changeLanguage(lang);
       this.lang = lang;
     },
 
