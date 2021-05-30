@@ -22,6 +22,7 @@
                 :color="item.type?item.type:'primary'"
                 border="left"
                 :type="item.type?item.type:'info'"
+                elevation="3"
                 dark
               >
                 <div class="text-body-1">{{ item.title }}</div>

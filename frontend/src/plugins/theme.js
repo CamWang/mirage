@@ -25,6 +25,7 @@ export default {
       success:colors.green.accent4,
       warning: colors.orange.base,
       ambient: colors.grey.lighten4,
+      resizer: colors.blueGrey.lighten2,
     },
     dark: {
       primary: colors.indigo.accent2,
@@ -38,6 +39,7 @@ export default {
       orange: colors.orange.darken3,
       red: colors.red.darken2,
       cyan: colors.cyan.darken3,
+      resizer: colors.blueGrey.lighten1,
     }
   }
 }

@@ -55,14 +55,14 @@
           </v-list>
         </v-menu>
       </v-toolbar>
-      <Ace ref="editor" v-if="aced" />
+        <Ace ref="ace" v-if="aced" />
     </div>
 
     <v-tooltip top>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           class="float-submit"
-          color="success"
+          color="primary"
           v-on="on"
           v-bind="attrs"
           fab
@@ -112,6 +112,7 @@ export default {
 
   mounted() {
     this.initResizer();
+    this.loadLocalCode();
     this.initListener();
   },
 
@@ -123,7 +124,7 @@ export default {
 
   methods: {
     changeLang(lang) {
-      this.$refs.editor.changeLanguage(lang);
+      this.$refs.ace.editor.changeLanguage(lang);
       this.lang = lang;
     },
 
@@ -132,12 +133,23 @@ export default {
       this.$nextTick().then(() => {
         this.aced = true;
       });
+      this.clearLocalCode();
       return true;
     },
 
+    loadLocalCode() {
+      this.code = window.sessionStorage.getItem("code" + this.id) || "";
+      this.$refs.ace.editor.setValue(this.code);
+    },
+
+    clearLocalCode() {
+      window.sessionStorage.removeItem("code" + this.id);
+    },
+
     initListener() {
-      this.$refs.editor.$on("ace-input", (payload) => {
+      this.$refs.ace.$on("ace-input", (payload) => {
         this.code = payload.code;
+        window.sessionStorage.setItem("code" + this.id, payload.code);
       });
     },
 
@@ -166,6 +178,8 @@ export default {
 
         this.right.style.removeProperty("user-select");
         this.right.style.removeProperty("pointer-events");
+
+        this.$refs.ace.editor.resize();
 
         document.removeEventListener("mousemove", mouseMoveHandler);
         document.removeEventListener("mouseup", mouseUpHandler);
@@ -209,7 +223,6 @@ export default {
 
 .resizer {
   color: #333;
-  background-color: #8eacbb;
   font-weight: 200;
   cursor: ew-resize;
   width: 5px;

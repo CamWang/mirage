@@ -29,14 +29,20 @@ export default {
       fontSize: this.fontSize,
       tabSize: this.tabSize
     });
-    editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/c_cpp");
-    editor.session.on('change', (delta) => {
+    this.editor = editor;
+    if (this.$vuetify.theme.dark) {
+      this.editor.setTheme("ace/theme/monokai");
+      this.dark = true;
+    } else {
+      this.editor.setTheme("ace/theme/xcode");
+      this.dark = false;
+    }
+    this.editor.session.setMode("ace/mode/c_cpp");
+    this.editor.session.on('change', (delta) => {
       this.$emit("ace-input", {
         code: this.editor.getValue()
       });
     });
-    this.editor = editor;
   },
 
   methods: {

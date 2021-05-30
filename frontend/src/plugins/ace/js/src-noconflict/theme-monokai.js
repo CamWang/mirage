@@ -3,12 +3,12 @@ ace.define("ace/theme/monokai",["require","exports","module","ace/lib/dom"], fun
 exports.isDark = true;
 exports.cssClass = "ace-monokai";
 exports.cssText = ".ace-monokai .ace_gutter {\
-background: #1a1a1a;\
+background: #171717;\
 color: #8F908A\
 }\
 .ace-monokai .ace_print-margin {\
 width: 1px;\
-background: #555651\
+background: #555\
 }\
 .ace-monokai {\
 background-color: #212121;\
@@ -18,7 +18,7 @@ color: #F8F8F2\
 color: #F8F8F0\
 }\
 .ace-monokai .ace_marker-layer .ace_selection {\
-background: #49483E\
+background: #353535\
 }\
 .ace-monokai.ace_multiselect .ace_selection.ace_start {\
 box-shadow: 0 0 3px 0px #212121;\
@@ -31,13 +31,14 @@ margin: -1px 0 0 -1px;\
 border: 1px solid #49483E\
 }\
 .ace-monokai .ace_marker-layer .ace_active-line {\
-background: #202020\
+background: #171717\
 }\
 .ace-monokai .ace_gutter-active-line {\
-background-color: #272727\
+background-color: #171717;\
+color: #ddd\
 }\
 .ace-monokai .ace_marker-layer .ace_selected-word {\
-border: 1px solid #49483E\
+border: 1px solid #494848\
 }\
 .ace-monokai .ace_invisible {\
 color: #52524d\
