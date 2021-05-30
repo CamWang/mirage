@@ -32,6 +32,11 @@ const message = {
     success: "刷新成功"
   },
 
+  dialog: {
+    yes: "确定",
+    cancel: "取消",
+  },
+
   notify: {
     theme: {
       dark: "暗黑模式已开启",
@@ -93,6 +98,10 @@ const message = {
       lang: "编程语言",
       editor: "编辑器",
       submit: "提交题解",
+    },
+    reload: {
+      title: "重载代码编辑器？",
+      message: "您确定要重载代码编辑器么？所有代码将重置。请做好备份准备后确定。"
     }
   },
 

@@ -4,21 +4,43 @@
     <div class="resizer no-select" id="resizer">|</div>
     <div class="right">
       <v-toolbar class="editor-tool" absolute dense flat>
-        <v-btn icon class="hidden-xs-only" @click="reloadEditor">
-          <v-icon>{{ mdiConsole }}</v-icon>
-        </v-btn>
+        <v-dialog v-model="refreshConsole" persistent max-width="340">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              class="hidden-xs-only"
+              @click="refreshConsole = true"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>{{ mdiConsole }}</v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title class="headline">
+              {{ $t("problem.reload.title") }}
+            </v-card-title>
+            <v-card-text>{{ $t("problem.reload.message") }}</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red darken-1" text @click="refreshConsole = false">
+                {{ $t("dialog.cancel") }}
+              </v-btn>
+              <v-btn
+                color="green darken-1"
+                text
+                @click="reloadEditor() && (refreshConsole = false)"
+              >
+                {{ $t("dialog.yes") }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         <v-toolbar-title>{{ $t("problem.detail.editor") }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="secondary"
-              dark
-              v-bind="attrs"
-              class="mr-8"
-              v-on="on"
-              small
-            >
+            <v-btn v-bind="attrs" v-on="on" class="mr-4">
               {{ lang }}
             </v-btn>
           </template>
@@ -32,18 +54,34 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-btn color="success" dark class="mr-2" small>
-          {{ $t("problem.detail.submit") }}
-        </v-btn>
       </v-toolbar>
       <Ace ref="editor" v-if="aced" />
     </div>
+
+    <v-tooltip top>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          class="float-submit"
+          color="success"
+          v-on="on"
+          v-bind="attrs"
+          fab
+          large
+          dark
+          :loading="isSubmit"
+          :disabled="isSubmit"
+        >
+          <v-icon>{{ mdiUpload }}</v-icon>
+        </v-btn>
+      </template>
+      <span>{{ $t("problem.detail.submit") }}</span>
+    </v-tooltip>
   </v-col>
 </template>
 
 <script>
 import Ace from "@/plugins/ace/Ace";
-import { mdiConsole } from "@mdi/js";
+import { mdiConsole, mdiUpload } from "@mdi/js";
 export default {
   name: "ProblemDetail",
 
@@ -54,7 +92,8 @@ export default {
   data() {
     return {
       mdiConsole,
-      content: "",
+      mdiUpload,
+      code: "",
       lang: "C++",
       langList: ["C", "C++", "Java", "JavaScript"],
 
@@ -65,54 +104,15 @@ export default {
       y: 0,
       leftWidth: 0,
       aced: true,
+
+      refreshConsole: false,
+      isSubmit: false,
     };
   },
 
   mounted() {
-    this.resizer = document.getElementById("resizer");
-    this.left = this.resizer.previousElementSibling;
-    this.right = this.resizer.nextElementSibling;
-
-    const mouseMoveHandler = (e) => {
-      const dx = e.clientX - this.x;
-
-      const newLeftWidth =
-        ((this.leftWidth + dx) * 100) /
-        this.resizer.parentNode.getBoundingClientRect().width;
-      this.left.style.width = `${newLeftWidth}%`;
-
-      document.body.style.cursor = "col-resize";
-    };
-
-    const mouseUpHandler = () => {
-      this.resizer.style.removeProperty("cursor");
-      document.body.style.removeProperty("cursor");
-
-      this.left.style.removeProperty("user-select");
-      this.left.style.removeProperty("pointer-events");
-
-      this.right.style.removeProperty("user-select");
-      this.right.style.removeProperty("pointer-events");
-
-      document.removeEventListener("mousemove", mouseMoveHandler);
-      document.removeEventListener("mouseup", mouseUpHandler);
-    };
-
-    const mouseDownHandler = (e) => {
-      this.x = e.clientX;
-      this.leftWidth = this.left.getBoundingClientRect().width;
-
-      this.left.style.userSelect = "none";
-      this.left.style.pointerEvents = "none";
-
-      this.right.style.userSelect = "none";
-      this.right.style.pointerEvents = "none";
-
-      document.addEventListener("mousemove", mouseMoveHandler);
-      document.addEventListener("mouseup", mouseUpHandler);
-    };
-
-    this.resizer.addEventListener("mousedown", mouseDownHandler);
+    this.initResizer();
+    this.initListener();
   },
 
   computed: {
@@ -132,6 +132,60 @@ export default {
       this.$nextTick().then(() => {
         this.aced = true;
       });
+      return true;
+    },
+
+    initListener() {
+      this.$refs.editor.$on("ace-input", (payload) => {
+        this.code = payload.code;
+      });
+    },
+
+    initResizer() {
+      this.resizer = document.getElementById("resizer");
+      this.left = this.resizer.previousElementSibling;
+      this.right = this.resizer.nextElementSibling;
+
+      const mouseMoveHandler = (e) => {
+        const dx = e.clientX - this.x;
+
+        const newLeftWidth =
+          ((this.leftWidth + dx) * 100) /
+          this.resizer.parentNode.getBoundingClientRect().width;
+        this.left.style.width = `${newLeftWidth}%`;
+
+        document.body.style.cursor = "col-resize";
+      };
+
+      const mouseUpHandler = () => {
+        this.resizer.style.removeProperty("cursor");
+        document.body.style.removeProperty("cursor");
+
+        this.left.style.removeProperty("user-select");
+        this.left.style.removeProperty("pointer-events");
+
+        this.right.style.removeProperty("user-select");
+        this.right.style.removeProperty("pointer-events");
+
+        document.removeEventListener("mousemove", mouseMoveHandler);
+        document.removeEventListener("mouseup", mouseUpHandler);
+      };
+
+      const mouseDownHandler = (e) => {
+        this.x = e.clientX;
+        this.leftWidth = this.left.getBoundingClientRect().width;
+
+        this.left.style.userSelect = "none";
+        this.left.style.pointerEvents = "none";
+
+        this.right.style.userSelect = "none";
+        this.right.style.pointerEvents = "none";
+
+        document.addEventListener("mousemove", mouseMoveHandler);
+        document.addEventListener("mouseup", mouseUpHandler);
+      };
+
+      this.resizer.addEventListener("mousedown", mouseDownHandler);
     },
   },
 };
@@ -180,5 +234,11 @@ export default {
 
 .problem-detail {
   position: absolute;
+}
+
+.float-submit {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
 }
 </style>

@@ -33,6 +33,11 @@ const message = {
     success: "Refreshed"
   },
 
+  dialog: {
+    yes: "Yes",
+    cancel: "Cancel",
+  },
+
   notify: {
     theme: {
       dark: "Dark♂ Mode On",
@@ -94,6 +99,10 @@ const message = {
       lang: "Language",
       submit: "Submit",
       editor: "Editor",
+    },
+    reload: {
+      title: "Reload the code editor?",
+      message: "Are you sure to reload code editor? This will clear all codes. Please copy them before click \"yes\"."
     }
   },
 

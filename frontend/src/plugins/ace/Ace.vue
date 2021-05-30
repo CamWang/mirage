@@ -31,6 +31,11 @@ export default {
     });
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/c_cpp");
+    editor.session.on('change', (delta) => {
+      this.$emit("ace-input", {
+        code: this.editor.getValue()
+      });
+    });
     this.editor = editor;
   },
 
