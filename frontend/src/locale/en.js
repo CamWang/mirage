@@ -99,8 +99,6 @@ const message = {
       lang: "Language",
       submit: "Submit",
       editor: "Editor",
-      memory: "Memory Limit",
-      time: "Time Limit",
     },
     reload: {
       title: "Reload the code editor?",
