@@ -26,6 +26,7 @@ export default {
       warning: colors.orange.base,
       ambient: colors.grey.lighten4,
       resizer: colors.blueGrey.lighten2,
+      avatar: colors.shades.black,
     },
     dark: {
       primary: colors.indigo.accent2,
@@ -35,11 +36,12 @@ export default {
       info: colors.teal.base,
       success:colors.green.darken2,
       warning: colors.orange.darken3,
-      ambient: colors.shades.black,
+      ambient: "#191919",
       orange: colors.orange.darken3,
       red: colors.red.darken2,
       cyan: colors.cyan.darken3,
       resizer: colors.blueGrey.lighten1,
+      avatar: colors.shades.white,
     }
   }
 }

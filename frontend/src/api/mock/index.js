@@ -31,8 +31,7 @@ mock.onGet("/contest").reply(200, {
 });
 
 mock.onGet("/problem/detail").reply(function(config) {
-  const params = JSON.parse(config.data);
-  const { id } = params.params;
+  const id = Number.parseInt(config.params.id);
   return [200, {
     problem: detail.filter(elem => {
       return elem.id === id; 

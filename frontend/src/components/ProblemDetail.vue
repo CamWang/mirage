@@ -1,6 +1,64 @@
 <template>
   <v-col class="problem-detail col-12 pa-0 d-flex">
-    <div class="left">Left</div>
+    <div class="left d-flex flex-column">
+      <v-toolbar class="editor-tool" dense flat>
+        <v-btn icon>
+          <v-icon>{{ mdiProblem }}</v-icon>
+        </v-btn>
+        <v-toolbar-title class="pl-0"
+          >{{ `#${problem.id ? problem.id : ""}` }}&nbsp;
+          {{problem.title ? problem.title : ""}}&nbsp;
+          <span class="text-subtitle-1">
+            by&nbsp;{{ problem.author }}
+            </span>
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip
+              class="mx-1"
+              color="blue"
+              label
+              text-color="white"
+              small
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon left>
+                {{ mdiAlarm }}
+              </v-icon>
+              {{ problem.timelimit }} ms
+            </v-chip>
+          </template>
+          <span>{{ $t("problem.timelimit") }}</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip
+              class="mx-1"
+              color="pink"
+              label
+              text-color="white"
+              small
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon left>
+                {{ mdiChip }}
+              </v-icon>
+              {{ problem.memorylimit }} MB
+            </v-chip>
+          </template>
+          <span>{{ $t("problem.memorylimit") }}</span>
+        </v-tooltip>
+      </v-toolbar>
+      <Marked
+        class="text--primary markdown-display line-break px-5 pt-2"
+        ref="highlight"
+      >
+        {{ problem.content }}
+      </Marked>
+    </div>
     <div class="resizer no-select" id="resizer">|</div>
     <div class="right">
       <v-toolbar class="editor-tool" absolute dense flat>
@@ -55,7 +113,7 @@
           </v-list>
         </v-menu>
       </v-toolbar>
-        <Ace ref="ace" v-if="aced" />
+      <Ace ref="ace" v-if="aced" />
     </div>
 
     <v-tooltip top>
@@ -81,21 +139,38 @@
 
 <script>
 import Ace from "@/plugins/ace/Ace";
-import { mdiConsole, mdiUpload } from "@mdi/js";
+import {
+  mdiConsole,
+  mdiUpload,
+  mdiScriptTextOutline,
+  mdiAlarm,
+  mdiChip,
+} from "@mdi/js";
+import Marked from "@/plugins/marked/Marked";
+
 export default {
   name: "ProblemDetail",
 
   components: {
     Ace,
+    Marked,
   },
 
   data() {
     return {
+      mdiChip,
+      mdiAlarm,
       mdiConsole,
       mdiUpload,
+      mdiProblem: mdiScriptTextOutline,
+
+      problem: {},
+
       code: "",
       lang: "C++",
       langList: ["C", "C++", "Java", "JavaScript"],
+
+      isLoading: false,
 
       resizer: {},
       left: {},
@@ -111,6 +186,7 @@ export default {
   },
 
   mounted() {
+    this.getProblem();
     this.initResizer();
     this.loadLocalCode();
     this.initListener();
@@ -123,6 +199,18 @@ export default {
   },
 
   methods: {
+    getProblem() {
+      this.axios
+        .get("/problem/detail", { params: { id: this.id } })
+        .then((response) => {
+          this.problem = response.data.problem;
+        })
+        .catch((error) => {})
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
     changeLang(lang) {
       this.$refs.ace.changeLanguage(lang);
       this.lang = lang;
@@ -206,6 +294,11 @@ export default {
 </script>
 
 <style scoped>
+.markdown-display {
+  height: 100%;
+  width: 100%;
+}
+
 .left {
   width: 56%;
   min-width: 25%;

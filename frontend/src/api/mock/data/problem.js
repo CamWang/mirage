@@ -159,7 +159,8 @@ const details = [
     submit: 21683,
     success: 11482,
     spj: "",
-    content: `## 题目描述
+    content: `
+## 题目描述
 输入$a$和$b$，输出$a+b$的结果。
 ## 输入格式
 一行两个正整数$a$和$b$。
@@ -199,7 +200,8 @@ const details = [
     submit: 16823,
     success: 8382,
     spj: "",
-    content: `## 题目描述
+    content: `
+## 题目描述
 输出“Hello, World!”。
 ## 样例
 输入
@@ -229,7 +231,8 @@ Hello, World!
     submit: 12845,
     success: 4586,
     spj: "",
-    content: `## 题目描述
+    content: `
+## 题目描述
 输入一个字符串，输出数字1代表此字串为回文字串，输出0代表该字串不是回文字串
 ## 样例1
 输入
