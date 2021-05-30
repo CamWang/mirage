@@ -2,7 +2,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 import news from './data/news';
-import problem from './data/problem';
+import { problems as problem, details as detail } from './data/problem';
 import blog from './data/blog';
 import contest from './data/contest';
 import user from './data/user';
@@ -28,6 +28,16 @@ mock.onGet("/blog").reply(200, {
 mock.onGet("/contest").reply(200, {
   contest,
   total: 1
+});
+
+mock.onGet("/problem/detail").reply(function(config) {
+  const params = JSON.parse(config.data);
+  const { id } = params.params;
+  return [200, {
+    problem: detail.filter(elem => {
+      return elem.id === id; 
+    })[0],
+  }];
 });
 
 mock.onPost("/login").reply(function(config) {

@@ -43,38 +43,31 @@
     </v-card>
 
     <div class="text-center">
-      <v-dialog
-        v-model="dialog"
-        max-width="800"
-        class="no-scrollbar"
-      >
+      <v-dialog v-model="dialog" max-width="800" class="no-scrollbar">
         <v-card>
-          <v-toolbar dark color="primary" dense>
-            <v-btn icon dark @click="dialog = false">
+          <v-card-title color="primary" class="pa-3">
+            <v-btn icon dark @click="dialog = false" class="mr-4">
               <v-icon>{{ mdiClose }}</v-icon>
             </v-btn>
-            <v-toolbar-title>{{ $t("home.news") }}</v-toolbar-title>
-          </v-toolbar>
-          <v-row class="ma-0">
-              <v-card-text class="pt-6 pb-10">
-                <h5 class="text-lg-h4 text-h5 my-3 text--primary">
-                  {{ newsList[selected ? selected : 0].title }}
-                </h5>
-                <p class="mb-lg-10 mb-6">
-                  {{ newsList[selected ? selected : 0].author }} -
-                  {{
-                    $d(
-                      new Date(newsList[selected ? selected : 0].time),
-                      "short"
-                    )
-                  }}
-                </p>
-                <Marked
-                  class="text--primary text-news line-break"
-                  ref="highlight"
-                >{{ newsList[selected ? selected : 0].content }}</Marked>
-              </v-card-text>
-          </v-row>
+            {{ $t("home.news") }}
+          </v-card-title>
+          <v-card-text class="pb-14">
+            <h5 class="text-lg-h4 text-h5 my-3 text--primary">
+              {{ newsList[selected ? selected : 0].title }}
+            </h5>
+            <p class="mb-lg-10 mb-6">
+              {{ newsList[selected ? selected : 0].author }} -
+              {{
+                $d(new Date(newsList[selected ? selected : 0].time), "short")
+              }}
+            </p>
+            <Marked
+              class="text--primary text-news line-break"
+              ref="highlight"
+              >
+            {{ newsList[selected ? selected : 0].content }}
+            </Marked>
+          </v-card-text>
         </v-card>
       </v-dialog>
     </div>
@@ -94,7 +87,7 @@ import Marked from "@/plugins/marked/Marked";
 
 export default {
   components: {
-    Marked
+    Marked,
   },
   data() {
     return {
@@ -145,13 +138,11 @@ export default {
           if (refresh) {
             this.$notify({
               title: this.$t("refresh.success"),
-              type: "success"
-            })
+              type: "success",
+            });
           }
         })
-        .catch((error) => {
-          
-        })
+        .catch((error) => {})
         .finally(() => {
           this.isLoading = false;
         });
@@ -175,5 +166,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
