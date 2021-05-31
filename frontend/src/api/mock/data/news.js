@@ -5,7 +5,8 @@ const news = [
     subtitle: "He started as just 'a random person ranting at a camera for therapy.'",
     author: "Kayla Steinberg",
     time: 1621823085000,
-    content: `SyntaxHighlighter by highlight.js:
+    content: `
+SyntaxHighlighter by highlight.js:
 \`\`\` js
 function initHighlight(block, cls) {
   try {
@@ -23,12 +24,42 @@ function initHighlight(block, cls) {
 \`\`\`
 
 Mathematical Formula by Katex:
+
 $$\\begin{array}{c}
 \\nabla \\times \\vec{\\mathbf{B}} -\\, \\frac1c\\, \\frac{\\partial\\vec{\\mathbf{E}}}{\\partial t} &
 = \\frac{4\\pi}{c}\\vec{\\mathbf{j}}    \\nabla \\cdot \\vec{\\mathbf{E}} & = 4 \\pi \\rho \\
 \\nabla \\times \\vec{\\mathbf{E}}\\, +\\, \\frac1c\\, \\frac{\\partial\\vec{\\mathbf{B}}}{\\partial t} & = \\vec{\\mathbf{0}} \\
 \\nabla \\cdot \\vec{\\mathbf{B}} & = 0
-\\end{array}$$`,
+\\end{array}$$
+
+More JavaScript code example
+\`\`\`
+function fetchAndDecode(url) {
+  return fetch(url).then(response => {
+    if(!response.ok) {
+      throw new Error(\`HTTP error! status: \${response.status}\`);
+    } else {
+      return response.blob();
+    }
+  })
+}
+
+let coffee = fetchAndDecode('coffee.jpg');
+let tea = fetchAndDecode('tea.jpg');
+
+Promise.any([coffee, tea]).then(value => {
+  let objectURL = URL.createObjectURL(value);
+  let image = document.createElement('img');
+  image.src = objectURL;
+  document.body.appendChild(image);
+})
+.catch(e => {
+  console.log(e.message);
+});
+\`\`\`
+
+In this example, we have a function that fetches an image and returns a blob. We use Promise.any() to fetch a couple of images and display the first one available (i.e. whose promise has resolved).
+`,
     type: "",
   },
   {
@@ -37,11 +68,43 @@ $$\\begin{array}{c}
     subtitle: "Last week, Google unveiled during its new Android 12 operating system at its Google I/O conference. With the iOS 15 announcement around the corner at WWDC next month, which features of Android 12 would you like Apple to copy?",
     author: "José Adorno",
     time: 1616036312000,
-    content: `For months, Rep. Liz Cheney (R-Wyo.) has decried former president Donald Trump’s false claims of massive election fraud — a stance that cost her a leadership position in the House earlier this month.
+    content: `
+For months, Rep. Liz Cheney (R-Wyo.) has decried former president Donald Trump’s false claims of massive election fraud — a stance that cost her a leadership position in the House earlier this month.
 
 But when pressed on Sunday about whether Trump’s falsehoods were the cause of Republican moves to pass restrictive new voting laws in dozens of states, Cheney disputed the suggestion.
 
-“I think you have to look at the specifics of each one of those efforts,” Cheney said on “Axios on HBO,” arguing that some of the bills had been misrepresented.`,
+“I think you have to look at the specifics of each one of those efforts,” Cheney said on “Axios on HBO,” arguing that some of the bills had been misrepresented.
+
+## New UI with Material You
+
+Android is receiving its biggest UI update ever with Material You. With the “Deeply personal” tentpole, this version is extremely configurable.
+
+For example, when you choose a wallpaper, Android 12 will extract colors and determine which hues are dominant and complementary. 
+
+These colors are then applied across the notification shade, Lock Screen, volume controls, new widgets, and many other parts of the OS.
+
+## Revamped Widget system
+
+Widgets have been a part of Android for a long time. Although Apple took a while to introduce them, it was only on iOS 14 users were finally able to add a widget into the Home Screen. Widgets on iOS 14 looks great, but there are a few limitations, you can’t just place them anywhere you like.
+
+With Android 12, widgets are now bigger and bubblier with a playful design. For example, the you move a widget around on your wallpaper, it subtly changes its background color to be closer to the parte of the image it’s set upon.
+
+## Control Center and Privacy Dashboard
+
+The new Control Center has rounded toggles, which are easier to view and access. With the Privacy Dashboard feature, it’s handier to manage in one place all your apps permissions. While Apple already shows which apps use what, Google introduced an improved version of it, with easy toggles to disable apps access to the camera and microphone.
+
+Instead of going every time to Settings, with Android 12, you can able/disable app access from the Control Center.
+
+## What else is new on Android 12?
+
+Although Apple could learn a thing or two with Android 12, it’s true that this update is bringing some features Apple devices have had for a long time. For example, Android 12 will finally have a built-in remote that will work with Android TV systems.
+
+For Chromebook users, Google is working to create a better flow between Android devices and Chrome OS, but the company didn’t develop anything closer to AirDrop.
+
+Updates are also a bit tricky for Android users. Since every manufacturer creates its custom UI and carriers add a lot of stuff on Android as well, users usually take a long time to update their phones to the latest versions of Android. To learn more about Android 12, head over 9to5Google here.
+
+Which of Android 12 features above do you think Apple should copy for iOS 15 and why? Vote and tell us in the comment section below.
+`,
     type: ""
   },
   {
@@ -50,7 +113,8 @@ But when pressed on Sunday about whether Trump’s falsehoods were the cause of 
     subtitle: "Yahoo Life is committed to finding you the best products at the best prices. We may receive a share from purchases made via links on this page. Pricing and availability are subject to change.",
     author: "Rudie Obias",
     time: 1621506199000,
-    content: `Don’t want to splurge on the Apple AirPods or the Samsung Galaxy Buds? We hear you. While both those models deliver premium audio and top-notch design, they cost upwards of $100. Thankfully, we stumbled upon a pair of top-rated wireless earbuds for a fraction of that ...with features that even AirPods and Galaxy Buds don’t have!
+    content: `
+Don’t want to splurge on the Apple AirPods or the Samsung Galaxy Buds? We hear you. While both those models deliver premium audio and top-notch design, they cost upwards of $100. Thankfully, we stumbled upon a pair of top-rated wireless earbuds for a fraction of that ...with features that even AirPods and Galaxy Buds don’t have!
 
 Enter the Edyell Wireless Earbuds, a wallet-friendly pair with impressive audio quality and deep, satisfying bass. And here’s the best part: They’re on sale for just $15 with on-page coupon, down from $28. That’s nearly half off!
 
@@ -65,7 +129,8 @@ The Edyell Wireless Earbuds offer up to 120 hours of playtime with their include
     subtitle: "As reported by website Kotaku, an anonymous developer of the original Xbox leaks the steps to trigger an undiscovered dashboard Easter Egg.",
     author: "Caleb Greer",
     time: 1621913668000,
-    content: `A new Easter Egg has been discovered in the original Xbox's dashboard, nearly twenty years after the console's initial release. Microsoft's first Xbox, which launched back in November 2001, is known to contain many hidden secrets within its operating system.
+    content: `
+A new Easter Egg has been discovered in the original Xbox's dashboard, nearly twenty years after the console's initial release. Microsoft's first Xbox, which launched back in November 2001, is known to contain many hidden secrets within its operating system.
 
 Indeed, one such secret in the Xbox dashboard was discovered years ago. To initiate that Easter Egg, a player must press "Music" from the main menu and insert an audio CD. From the "Audio CD" menu, the player presses "Copy" before selecting "Copy" once again on the next screen. The player then selects "New Soundtrack." If everything is done correctly, a keyboard should come up with a space to name the soundtrack. Spelling out "<<Eggsβox>>" and selecting "Done" activates a credits screen that thanks the development team and lists the original Xbox developers.
 

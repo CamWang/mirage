@@ -127,6 +127,13 @@ export default {
       return this.page == 1;
     },
   },
+  watch: {
+    dialog() {
+      if (!this.dialog) {
+        this.selected = undefined;
+      }
+    }
+  },
   methods: {
     getNews(refresh) {
       this.isLoading = true;
