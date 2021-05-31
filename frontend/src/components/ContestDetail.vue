@@ -15,19 +15,19 @@
           <template v-slot:activator="{ on, attrs }">
             <v-chip
               class="mx-1"
-              color="blue"
+              color="primary"
               label
               text-color="white"
-              small
               v-bind="attrs"
               v-on="on"
             >
               <v-icon left>
                 {{ mdiPulse }}
               </v-icon>
-              {{ $t() }}
+              {{  }}
             </v-chip>
           </template>
+          <span>{{ $t("contest.detail.status.name") }}</span>
         </v-tooltip>
       </v-toolbar>
     </v-card>
@@ -36,8 +36,12 @@
 
 <script>
 import {
-  mdiTrophyVariantOutline
+  mdiTrophyVariantOutline,
+  mdiClipboardPulseOutline
 } from "@mdi/js"
+
+import { getStatusAbbrFromNumber } from "@/utils/status";
+
 export default {
   name: "ProblemDetail",
   
@@ -47,23 +51,45 @@ export default {
       mdiPulse: mdiClipboardPulseOutline,
 
       isLoading: false,
-      contest: {
-        
-      },
+      contest: {},
     }
   },
 
-  mounted() {
+  computed: {
+    id() {
+      return this.$route.params.id;
+    },
+  },
 
+  mounted() {
+    this.getContestDetail();
+  },
+
+  watch: {
+    contest() {
+      this.getContestStatusAbbr();
+    }
   },
 
   methods: {
     goContestList() {
-
+      this.$router.push("/contest");
     },
 
-    getContestStatus() {
+    getContestDetail() {
+      this.axios
+        .get("/contest/detail", { params: { id: this.id } })
+        .then((response) => {
+          this.contest = response.data.contest;
+        })
+        .catch((error) => {})
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
 
+    getContestStatusAbbr() {
+      return getStatusAbbrFromNumber(this.contest.id);
     }
   }
 }

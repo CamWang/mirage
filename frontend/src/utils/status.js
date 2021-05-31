@@ -58,3 +58,9 @@ const getStatusAbbrFromNumber = (num) => {
 const getStatusFullFromNumber = (num) => {
   return status[parseNum(num)].full;
 }
+
+export {
+  getStatusObjectFromNumber,
+  getStatusAbbrFromNumber,
+  getStatusFullFromNumber
+}
