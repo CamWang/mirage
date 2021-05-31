@@ -106,6 +106,19 @@ const message = {
     }
   },
 
+  status: {
+    DEF: "Default",
+    SCE: "Secutiry Check Error",
+    CE: "Compile Error",
+    RE: "Runtime Error",
+    TLE: "Time Limit Exceeds",
+    MLE: "Memory Limit Exceeds",
+    OLE: "Output Limit Exceeds",
+    PE: "Presentation Error",
+    WA: "Wrong Answer",
+    AC: "Accepted"
+  },
+
   blog: {
     title: "Blogs",
     list: {
@@ -128,6 +141,15 @@ const message = {
         name: "Mode",
         public: "Public",
         private: "Private"
+      }
+    },
+    detail: {
+      title: "Contest",
+      status: {
+        name: "Stauts",
+        waiting: "Waiting",
+        inProgress: "In Progress",
+        finished: "Finished"
       }
     }
   },

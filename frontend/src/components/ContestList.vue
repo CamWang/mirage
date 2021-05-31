@@ -1,5 +1,5 @@
 <template>
-  <v-col class="col-md-10 col-12">
+  <v-col class="contest-list col-md-10 col-12">
     <v-card :loading="isLoading">
       <v-toolbar dense flat>
         <v-app-bar-nav-icon>
@@ -182,4 +182,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.contest-list {
+  position: absolute;
+}
+</style>

@@ -1,4 +1,4 @@
-const problems = [
+const list = [
   {
     id: 1,
     title: "A + B 问题",
@@ -256,6 +256,6 @@ hello
 ];
 
 export {
-  problems,
+  list,
   details
 };

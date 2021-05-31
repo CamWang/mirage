@@ -81,6 +81,19 @@ const message = {
     news: "新闻"
   },
 
+  status: {
+    DEF: "默认",
+    SCE: "安全错误",
+    CE: "编译错误",
+    RE: "运行错误",
+    TLE: "运行超时",
+    MLE: "内存超限",
+    OLE: "输出超限",
+    PE: "格式错误",
+    WA: "解答错误",
+    AC: "解答正确"
+  },
+
   problem: {
     title: "问题列表",
     list: {
@@ -127,6 +140,15 @@ const message = {
         name: "参加模式",
         public: "公开比赛",
         private: "私有比赛"
+      }
+    },
+    detail: {
+      title: "比赛",
+      status: {
+        name: "状态",
+        waiting: "等待中",
+        inProgress: "进行中",
+        finished: "已结束"
       }
     }
   },
