@@ -21,10 +21,11 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import './style/style.scss';
 </style>
 <style>
+@import './style/katex.css';
 .router {
   position:absolute;
 }

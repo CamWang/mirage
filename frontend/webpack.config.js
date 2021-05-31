@@ -54,7 +54,6 @@ module.exports = {
       },
       {
         test: /.s(a|c)ss$/,
-
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -65,14 +64,13 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              sourceMap: false
+              sourceMap: true
             }
           },
           {
             loader: "sass-loader",
             options: {
-              sourceMap: false,
-              implementation: require('sass'),
+              sourceMap: true,
               sassOptions: {
                 fiber: require('fibers'),
               }
