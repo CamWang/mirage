@@ -24,7 +24,7 @@ export default {
       info: colors.teal.base,
       success:colors.green.accent4,
       warning: colors.orange.base,
-      ambient: colors.grey.lighten4,
+      ambient: colors.grey.lighten5,
       resizer: colors.blueGrey.lighten2,
       avatar: colors.shades.black,
     },

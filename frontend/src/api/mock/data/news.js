@@ -145,7 +145,13 @@ The steps to activate the new Easter Egg are very similar to the steps required 
     subtitle: "Twitch streamer Felix \"xQc\" Lengyel is no stranger to having been banned from the popular Grand Theft Auto roleplay NoPixel server over the past few months. ",
     author: "Rudie Obias",
     time: 1621990018000,
-    content: "",
+    content: `
+According to a social media account that follows xQc, the streamer has now been banned once again from GTA RP NoPixel. Unlike previous instances, however, this new ban is said to be a permanent one, meaning that xQc might not get a chance to appeal and come back in the future as he has before. The reason for this belief of another ban comes from a number of forum posts and the server's official Discord, both of which point to the ban. The forum, in particular, notes that xQc's full username--which is xQcOW--has joined the "permanently banned" list.
+
+As of this writing, xQc himself and those in charge of the GTA RP server haven't commented on whether or not this is legitimate. Because of this, it's worth taking all of this information with a grain of salt. Even though xQc has been banned in the past (and as such, it honestly wouldn't be shocking to see happen once again) there's nothing that has emerged publicly to verify this as true. That being said, with this story continuing to get bigger, there's a good chance that we should find out officially whether or not this is legitimate within the near future.
+
+So what do you think about all of this? Do you think xQc has found himself banned from NoPixel once again? And if so, what do you think caused the ban? Let me know all of your own thoughts either down in the comments or over on Twitter at @MooreMan12.
+`,
     type: ""
   },
   {
