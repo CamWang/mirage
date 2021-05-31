@@ -300,7 +300,7 @@ export default {
 }
 
 .left {
-  width: 56%;
+  width: 50%;
   min-width: 25%;
   display: flex;
   align-items: center;

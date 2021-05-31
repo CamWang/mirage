@@ -22,6 +22,10 @@
 
       <v-data-table :headers="headers" :items="contestList">
         <!-- eslint-disable-next-line -->
+        <template v-slot:item.title="{ item }">
+          <a style="color: inherit" @click="goDetail(item)">{{ item.title }}</a>
+        </template>
+        <!-- eslint-disable-next-line -->
         <template v-slot:item.tags="{ item }">
           <v-chip
             v-for="(tag, index) in item.tags"
@@ -170,6 +174,9 @@ export default {
     lastPage() {
       this.page--;
       this.getContests();
+    },
+    goDetail(item) {
+      this.$router.push(`/contest/detail/${item.id}`);
     },
   },
 };

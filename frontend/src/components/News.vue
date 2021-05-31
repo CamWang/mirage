@@ -46,7 +46,7 @@
       <v-dialog v-model="dialog" max-width="800" class="no-scrollbar">
         <v-card>
           <v-card-title color="primary" class="pa-3">
-            <v-btn icon dark @click="dialog = false" class="mr-4">
+            <v-btn icon @click="dialog = false" class="mr-4">
               <v-icon>{{ mdiClose }}</v-icon>
             </v-btn>
             {{ $t("home.news") }}
@@ -130,7 +130,9 @@ export default {
   watch: {
     dialog() {
       if (!this.dialog) {
-        this.selected = undefined;
+        setTimeout(() => {
+          this.selected = undefined;
+        }, 300);
       }
     }
   },

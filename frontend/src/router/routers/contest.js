@@ -15,7 +15,8 @@ export default [{
       component: () => import("@/components/ContestList.vue"),
     },
     {
-      path: 'detail',
+      path: 'detail/:id',
+      name: "contestDetail",
       component: () => import("@/components/ContestDetail.vue"),
     }
   ],
