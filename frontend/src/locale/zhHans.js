@@ -6,6 +6,10 @@ const message = {
   },
   name: "简体中文",
 
+  route: {
+    back: "返回",
+  },
+
   // 通知内容
   axios: {
     request: {
@@ -159,9 +163,9 @@ const message = {
     list: {
       title: "名称",
       tags: "标签",
-      start: "开始时间",
-      end: "结束时间",
-      last: "持续时间",
+      start: "开始",
+      end: "结束",
+      last: "持续",
       mode: {
         name: "参加模式",
         public: "公开比赛",
@@ -170,11 +174,13 @@ const message = {
     },
     detail: {
       title: "比赛",
+      type: "类型",
       status: {
         name: "状态",
         waiting: "等待中",
         inProgress: "进行中",
-        finished: "已结束"
+        finished: "已结束",
+        code: "序号",
       }
     }
   },
@@ -226,7 +232,6 @@ const time = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    weekday: 'long',
     hour: 'numeric',
     minute: 'numeric',
     hour12: true

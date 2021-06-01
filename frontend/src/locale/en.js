@@ -6,6 +6,10 @@ const message = {
   },
   name: "English",
 
+  route: {
+    back: "Back",
+  },
+
   // Notification
   axios: {
     request: {
@@ -173,11 +177,13 @@ const message = {
     },
     detail: {
       title: "Contest",
+      type: "Type",
       status: {
         name: "Stauts",
         waiting: "Waiting",
         inProgress: "In Progress",
-        finished: "Finished"
+        finished: "Finished",
+        code: "Code"
       }
     }
   },

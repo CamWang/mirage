@@ -121,7 +121,7 @@ export default {
           value: "title",
         },
         {
-          text: this.$t("contest.list.status"),
+          text: this.$t("contest.detail.status.name"),
           value: "start",
         },
         {
