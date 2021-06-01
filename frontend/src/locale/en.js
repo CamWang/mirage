@@ -160,6 +160,9 @@ const message = {
     },
     detail: {
       name: "Blog"
+    },
+    comment: {
+      name: "Comment"
     }
   },
 

@@ -36,14 +36,14 @@ code {
   }
 }
 
-.v-card {
+.position-absolute .v-card {
   max-height: calc(100vh - 80px);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 @media (min-width: 960px) {
-  .v-card {
+  .position-absolute .v-card {
     max-height: calc(100vh - 88px);
     overflow-y: auto;
     overflow-x: hidden;

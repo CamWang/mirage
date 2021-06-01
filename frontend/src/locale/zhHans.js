@@ -158,6 +158,9 @@ const message = {
     },
     detail: {
       name: "博客"
+    },
+    comment: {
+      name: "评论"
     }
   },
 
