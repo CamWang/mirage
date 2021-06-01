@@ -106,17 +106,44 @@ const message = {
     }
   },
 
+  // status: {
+  //   DEF: "Default",
+  //   SCE: "Secutiry Check Error",
+  //   CE: "Compile Error",
+  //   RE: "Runtime Error",
+  //   TLE: "Time Limit Exceeds",
+  //   MLE: "Memory Limit Exceeds",
+  //   OLE: "Output Limit Exceeds",
+  //   PE: "Presentation Error",
+  //   WA: "Wrong Answer",
+  //   AC: "Accepted"
+  // },
+
   status: {
-    DEF: "Default",
-    SCE: "Secutiry Check Error",
-    CE: "Compile Error",
-    RE: "Runtime Error",
-    TLE: "Time Limit Exceeds",
-    MLE: "Memory Limit Exceeds",
-    OLE: "Output Limit Exceeds",
-    PE: "Presentation Error",
-    WA: "Wrong Answer",
-    AC: "Accepted"
+    abbr: [
+      "DEF",
+      "SCE",
+      "CE",
+      "RE",
+      "TLE",
+      "MLE",
+      "OLE",
+      "PE",
+      "WA",
+      "AC"
+    ],
+    full: [
+      "Default",
+      "Security Check Error",
+      "Compile Error",
+      "Runtime Error",
+      "Time Limit Exceeds",
+      "Memory Limit Exceeds",
+      "Output Limit Exceeds",
+      "Presentation Error",
+      "Wrong Answer",
+      "Accepted"
+    ]
   },
 
   blog: {
@@ -137,6 +164,7 @@ const message = {
       start: "Start",
       end: "End",
       last: "Last",
+      status: "Status",
       mode: {
         name: "Mode",
         public: "Public",

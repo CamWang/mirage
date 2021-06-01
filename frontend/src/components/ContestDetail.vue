@@ -15,8 +15,8 @@
           <template v-slot:activator="{ on, attrs }">
             <v-chip
               class="mx-1"
-              color="primary"
               label
+              :color="getStatusColor()"
               text-color="white"
               v-bind="attrs"
               v-on="on"
@@ -24,7 +24,7 @@
               <v-icon left>
                 {{ mdiPulse }}
               </v-icon>
-              {{  }}
+              <span v-t="status"></span>
             </v-chip>
           </template>
           <span>{{ $t("contest.detail.status.name") }}</span>
@@ -56,9 +56,24 @@ export default {
   },
 
   computed: {
-    id() {
+    id: function() {
       return this.$route.params.id;
     },
+    status: function() {
+      const base = "contest.detail.status.";
+      if (this.contest) {
+        const now = Date.now();
+        const start = this.contest.start;
+        const end = this.contest.end;
+        if (end < now) {
+          return base + "finished";
+        } else if (start > now) {
+          return base + "waiting";
+        } else {
+          return base + "inProgress";
+        }
+      }
+    }
   },
 
   mounted() {
@@ -67,8 +82,7 @@ export default {
 
   watch: {
     contest() {
-      this.getContestStatusAbbr();
-    }
+    },
   },
 
   methods: {
@@ -87,9 +101,19 @@ export default {
           this.isLoading = false;
         });
     },
-
-    getContestStatusAbbr() {
-      return getStatusAbbrFromNumber(this.contest.id);
+    getStatusColor() {
+      if (this.contest) {
+        const now = Date.now();
+        const start = this.contest.start;
+        const end = this.contest.end;
+        if (end < now) {
+          return "deep";
+        } else if (start > now) {
+          return "orange";
+        } else {
+          return "success";
+        }
+      }
     }
   }
 }

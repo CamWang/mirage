@@ -162,7 +162,6 @@ export default {
       let isDark = this.$vuetify.theme.dark;
       this.$vuetify.theme.dark = !isDark;
       window.sessionStorage.setItem("dark", isDark ? "false" : "true");
-      console.log(window.sessionStorage.getItem("dark"));
       if (isDark) {
         this.$notify({
           title: this.$t("notify.theme.light"),

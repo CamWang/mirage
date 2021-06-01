@@ -27,6 +27,7 @@ export default {
       ambient: colors.grey.lighten5,
       resizer: colors.blueGrey.lighten2,
       avatar: colors.shades.black,
+      deep: colors.grey.darken1,
     },
     dark: {
       primary: colors.indigo.accent2,
@@ -42,6 +43,7 @@ export default {
       cyan: colors.cyan.darken3,
       resizer: colors.blueGrey.lighten1,
       avatar: colors.shades.white,
+      deep: colors.grey.darken3,
     }
   }
 }

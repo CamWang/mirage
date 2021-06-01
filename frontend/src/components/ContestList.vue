@@ -60,11 +60,26 @@
         </template>
         <!-- eslint-disable-next-line -->
         <template v-slot:item.start="{ item }">
-          {{ $d(new Date(item.start), "long") }}
-        </template>
-        <!-- eslint-disable-next-line -->
-        <template v-slot:item.end="{ item }">
-          {{ $d(new Date(item.end), "long") }}
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-chip
+              class="mx-1"
+              :color="getStatusColor(item.start, item.end)"
+              label
+              small
+              text-color="white"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon left>
+                {{ mdiPulse }}
+              </v-icon>
+              <span v-t="getStatus(item.start, item.end)"></span>
+            </v-chip>
+            </template>
+            <span>{{ $d(new Date(item.start), "long") }}</span> - <br/>
+            <span>{{ $d(new Date(item.end), "long") }}</span>
+          </v-tooltip>
         </template>
       </v-data-table>
     </v-card>
@@ -79,6 +94,7 @@ import {
   mdiChevronRight,
   mdiTrophyVariantOutline,
   mdiAccountMultipleCheckOutline,
+  mdiClipboardPulseOutline,
   mdiLockOutline,
 } from "@mdi/js";
 import { debounce } from "lodash-es";
@@ -95,21 +111,18 @@ export default {
       mdiTrophy: mdiTrophyVariantOutline,
       mdiPublic: mdiAccountMultipleCheckOutline,
       mdiLockOutline,
+      mdiPulse: mdiClipboardPulseOutline,
 
       headers: [
         {
           text: this.$t("contest.list.title"),
           align: "start",
-          sortable: false,
+          sortable: "deep",
           value: "title",
         },
         {
-          text: this.$t("contest.list.start"),
+          text: this.$t("contest.list.status"),
           value: "start",
-        },
-        {
-          text: this.$t("contest.list.end"),
-          value: "end",
         },
         {
           text: this.$t("contest.list.tags"),
@@ -178,6 +191,31 @@ export default {
     goDetail(item) {
       this.$router.push(`/contest/detail/${item.id}`);
     },
+    getStatus: function(start, end) {
+      const base = "contest.detail.status.";
+      if (start && end) {
+        const now = Date.now();
+        if (end < now) {
+          return base + "finished";
+        } else if (start > now) {
+          return base + "waiting";
+        } else {
+          return base + "inProgress";
+        }
+      }
+    },
+    getStatusColor: function(start, end) {
+      if (start && end) {
+        const now = Date.now();
+        if (end < now) {
+          return "deep";
+        } else if (start > now) {
+          return "orange";
+        } else {
+          return "success";
+        }
+      }
+    }
   },
 };
 </script>
