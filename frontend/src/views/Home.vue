@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="ambient container fill-height d-flex flex-row align-start"
+    class="ambient position-absolute max-height"
     fluid
   >
     <v-row class="d-flex justify-center flex-grow-0 flex-shrink-0">

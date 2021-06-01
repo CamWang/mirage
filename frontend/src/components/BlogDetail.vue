@@ -1,6 +1,6 @@
 <template>
-  <v-col class="blog-detail col-md-10 col-12">
-    <v-card :loading="isLoading">
+  <v-col class="col-md-10 col-12 mb-10 position-absolute max-height">
+    <v-card class="no-scrollbar" :loading="isLoading">
       <v-toolbar dense flat>
         <v-app-bar-nav-icon>
           <v-btn icon @click="goBack">
@@ -9,12 +9,22 @@
         </v-app-bar-nav-icon>
         <v-toolbar-title>{{ $t("blog.detail.name") }}</v-toolbar-title>
       </v-toolbar>
-      <Marked
-              class="text--primary text-news line-break"
-              ref="highlight"
-              >
-            {{ blog.content }}
-            </Marked>
+      <v-row>
+      <div class="blog-content px-8 py-2">
+        <h2>{{ blog.title?blog.title:"" }}</h2>
+        <p class="subtitle-1">{{ blog.user?blog.user.nickname:"" }} - {{ blog.time?$d(new Date(blog.time), "short"):"" }}</p>
+        <Marked
+          class="text--primary text-news line-break"
+          ref="highlight"
+          >{{ blog.content }}</Marked>
+      </div>
+    </v-row>
+    <v-row class="blog-reply py-2" v-for="reply in blog.replies" :key="reply.id">
+      <div>
+        <p class="subtitle-1 px-8">{{ reply.user?reply.user.nickname:"" }} - {{ reply.time?$d(new Date(reply.time), "short"):"" }}</p>
+        <span class="px-8">{{ reply.content }}</span>
+      </div>
+    </v-row>
     </v-card>
   </v-col>
 </template>
@@ -37,6 +47,12 @@ export default {
       isLoading: false,
       blog: {},
     }
+  },
+
+  computed: {
+    id() {
+      return this.$route.params.id;
+    },
   },
 
   mounted() {
@@ -64,7 +80,4 @@ export default {
 </script>
 
 <style scoped>
-.blog-detail {
-  position: absolute;
-}
 </style>

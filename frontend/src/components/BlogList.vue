@@ -1,5 +1,5 @@
 <template>
-  <v-col class="blog-list col-md-10 col-12">
+  <v-col class="col-md-10 col-12 position-absolute max-height">
     <v-card :loading="isLoading">
       <v-toolbar dense flat>
         <v-app-bar-nav-icon>
@@ -188,7 +188,5 @@ export default {
 </script>
 
 <style>
-.blog-list {
-  position: absolute;
-}
+
 </style>

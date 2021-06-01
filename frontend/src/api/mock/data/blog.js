@@ -79,7 +79,7 @@ const details = [
     user: {
       id: 1,
       nickname: "Admin",
-
+      avatar: "static/avatars/avatar1.svg"
     },
     tags: [
       {
@@ -136,13 +136,17 @@ There have been a whole lot of great articles, streams, and podcasts about these
   },{
     id: 2,
     title: "CSS is a Strongly Typed Language",
-    author: "Eric Bailey",
     tags: [
       {
         text: "CSS",
         color: "orange",
       }
     ],
+    user: {
+      id: 1,
+      nickname: "Cam",
+      avatar: "static/avatars/avatar2.svg"
+    },
     time: 1621842122000,
     replies: [
       {
@@ -208,11 +212,26 @@ The time when component pieces compile is when they are all combined. TypeScript
   },{
     id: 3,
     title: "The Importance of Career Laddering",
-    author: "Hugh Haworth",
+    user: {
+      id: 1,
+      nickname: "Herminone",
+      avatar: "static/avatars/avatar3.svg"
+    },
     tags: [
       {
         text: "Career",
         color: "green",
+      }
+    ],
+    replies: [
+      {
+        id: 1,
+        user: {
+          id: 1,
+          nickname: "D.ark",
+        },
+        content: "前排资瓷",
+        time: 1621842122000,
       }
     ],
     time: 1621921292000,

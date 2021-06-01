@@ -5,7 +5,7 @@
 
   <v-main>
     <transition name="component-fade">
-      <router-view class="router"></router-view>
+      <router-view class="router positon-absolute max-height"></router-view>
     </transition>
   </v-main>
 
@@ -26,9 +26,6 @@ export default {
 </style>
 <style>
 @import './style/katex.css';
-.router {
-  position:absolute;
-}
 
 .component-fade-enter-active, .component-fade-leave-active {
   transition: opacity .3s ease;

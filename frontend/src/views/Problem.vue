@@ -1,5 +1,5 @@
 <template>
-  <v-container class="ambient fill-height d-flex flex-row align-start" fluid>
+  <v-container class="ambient position-absolute max-height d-flex flex-row align-start" fluid>
     <v-row class="d-flex justify-center">
       <transition name="component-fade">
         <router-view></router-view>

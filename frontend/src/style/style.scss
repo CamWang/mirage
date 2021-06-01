@@ -1,5 +1,4 @@
 html {
-  overflow-y: auto !important;
 }
 
 .hljs {
@@ -21,6 +20,34 @@ code {
   font-weight: 400;
   line-height: 1.6rem;
   font-family: Georgia, fangsong, serif;
+}
+
+.position-absolute {
+  position:absolute;
+}
+
+.max-height {
+  height: calc(100vh- 56px);
+}
+
+@media (min-width: 960px) {
+  .max-height {
+    height: calc(100vh - 64px);
+  }
+}
+
+.v-card {
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media (min-width: 960px) {
+  .v-card {
+    max-height: calc(100vh - 88px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 .text-news {

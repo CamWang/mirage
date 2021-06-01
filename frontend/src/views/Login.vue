@@ -1,5 +1,5 @@
 <template>
-  <v-container class="ambient container" fluid>
+  <v-container class="ambient container position-absolute max-height" fluid>
     <LoginForm />
   </v-container>
 </template>
