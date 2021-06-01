@@ -3,7 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 
 import news from './data/news';
 import { list as problem, details as problemDetail } from './data/problem';
-import blog from './data/blog';
+import { list as blog, details as blogDetail, tags as blogTags } from './data/blog';
 import { list as contest, details as contestDetail } from './data/contest';
 import user from './data/user';
 import message from './data/message';
@@ -30,6 +30,10 @@ mock.onGet("/contest").reply(200, {
   total: 1
 });
 
+mock.onGet("/blog/tags").reply(200, {
+  tags: blogTags
+})
+
 mock.onGet("/problem/detail").reply(function(config) {
   const id = Number.parseInt(config.params.id);
   return [200, {
@@ -46,7 +50,17 @@ mock.onGet("/contest/detail").reply(function(config) {
       return elem.id === id;
     })[0],
   }]
-})
+});
+
+mock.onGet("/blog/detail").reply(function(config) {
+  const id = Number.parseInt(config.params.id);
+  return [200, {
+    blog: blogDetail.filter(elem => {
+      return elem.id === id;
+    })[0],
+  }]
+});
+
 
 mock.onPost("/login").reply(function(config) {
   const params = JSON.parse(config.data);

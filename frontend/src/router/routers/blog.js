@@ -15,7 +15,7 @@ export default [{
       component: () => import("@/components/BlogList.vue"),
     },
     {
-      path: 'detail',
+      path: 'detail/:id',
       name: 'blogDetail',
       component: () => import("@/components/BlogDetail.vue"),
     }

@@ -155,6 +155,9 @@ const message = {
       title: "标题",
       tags: "标签",
       author: "作者"
+    },
+    detail: {
+      name: "博客"
     }
   },
 

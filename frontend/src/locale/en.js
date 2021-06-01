@@ -157,6 +157,9 @@ const message = {
       title: "Title",
       tags: "Tags",
       author: "Author"
+    },
+    detail: {
+      name: "Blog"
     }
   },
 
