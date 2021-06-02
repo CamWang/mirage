@@ -65,7 +65,7 @@
         <v-divider></v-divider>
         <v-list dense>
         <v-list-item-group color="primary">
-          <v-list-item @click="goLogin">
+          <v-list-item @click="goProfile">
             <v-list-item-icon>
               <v-icon> {{ mdiProfile }}</v-icon>
             </v-list-item-icon>
@@ -217,6 +217,10 @@ export default {
     goRegister() {
       (this.$route.path !== "/register") && this.$router.push("/register");
     },
+
+    goProfile() {
+      (this.$route.path !== "/profile") && this.$router.push("/profile");
+    }
   },
 };
 </script>

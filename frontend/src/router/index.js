@@ -7,6 +7,7 @@ import user from './routers/user';
 import problem from './routers/problem';
 import contest from './routers/contest';
 import blog from './routers/blog';
+import profile from './routers/profile'
 
 import Head from '@/components/Head';
 import Foot from '@/components/Foot';
@@ -27,6 +28,7 @@ const router = new Router({
     ...problem,
     ...contest,
     ...blog,
+    ...profile,
     {
       path: "/",
       name: "home",
