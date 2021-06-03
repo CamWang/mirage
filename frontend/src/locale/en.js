@@ -79,7 +79,8 @@ const message = {
     profile: "Profile",
     submit: "Submissions",
     contest: "Contests",
-    random: "I Feel Lucky"
+    random: "I Feel Lucky",
+    message: "Message",
   },
 
   home: {

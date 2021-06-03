@@ -89,6 +89,12 @@
             </v-list-item-icon>
             <v-list-item-content>{{ $t("head.random") }}</v-list-item-content>
           </v-list-item>
+          <v-list-item @click="openMessage">
+            <v-list-item-icon>
+              <v-icon> {{ mdiMessage }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>{{ $t("head.message") }}</v-list-item-content>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
       </v-card>
@@ -123,6 +129,7 @@ import {
   mdiLogoutVariant,
   mdiAccountPlusOutline,
   mdiCardAccountDetailsOutline,
+  mdiMessageTextOutline,
   mdiTrophyOutline,
   mdiBalloon,
   mdiDice3Outline,
@@ -142,6 +149,7 @@ export default {
       mdiProfile: mdiCardAccountDetailsOutline,
       mdiTrophy: mdiTrophyOutline,
       mdiDice: mdiDice3Outline,
+      mdiMessage: mdiMessageTextOutline,
 
       locales: [],
     };
@@ -220,6 +228,10 @@ export default {
 
     goProfile() {
       (this.$route.path !== "/profile") && this.$router.push("/profile");
+    },
+
+    openMessage() {
+      this.$eventBus.$emit("message");
     }
   },
 };

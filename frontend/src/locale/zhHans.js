@@ -78,7 +78,8 @@ const message = {
     profile: "个人信息",
     submit: "解题记录",
     contest: "比赛作业",
-    random: "随机一题"
+    random: "随机一题",
+    message: "消息抽屉",
   },
 
   home: {

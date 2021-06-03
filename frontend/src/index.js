@@ -9,6 +9,8 @@ import store from '@/store'
 
 Vue.use(Hljs);
 
+Vue.prototype.$eventBus = new Vue();
+
 Vue.prototype.axios = axios;
 
 new Vue({
