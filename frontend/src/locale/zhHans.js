@@ -181,6 +181,7 @@ const message = {
     },
     detail: {
       title: "比赛",
+      name: "详情",
       type: "类型",
       rank: "榜单",
       status: {

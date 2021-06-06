@@ -173,9 +173,91 @@ const details = [
     ],
     mode: "public"
   },
+];
+
+// 榜单信息
+const rank = [
+  {
+    id: 1,                  // 比赛id
+    list: [
+      {
+        rank: 1,            // 名词
+        user: {             // 用户信息
+          id: 1,
+          username: "cam",
+          nickname: "Cam",
+          role: "user",
+        },
+        results: [          // 提交题解的判题信息
+          {
+            problemId:1,    // 解答题目
+            result: 9,      // 判题结果
+            try: 1,         // 第几次尝试
+            time: 15,       // 成功题解的时间
+            fb: false,      // 一血
+          }, {
+            problemId: 2,
+            result: 9,
+            try: 3,
+            time: 124,
+            fb: true,
+          }, {
+            problemId: 3,
+            result: 8,
+            try: 2,
+            time: 0,
+            fb: false,
+          }, {
+            problemId: 4,
+            result: 9,
+            try: 1,
+            time: 48,
+            fb: true
+          }
+        ]
+      },
+      {
+        rank: 2,
+        user: {
+          id: 3,
+          username: "mike",
+          nickname: "Mike",
+          role: "user",
+        },
+        results: [
+          {
+            problemId:1,
+            result: 9,
+            try: 1,
+            time: 11,
+            fb: true,
+          }, {
+            problemId: 2,
+            result: 9,
+            try: 2,
+            time: 232,
+            fb: false,
+          }, {
+            problemId: 3,
+            result: 8,
+            try: 2,
+            time: 0,
+            fb: true,
+          }, {
+            problemId: 4,
+            result: 8,
+            try: 1,
+            time: 0,
+            fb: false
+          }
+        ]
+      }
+    ]
+  }
 ]
 
 export {
   list,
-  details
+  details,
+  rank
 }

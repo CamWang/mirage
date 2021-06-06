@@ -185,6 +185,7 @@ const message = {
     detail: {
       title: "Contest",
       type: "Type",
+      name: "Detail",
       rank: "Rank",
       status: {
         name: "Stauts",

@@ -4,7 +4,7 @@ import MockAdapter from 'axios-mock-adapter';
 import news from './data/news';
 import { list as problem, details as problemDetail } from './data/problem';
 import { list as blog, details as blogDetail, tags as blogTags } from './data/blog';
-import { list as contest, details as contestDetail } from './data/contest';
+import { list as contest, details as contestDetail, rank as contestRank } from './data/contest';
 import user from './data/user';
 import message from './data/message';
 
@@ -51,6 +51,15 @@ mock.onGet("/contest/detail").reply(function(config) {
     })[0],
   }]
 });
+
+mock.onGet("/contest/rank").reply(function(config) {
+  const id = Number.parseInt(config.params.id);
+  return [200, {
+    rank: contestRank.filter(elem => {
+      return elem.id === id;
+    })[0],
+  }];
+})
 
 mock.onGet("/blog/detail").reply(function(config) {
   const id = Number.parseInt(config.params.id);
