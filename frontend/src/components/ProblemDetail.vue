@@ -52,6 +52,7 @@
           <span>{{ $t("problem.memorylimit") }}</span>
         </v-tooltip>
       </v-toolbar>
+      <!-- Marked markdown renderer -->
       <Marked
         class="text--primary markdown-display line-break px-5 pt-2"
         ref="highlight"
@@ -113,6 +114,7 @@
           </v-list>
         </v-menu>
       </v-toolbar>
+      <!-- Ace code editor -->
       <Ace ref="ace" v-if="aced" />
     </div>
 

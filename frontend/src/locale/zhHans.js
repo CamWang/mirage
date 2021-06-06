@@ -182,6 +182,7 @@ const message = {
     detail: {
       title: "比赛",
       type: "类型",
+      rank: "榜单",
       status: {
         name: "状态",
         waiting: "等待中",

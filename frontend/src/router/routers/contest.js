@@ -18,6 +18,18 @@ export default [{
       path: 'detail/:id',
       name: "contestDetail",
       component: () => import("@/components/ContestDetail.vue"),
+      children: [
+        {
+          path: "/",
+          name: "contestDetail",
+          component: () => import("@/components/contest/Detail.vue")
+        },
+        {
+          path: "rank",
+          name: "contestRank",
+          component: () => import("@/components/contest/Rank.vue")
+        }
+      ]
     }
   ],
 }];
