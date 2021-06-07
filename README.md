@@ -36,6 +36,38 @@ Frontend is the SPA frontend module that based on Vue and Vuetify. Vue as the da
 * markdown it
 * highlight.js
 * katex
+* Ace Editor
+
+#### Frontend File Structure
+```
+frontend
+│
+└───api       A wrapper of Axios for error message and api mocking
+│   
+└───assets    Static files
+│   
+└───components  Components of views
+│   
+└───locale    Internationalization(i18n) related
+│   
+└───plugins   Vuetify, highlight.js, notify, markdown-it, Ace plugins
+│   
+└───router    Vue Router routes
+│   
+└───store     Vuex stores
+│   
+└───style     Global style. color theme defined in plugins/theme.js
+│   
+└───utils     Some util for form verify and other things
+│   
+└───views     Vue components for the main part of App.vue
+│   
+└───App.vue   Application Component
+│   
+└───index.html  Template html
+│   
+└───index.js  Entry file
+```
 
 ### Backend
 Backend is a normal Node.js program based on Koa.js and MongoDB. It's in charge of most system logic and all data persistence operations. It provides an RESTful API to clients like a normal backend do. Judger addon is called by this module when needed. It uses the following technologies to achieve that.
