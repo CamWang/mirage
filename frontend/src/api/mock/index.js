@@ -59,7 +59,7 @@ mock.onGet("/contest/rank").reply(function(config) {
       return elem.id === id;
     })[0],
   }];
-})
+});
 
 mock.onGet("/blog/detail").reply(function(config) {
   const id = Number.parseInt(config.params.id);

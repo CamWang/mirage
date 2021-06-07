@@ -194,6 +194,15 @@ const message = {
         finished: "Finished",
         code: "Code"
       }
+    },
+    rank: {
+      name: "Rank",
+      nickname: "Nickname",
+      username: "Username",
+      score: {
+        name: "Score",
+        time: "Time/min"
+      }
     }
   },
 

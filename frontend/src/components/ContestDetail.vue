@@ -1,6 +1,6 @@
 <template>
   <v-col class="contest-detail ma-0 col-md-10 col-12">
-    <v-card :loading="isLoading">
+    <v-card class="contest-card" :loading="isLoading">
       <v-toolbar dense flat>
         <v-app-bar-nav-icon>
           <v-tooltip bottom>

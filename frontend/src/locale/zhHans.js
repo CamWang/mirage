@@ -191,6 +191,15 @@ const message = {
         finished: "已结束",
         code: "序号",
       }
+    },
+    rank: {
+      name: "排名",
+      nickname: "昵称",
+      username: "用户名",
+      score: {
+        name: "解题数",
+        time: "用时/分钟"
+      }
     }
   },
 
