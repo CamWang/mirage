@@ -13,6 +13,12 @@ const Database = require("./db");
 // will be executed when require() not execution.
 let log;
 
+
+/**
+ * global.db
+ * global.logger
+ * global.koa
+ */
 class Server {
   constructor() {
     this.init();

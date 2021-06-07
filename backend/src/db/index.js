@@ -4,6 +4,7 @@ const assert = require("assert");
 
 let log;
 
+// init MongoDB db object to global.db
 class Database {
   constructor() {
     log = global.logger;
