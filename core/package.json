@@ -6,9 +6,9 @@
   "gypfile": true,
   "main": "src/index.js",
   "scripts": {
-    "build": "node-gyp rebuild",
+    "build": "node-gyp clean && node-gyp rebuild && cp build/Release/inferno.node ../backend/src/core/",
     "clean": "node-gyp clean",
-    "test": "node src/index.js"
+    "test": "node-gyp clean && node-gyp rebuild && node src/index.js"
   },
   "keywords": [
     "Judger",
