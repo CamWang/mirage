@@ -1,7 +1,9 @@
 const Koa = require("koa");
 const serve = require("koa-static");
+const Http = require("http");
 const { historyApiFallback } = require("koa2-connect-history-api-fallback");
-const winston = require("winston");
+const Winston = require("winston");
+const Socket = require("socket.io").Server;
 
 const router = require("./router");
 const config = require("./config");
@@ -13,29 +15,37 @@ const Database = require("./db");
 // will be executed when require() not execution.
 let log;
 
-
-/**
- * global.db
- * global.logger
- * global.koa
- */
+// global.logger
 class Server {
+  port = 3000;
+  db;
+  http;
+  koa;
+  log;
+  development = true;
+  production = false;
+
   constructor() {
     this.init();
   }
 
   init() {
     this.setupLogger();
-    log = global.logger;
+    const log = global.log;
     log.info("logger established");
+    log.info("mongodb is initializing");
     this.setupDatabase();
     log.info("mongodb established");
+    log.info("server is initializing");
     this.setupServer();
     log.info(`server running at http://localhost:${config.server.port}`);
+    log.info("socket.io is initializing");
+    this.setupSocketIO();
+    log.info("socket.io is running");
   }
 
   setupLogger() {
-    const logger =  winston.createLogger(config.logger);
+    const logger =  Winston.createLogger(config.logger);
     const handler = {
       apply: function(target, thisArg, args) {
         target.apply(thisArg, args);
@@ -43,7 +53,7 @@ class Server {
       }
     }
     logger.error = new Proxy(logger.error, handler);
-    global.logger = logger;
+    global.log = logger;
   }
 
   setupDatabase() {
@@ -75,8 +85,13 @@ class Server {
     app.use(historyApiFallback({ whiteList: ['/api']}));
     app.use(router.routes());
     app.use(router.allowedMethods());
-    app.listen(config.server.port);
-    global.koa = app;
+    const http = Http.createServer(app.callback());
+    this.http = http;
+    this.koa = app;
+  }
+
+  setupSocketIO() {
+    this.io = new Socket(this.http);
   }
 }
 

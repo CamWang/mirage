@@ -7,7 +7,7 @@ let log;
 // init MongoDB db object to global.db
 class Database {
   constructor() {
-    log = global.logger;
+    log = global.log;
     this.uri = this.getUri();
     this.setupDatabase();
   }
