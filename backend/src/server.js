@@ -57,7 +57,7 @@ class Server {
   }
 
   setupDatabase() {
-    new Database(config);
+    this.db = new Database(config).db;
   }
 
   setupServer() {

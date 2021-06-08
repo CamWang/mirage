@@ -21,7 +21,7 @@ class Database {
     client.connect((err) => {
       if (err == null) {
         log.info("database connected");
-        global.db = client.db(dbName);
+        this.db = client.db(dbName);
       } else {
         log.error("database connect fail " + err);
       }
