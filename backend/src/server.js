@@ -1,5 +1,6 @@
 const Koa = require("koa");
 const serve = require("koa-static");
+const bodyParser = require("koa-bodyparser");
 const Http = require("http");
 const { historyApiFallback } = require("koa2-connect-history-api-fallback");
 const Winston = require("winston");
@@ -82,10 +83,22 @@ class Server {
       gzip: true,
       maxage: 3600
     });
-    app.use(historyApiFallback({ whiteList: ['/api']}));
+    app.use(bodyParser());
+    app.use(async (ctx, next) => {
+      try {
+        await next();
+      } catch(err) {
+        log.error(err.message);
+        ctx.status = err.status || 500;
+        ctx.body = err.message;
+        ctx.app.emit("error", err, ctx);
+      }
+    })
     app.use(router.routes());
     app.use(router.allowedMethods());
+    app.use(historyApiFallback({ whiteList: ['/api']}));
     const http = Http.createServer(app.callback());
+    http.listen(config.server.port);
     this.http = http;
     this.koa = app;
   }

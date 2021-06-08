@@ -25,6 +25,7 @@ if (logToConsole) {
 module.exports = {
   mode: "development",
   server: {
+    base: "/api",
     port: 3000,
   },
   db: {
@@ -46,5 +47,27 @@ module.exports = {
       loggerFormat
     ),
     transports: transports
+  },
+  core: {
+    direcotry: "/tmp",
+    ptrace: false,
+    seccomp: false,
+    rlimit: false,
+    command : [
+      {
+        language: "c",
+        source: "main.c",
+        executable: "main",
+        compile: "gcc main.c -o main -std=c99 -static -Wall -fmax-errors=10",
+        run: "./main"
+      },
+      {
+        language: "cpp",
+        source: "main.cpp",
+        executable: "main",
+        compile: "g++ main.cpp -o main -std=c++11 -lm -static -Wall -fmax-errors=10 -fno-asm",
+        run: "./main"
+      }
+    ]
   }
 }
