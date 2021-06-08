@@ -71,11 +71,11 @@ class Server {
         this.development = true;
       }
     } else {
-      log.error("config wrong mode type");
+      global.log.error("config wrong mode type");
     }
 
     if (!Number.isInteger(config.server.port)) {
-      log.error("config.server.port wrong port type");
+      global.log.error("config.server.port wrong port type");
     }
     this.port = config.server.port;
     const app = new Koa();
@@ -88,7 +88,7 @@ class Server {
       try {
         await next();
       } catch(err) {
-        log.error(err.message);
+        global.log.error(err.message);
         ctx.status = err.status || 500;
         ctx.body = err.message;
         ctx.app.emit("error", err, ctx);
