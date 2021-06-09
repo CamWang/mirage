@@ -34,6 +34,29 @@ mock.onGet("/blog/tags").reply(200, {
   tags: blogTags
 })
 
+mock.onPost("/judger/submit").reply(function(config) {
+  console.log("=======================");
+  let data = JSON.parse(config.data);
+  let pass = `#include <iostream>
+using namespace std;
+
+int main() {
+  int a, b;
+  cin >> a >> b;
+  cout << a + b;
+  return 0;
+}`
+  if (data.code === pass) {
+    return [200, {
+      result: 9,
+    }]
+  } else {
+    return [200, {
+      result: 8
+    }]
+  }
+});
+
 mock.onGet("/problem/detail").reply(function(config) {
   const id = Number.parseInt(config.params.id);
   return [200, {

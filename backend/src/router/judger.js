@@ -43,9 +43,10 @@ function judge(task) {
     global.log.error(err);
   }
   global.log.info(result.result);
+  return result;
 }
 
-judger.get('/submit', async (ctx, next) => {
+judger.post('/submit', async (ctx, next) => {
   const defTask = {
     id: 1,
     pid: 1,
@@ -63,13 +64,15 @@ judger.get('/submit', async (ctx, next) => {
   let userTask = ctx.request.body.task;
   const props = ["id", "pid", "data", "lang", "code"];
   global.log.info(userTask.id);
+  let result;
   if (props.every(val => {return userTask[val] !== undefined;})) {
     userTask = {...defTask, ...userTask};
-    judge(userTask);
+    result = judge(userTask);
   } else {
     ctx.status = 400;
     ctx.body = "Not enough parameter"
   }
+  ctx.body = result;
 });
 
 module.exports = judger;

@@ -50,6 +50,14 @@ const message = {
     lang: {
       change: "Language Changed"
     },
+    problem: {
+      submit: "Code Submitted",
+      judging: "Code Judging",
+      success: "Code Accepted!",
+      wrong: "Wrong Answer",
+      compile: "Compile Error",
+      run: "Run Error",
+    },
     verify: "Please fill in the form correctly.",
     login: {
       success: "Log in successfully",

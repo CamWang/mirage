@@ -49,6 +49,14 @@ const message = {
     lang: {
       change: "语言切换成功"
     },
+    problem: {
+      submit: "代码已提交",
+      judging: "正在判题",
+      success: "解答正确",
+      wrong: "答案错误",
+      compile: "编译错误",
+      run: "运行错误",
+    },
     verify: "请按正确格式填写表单内容",
     login: {
       success: "成功登录",

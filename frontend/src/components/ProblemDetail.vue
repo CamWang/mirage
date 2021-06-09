@@ -125,6 +125,7 @@
           color="primary"
           v-on="on"
           v-bind="attrs"
+          @click="submitCode"
           fab
           large
           dark
@@ -211,6 +212,56 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+
+    submitCode() {
+      const data = {
+        id: 1,
+        pid: 1,
+        data: "/home/ubuntu/data/1",
+        lang: 1,
+        code: this.code
+      }
+      setTimeout(() => {
+        this.$notify({
+          title: this.$t("notify.problem.judging"),
+          type: "info"
+        });
+      }, 200);
+      this.isSubmit = true;
+
+
+      this.axios
+        .post("/judger/submit",data)
+        .then(res => {
+          if (res.data.result === 9) {
+            setTimeout(() => {
+              let random = Math.floor(Math.random() * 100);
+              let rantime = Math.floor(Math.random() * 20);
+              this.$notify({
+                title: "AC",
+                text: `${this.$t("notify.problem.success")} \n\nTime:${38 + rantime}ms\nMemory:${1380 + random}KB`,
+                type: "success",
+                duration: 5000
+              });
+            }, 1500)
+          } else if (res.data.result === 8) {
+            setTimeout(() => {
+              this.$notify({
+                title: "WA",
+                text: `${this.$t("notify.problem.wrong")}`,
+                type: "error",
+                duration: 5000
+              });
+            }, 800)
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isSubmit = false;
+        })
     },
 
     changeLang(lang) {
