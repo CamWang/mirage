@@ -56,6 +56,8 @@ const message = {
       wrong: "答案错误",
       compile: "编译错误",
       run: "运行错误",
+      time: "运行时间",
+      memory: "使用内存"
     },
     verify: "请按正确格式填写表单内容",
     login: {

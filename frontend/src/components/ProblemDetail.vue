@@ -216,11 +216,9 @@ export default {
 
     submitCode() {
       const data = {
-        id: 1,
-        pid: 1,
-        data: "/home/ubuntu/data/1",
-        lang: 1,
-        code: this.code
+        pid: this.id,
+        lang: this.langList.indexOf(this.lang) || 1,
+        code: this.code,
       }
       setTimeout(() => {
         this.$notify({
@@ -230,7 +228,7 @@ export default {
       }, 200);
       this.isSubmit = true;
 
-
+      const timeTrans = "notify.problem.time";
       this.axios
         .post("/judger/submit",data)
         .then(res => {
@@ -240,9 +238,9 @@ export default {
               let rantime = Math.floor(Math.random() * 20);
               this.$notify({
                 title: "AC",
-                text: `${this.$t("notify.problem.success")} \n\nTime:${38 + rantime}ms\nMemory:${1380 + random}KB`,
+                text: `${this.$t("notify.problem.success")} \n\n${this.$t(timeTrans)}:${38 + rantime}ms\n${this.$t("notify.problem.memory")}:${1380 + random}KB`,
                 type: "success",
-                duration: 5000
+                duration: 6000
               });
             }, 1500)
           } else if (res.data.result === 8) {
@@ -251,7 +249,7 @@ export default {
                 title: "WA",
                 text: `${this.$t("notify.problem.wrong")}`,
                 type: "error",
-                duration: 5000
+                duration: 6000
               });
             }, 800)
           }

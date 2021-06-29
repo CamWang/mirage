@@ -57,6 +57,8 @@ const message = {
       wrong: "Wrong Answer",
       compile: "Compile Error",
       run: "Run Error",
+      time: "Time",
+      memory: "Memory"
     },
     verify: "Please fill in the form correctly.",
     login: {
