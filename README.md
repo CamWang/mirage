@@ -77,7 +77,9 @@ Backend is a normal Node.js program based on Koa.js and MongoDB. It's in charge 
 
 ## Contributors
 [@CamWang](https://github.com/camwang)
+[@along](https://github.com/starnightw)
 [@cbl012943](https://github.com/cbl012943)
+[@shiqi00](https://github.com/Shiqi00)
 
 ## Acknowledgements
 Special thanks go to my tutor WengPeng at UP366 which is my intern company who helps a lot improving my code skills.
