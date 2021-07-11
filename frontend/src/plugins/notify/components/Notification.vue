@@ -42,6 +42,7 @@ import { events } from "../events";
 import parseNumericValue from "../parser";
 import { Id, split, listToDirection, Timer } from "../utils";
 
+// 默认配置
 const defaults = {
   position: ["bottom", "right"],
   velocityAnimation: {
