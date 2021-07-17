@@ -34,9 +34,9 @@ class Server {
     this.setupLogger();
     const log = global.log;
     log.info("logger established");
-    log.info("mongodb is initializing");
+    log.info("mongoose is initializing");
     this.setupDatabase();
-    log.info("mongodb established");
+    log.info("mongoose established");
     log.info("server is initializing");
     this.setupServer();
     log.info(`server running at http://localhost:${config.server.port}`);
@@ -88,12 +88,17 @@ class Server {
       try {
         await next();
       } catch(err) {
+        // koa-jwt error handler
+        if (401 == err.status) {
+          ctx.status = 401;
+          ctx.body = 'Protected resource, use Authorization header to get access\n';
+        }
         global.log.error(err.message);
         ctx.status = err.status || 500;
         ctx.body = err.message;
         ctx.app.emit("error", err, ctx);
       }
-    })
+    });
     app.use(router.routes());
     app.use(router.allowedMethods());
     app.use(historyApiFallback({ whiteList: ['/api']}));

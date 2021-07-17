@@ -1,6 +1,5 @@
-const { MongoClient } = require("mongodb");
+const mongoose = require('mongoose');
 const config = require("../config");
-const assert = require("assert");
 
 let log;
 
@@ -14,18 +13,16 @@ class Database {
 
   setupDatabase() {
     const dbName = "mirage";
-    const client = new MongoClient(this.uri, {
-      useNewUrlParser: true, 
-      useUnifiedTopology: true
+    mongoose.connect(this.uri, {useNewUrlParser: true, useUnifiedTopology: true});
+    const db = mongoose.connection;
+    log.info("wait database to connect...");
+    db.on('error', function() {
+      log.error("database connect fail " + err);
     });
-    client.connect((err) => {
-      if (err == null) {
-        log.info("database connected");
-        this.db = client.db(dbName);
-      } else {
-        log.error("database connect fail " + err);
-      }
-    })
+    db.once('open', function() {
+      log.info("database connected");
+    });
+    this.db = mongoose;
   }
 
   getUri() {
@@ -53,9 +50,18 @@ class Database {
     } else {
       log.error("config.db.hostname wrong");
     }
+    uri += `/`;
+    if (
+      typeof config.db.database == "string" &&
+      config.db.database.length > 0
+    ) {
+      uri += config.db.database
+    } else {
+      log.error("config.db.database wrong");
+    }
     if (Array.isArray(config.db.options)) {
       if (config.db.options.length > 0) {
-        uri += `/?${config.db.options.join("&")}`;
+        uri += `?${config.db.options.join("&")}`;
       }
     }
     return uri;
