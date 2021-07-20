@@ -1,0 +1,22 @@
+{
+  "name": "mirage",
+  "version": "1.0.0",
+  "description": "An online judge platform",
+  "main": "./backend/src/index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CamWang/mirage.git"
+  },
+  "author": "cam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CamWang/mirage/issues"
+  },
+  "homepage": "https://github.com/CamWang/mirage#readme"
+}
