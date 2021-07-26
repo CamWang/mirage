@@ -6,8 +6,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "mocha",
-    "prod": "echo \"Didn't finished yet\""
+    "test": "mocha --recursive",
+    "prod": "cd ../fronend && npm run build && cd ../core && npm run build"
   },
   "keywords": [
     "mirage",
@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@koa/router": "^10.0.0",
+    "chai": "^4.3.4",
     "chalk": "^4.1.1",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
