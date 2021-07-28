@@ -45,13 +45,9 @@ echo "[MIRAGE] Installing Mirage..."
 sudo useradd -d "/home/ubuntu" -m ubuntu
 cd /home/ubuntu
 git clone https://github.com/CamWang/mirage.git
-cd /home/ubuntu/mirage/frontend
-npm install
+cd /home/ubuntu/mirage
+npm run env
 npm run build
-cd /home/ubuntu/mirage/core
-npm install
-npm run build
-cd /home/ubuntu/mirage/backend
-npm install
+cd /home/ubuntu/backend
 npm run start
 echo "[MIRAGE] Mirage Installed Successfully!"
