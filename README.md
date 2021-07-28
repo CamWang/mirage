@@ -73,6 +73,7 @@ frontend
 Backend is a normal Node.js program based on Koa.js and MongoDB. It's in charge of most system logic and all data persistence operations. It provides an RESTful API to clients like a normal backend do. Judger addon is called by this module when needed. It uses the following technologies to achieve that.
 * Koa
 * MongoDB
+* Mongoose (ORM framework for MongoDB)
 * Winston
 
 ## Contributors

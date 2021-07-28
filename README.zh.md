@@ -76,6 +76,7 @@ frontend
 后端是一个普通的基于Koa.js与MongoDB的Node.js程序。后端是负责主要系统逻辑和数据持久化的部分。它就像其他项目的后端那样对外提供一个RESTful API允许客户端（通常为前端）进行请求获取数据。它对内，在需要的时候会调用判题机插件进行判题。后端使用到了以下技术
 * Koa
 * MongoDB
+* Mongoose（MongoDB的对象关系映射框架）
 * Winston
 
 ## 贡献者
