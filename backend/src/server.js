@@ -50,7 +50,7 @@ class Server {
     const handler = {
       apply: function(target, thisArg, args) {
         target.apply(thisArg, args);
-        throw Error(args.join());
+        // throw Error(args.join());
       }
     }
     logger.error = new Proxy(logger.error, handler);
@@ -84,9 +84,15 @@ class Server {
       maxage: 3600
     });
     app.use(bodyParser());
+    // error handler
     app.use(async (ctx, next) => {
       try {
         await next();
+        // 404 error handler - koa default status is 404
+        if (ctx.status === 404) {
+          ctx.body = "Sorry. I didn't find that page on mirage";
+          global.log.error(`404 visit to: ${ctx.url}`);
+        }
       } catch(err) {
         // koa-jwt error handler
         if (401 == err.status) {
