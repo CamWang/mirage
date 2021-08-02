@@ -14,14 +14,20 @@ const blogTagSchema = new Schema({
     required: true,
     default: ""
   },
-  content: String,
-  color: String,
-  type: String
+  content: {
+    type: String
+  },
+  color: {
+    type: String
+  },
+  type: {
+    type: String
+  }
 });
 
 const blogCommentSchema = new Schema({
   author: {
-    
+    type: 
   }
 });
 
@@ -60,4 +66,7 @@ const blogSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = {
+  schema: blogSchema,
+  model: mongoose.model("User", blogSchema)
+}

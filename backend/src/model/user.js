@@ -1,28 +1,50 @@
 const mongoose = require("mongoose");
+const validator = require("@/util/validator");
+const { role } = require('@/util/constant');
 
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  username: {
+  username: {         // 用户名 英文加数字、小写
     type: String,
-    required: true
+    required: true,
+    validate: {
+      validator: validator.username
+    }
   },
   password: {
     type: String,
     required: true,
-    default: "123456"
-  },
-  nickname: {
-    type: String,
-    default: ""
-  },
-  name: {
-    type: String,
-    default: ""
+    default: "123456",
+    validate: {
+      validator: validator.password
+    }
   },
   email: {
     type: String,
-    required: true
+    default: "",
+    validate: {
+      validator: validator.email
+    }
+  },
+  phone: {
+    type: String,
+    default: "",
+    validate: {
+      validator: validator.phone
+    }
+  },
+  nickname: {
+    type: String,
+    default: "",
+    minLength: 3,
+    maxLength: 20
+  },
+  name: {
+    type: String,
+    default: "",
+    minLength: 2,
+    maxLength: 30
   },
   time: {
     type: Date,
@@ -42,7 +64,8 @@ const userSchema = new Schema({
   },
   role: {
     type: [String],
-    default: ["default"]
+    default: role.default,
+    enum: role.list
   },
   defunct: {
     type: Boolean,
@@ -54,4 +77,7 @@ const userSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = {
+  schema: userSchema,
+  model: mongoose.model("User", userSchema)
+}
