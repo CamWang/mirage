@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "mocha --recursive",
-    "build": "cd ../fronend && npm run build && cd ../core && npm run build"
+    "build": "cd ../frontend && npm run build && cd ../core && npm run build"
   },
   "keywords": [
     "mirage",
