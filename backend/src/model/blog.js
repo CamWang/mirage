@@ -27,7 +27,18 @@ const blogTagSchema = new Schema({
 
 const blogCommentSchema = new Schema({
   author: {
-    type: 
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
+  time: {
+    type: Date,
+    default: Date.now
+  },
+  content: {
+    type: String,
+  },
+  replyTo: {
+    type: Schema.Types.ObjectId,
   }
 });
 
@@ -66,7 +77,11 @@ const blogSchema = new Schema({
   }
 });
 
+const Blog = mongoose.model("Blog", blogSchema);
+
 module.exports = {
-  schema: blogSchema,
-  model: mongoose.model("User", blogSchema)
+  blogSchema,
+  blogTagSchema,
+  blogCommentSchema,
+  Blog
 }
