@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const validator = require("@/util/validator");
-const { role } = require('@/util/constant');
+const validator = require("../util/validator");
+const { role } = require('../util/constant');
 
 const { Schema } = mongoose;
 

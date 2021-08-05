@@ -27,6 +27,10 @@ module.exports = {
   server: {
     base: "/api",
     port: 3000,
+    upload: {
+      sizeLimit: 50 * 1024 * 1024,
+      path: 'public/upload/'
+    }
   },
   db: {
     username: "",

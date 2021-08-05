@@ -1,6 +1,7 @@
+const path = require('path');
 const Koa = require("koa");
 const serve = require("koa-static");
-const bodyParser = require("koa-bodyparser");
+const koaBody = require('koa-body');
 const Http = require("http");
 const { historyApiFallback } = require("koa2-connect-history-api-fallback");
 const Winston = require("winston");
@@ -79,11 +80,22 @@ class Server {
     }
     this.port = config.server.port;
     const app = new Koa();
+
     app.use(serve('dist'), {
-      gzip: true,
-      maxage: 3600
+      gzip: true
     });
-    app.use(bodyParser());
+
+    // parse parameter and multipart file
+    app.use(koaBody({
+      multipart:true,
+      encoding:'gzip',
+      formidable:{
+        uploadDir: path.join(__dirname, config.server.upload.path),
+        keepExtensions: true,
+        maxFieldsSize: config.server.upload.sizeLimit,
+      }
+    }));
+
     // error handler
     app.use(async (ctx, next) => {
       try {
