@@ -10,6 +10,7 @@ const Socket = require("socket.io").Server;
 const router = require("./router");
 const config = require("./config");
 const Database = require("./db");
+const { onlyExecInDev } = require("./util/constant");
 
 // even in other modules you should initialize log in constructor
 // or in other words, in a delayed manner. If you initialize log
@@ -85,10 +86,6 @@ class Server {
       gzip: true
     });
 
-    // parse parameter
-
-    app.use(bodyParser());
-
     // error handler
     app.use(async (ctx, next) => {
       try {
@@ -99,17 +96,35 @@ class Server {
           global.log.error(`404 visit to: ${ctx.url}`);
         }
       } catch(err) {
-        // koa-jwt error handler
-        if (401 == err.status) {
-          ctx.status = 401;
-          ctx.body = 'Protected resource, use Authorization header to get access\n';
+        if (err) {
+          // koa-jwt error handler
+          if (401 == err.status) {
+            ctx.status = 401;
+            ctx.body = 'Protected resource, use Authorization header to get access\n';
+          }
+          global.log.error(err.message);
+          ctx.body = err.message;
+          ctx.app.emit("error", err, ctx);
         }
-        global.log.error(err.message);
-        ctx.status = err.status || 500;
-        ctx.body = err.message;
-        ctx.app.emit("error", err, ctx);
+        global.log.error(err);
       }
     });
+
+    // time calculate
+    if (this.development) {
+      app.use(async (ctx, next) => {
+        const start = Date.now();
+        await next();
+        const ms = Date.now() - start;
+        ctx.set('X-Response-Time', `${ms}ms`);
+        const rt = ctx.response.get('X-Response-Time');
+        global.log.info(`${ctx.method} ${ctx.url} - ${rt}`);
+      });
+    }
+
+    // parse parameter
+    app.use(bodyParser());
+
     app.use(router.routes());
     app.use(router.allowedMethods());
     app.use(historyApiFallback({ whiteList: ['/api']}));

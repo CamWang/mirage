@@ -1,6 +1,6 @@
 const Router = require("@koa/router");
 const { User } = require("../model/user");
-const config = require("./config");
+const { onlyExecInDev } = require("../util/constant");
 
 const user = new Router();
 
@@ -22,11 +22,13 @@ user.post('/register', async (ctx, netx) => {
     password: ctx.request.body.password
   });
   const error = user.validateSync();
-  if (error && config.mode === "development") {
-    log.error(error);
+  if (error) {
+    throw error;
   }
   await user.save();
-  ctx.body = "user";
+  ctx.body = {
+    username: ctx.request.body.username
+  };
 });
 
 module.exports = user;
