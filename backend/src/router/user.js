@@ -7,8 +7,12 @@ const user = new Router();
 const log = global.log;
 
 user.get('/', async (ctx, next) => {
-  let data = await User.find({});
-  ctx.body = data;
+  if (ctx.request.body.id) {
+    let data = await User.findOne({ _id: ctx.request.body.id }).exec();
+    ctx.body = data;
+  } else {
+    throw new Error("Id is not present");
+  }
 });
 
 user.get('/list', async (ctx, next) => {
