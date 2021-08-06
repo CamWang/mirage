@@ -22,27 +22,23 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    default: "",
     validate: {
       validator: validator.email
     }
   },
   phone: {
     type: String,
-    default: "",
     validate: {
       validator: validator.phone
     }
   },
   nickname: {
     type: String,
-    default: "",
     minLength: 3,
     maxLength: 20
   },
   name: {
     type: String,
-    default: "",
     minLength: 2,
     maxLength: 30
   },
@@ -52,15 +48,12 @@ const userSchema = new Schema({
   },
   country: {
     type: String,
-    default: ""
   },
   school: {
     type: String,
-    default: ""
   },
   avatar: {
     type: String,
-    default: ""
   },
   role: {
     type: [String],

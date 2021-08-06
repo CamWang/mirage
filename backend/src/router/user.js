@@ -4,11 +4,19 @@ const { User } = require("../model/user");
 const user = new Router();
 
 user.get('/', async (ctx, next) => {
-  ctx.body = "Hello World";
+  let data = await User.find({});
+  ctx.body = data;
 });
 
 user.post('/register', async (ctx, netx) => {
-  console.log(JSON.stringify())
-})
+  const user = new User({
+    username: ctx.request.body.username,
+    password: ctx.request.body.password
+  });
+  const error = user.validateSync();
+  console.log(error);
+  await user.save();
+  ctx.body = "user";
+});
 
 module.exports = user;
