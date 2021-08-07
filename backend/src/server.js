@@ -87,6 +87,9 @@ class Server {
     });
 
     // error handler
+    if (!this.development) {
+      Error.stackTraceLimit = 5;
+    }
     app.use(async (ctx, next) => {
       try {
         await next();
@@ -97,10 +100,14 @@ class Server {
         }
       } catch(err) {
         if (err) {
+          console.log("error status", err.status);
           // koa-jwt error handler
           if (401 == err.status) {
             ctx.status = 401;
             ctx.body = 'Protected resource, use Authorization header to get access\n';
+          }
+          if (err.status) {
+            ctx.status = err.status;
           }
           global.log.error(err.message);
           ctx.body = err.message;

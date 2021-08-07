@@ -7,12 +7,11 @@ const user = new Router();
 const log = global.log;
 
 user.get('/', async (ctx, next) => {
-  if (ctx.request.body.id) {
-    let data = await User.findOne({ _id: ctx.request.body.id }).exec();
-    ctx.body = data;
-  } else {
-    throw new Error("Id is not present");
+  if (!ctx.request.body.id) {
+    throw new Error("id is not present");
   }
+  let data = await User.findOne({ _id: ctx.request.body.id }).exec();
+  ctx.body = data;
 });
 
 user.get('/list', async (ctx, next) => {
@@ -21,13 +20,17 @@ user.get('/list', async (ctx, next) => {
 })
 
 user.post('/register', async (ctx, netx) => {
+  const body = ctx.request.body;
+  if (!body.username || !body.password) {
+    throw new Error("username or password is not present");
+  }
   const user = new User({
     username: ctx.request.body.username,
     password: ctx.request.body.password
   });
   const error = user.validateSync();
   if (error) {
-    throw error;
+    throw new Error(error);
   }
   await user.save();
   ctx.body = {
