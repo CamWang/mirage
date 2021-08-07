@@ -11,7 +11,10 @@
     "build:frontend": "cd frontend && npm run build",
     "build:core": "cd core && npm run build",
     "build": "cd backend && npm build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
   },
   "repository": {
     "type": "git",
@@ -22,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/CamWang/mirage/issues"
   },
-  "homepage": "https://github.com/CamWang/mirage#readme"
+  "homepage": "https://github.com/CamWang/mirage#readme",
+  "devDependencies": {
+    "vitepress": "^0.15.6"
+  }
 }
