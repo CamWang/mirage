@@ -99,6 +99,7 @@ class Server {
           global.log.error(`404 visit to: ${ctx.url}`);
         }
       } catch(err) {
+        console.log(err);
         if (err) {
           console.log("error status", err.status);
           // koa-jwt error handler
@@ -108,6 +109,9 @@ class Server {
           }
           if (err.status) {
             ctx.status = err.status;
+          }
+          if (err.code) {
+            ctx.status = err.code;
           }
           global.log.error(err.message);
           ctx.body = err.message;
