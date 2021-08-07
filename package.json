@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/CamWang/mirage#readme",
   "devDependencies": {
-    "vitepress": "^0.15.6"
+    "vitepress": "^0.15.6",
+    "vuepress-bar": "^0.4.2"
   }
 }
