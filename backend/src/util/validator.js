@@ -1,3 +1,9 @@
+/**
+ * validator.js
+ * 
+ * 为Mongoose validation功能创建的验证器
+ */
+
 const validator = {
   username: function(v) {
     return /^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(v);

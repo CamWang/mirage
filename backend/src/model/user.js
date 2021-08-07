@@ -72,6 +72,10 @@ const userSchema = new Schema({
 
 const User = mongoose.model("User", userSchema);
 
+userSchema.methods.getSomeByPage = async function(page, items) {
+  return await User.find().skip((page - 1) * items).limit(items).exec();
+}
+
 module.exports = {
   userSchema,
   User
