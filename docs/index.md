@@ -1,6 +1,5 @@
 ---
 home: true
-
 heroImage: /logo.png
 heroAlt: Logo image
 heroText: Mirage
