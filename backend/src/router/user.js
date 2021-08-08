@@ -30,7 +30,7 @@ user.get('/list', async (ctx, next) => {
   if (body.items && Number.isInteger(body.items)) { items = body.items }
   let data = await User.find().select('-password').skip((page - 1) * items).limit(items).exec();
   ctx.body = data;
-})
+});
 
 user.post('/register', async (ctx, netx) => {
   const body = ctx.request.body;
