@@ -16,7 +16,7 @@ user.get('/', async (ctx, next) => {
   if (!body.id) {
     throw new RequestError("id is not present");
   }
-  let data = await User.findOne({ _id: ctx.request.body.id }).exec();
+  let data = await User.findOne({ _id: ctx.request.body.id }).select('-password').exec();
   if (!data) {
     throw new GoneError("no entity matched");
   }
@@ -28,7 +28,7 @@ user.get('/list', async (ctx, next) => {
   let page = 1, items = 30;
   if (body.page && Number.isInteger(body.page)) { page = body.page }
   if (body.items && Number.isInteger(body.items)) { items = body.items }
-  let data = await User.find().skip((page - 1) * items).limit(items).exec();
+  let data = await User.find().select('-password').skip((page - 1) * items).limit(items).exec();
   ctx.body = data;
 })
 
