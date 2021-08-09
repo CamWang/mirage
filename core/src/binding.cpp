@@ -1,5 +1,6 @@
 #include <napi.h>
 #include "judger/judger.h"
+#include "judger/async.h"
 #include <unistd.h>
 
 void throwBindingError(Napi::Env env, const string& msg, const string& name);
@@ -14,10 +15,12 @@ public:
 private:
   Judger judger;
   Task task;
+  Napi::FunctionReference emit;
 
   Napi::Value SetJudger(const Napi::CallbackInfo& info);
   Napi::Value SetTask(const Napi::CallbackInfo& info);
   Napi::Value Judge(const Napi::CallbackInfo& info);
+  Napi::Value JudgeAsync(const Napi::CallbackInfo& info);
 };
 
 Napi::Object Inferno::Init(Napi::Env env, Napi::Object exports) {
@@ -25,31 +28,34 @@ Napi::Object Inferno::Init(Napi::Env env, Napi::Object exports) {
     InstanceMethod<&Inferno::SetJudger>("setJudger"),
     InstanceMethod<&Inferno::SetTask>("setTask"),
     InstanceMethod<&Inferno::Judge>("judge"),
-    });
+    InstanceMethod<&Inferno::JudgeAsync>("judgeAsync"),
+  });
 
   exports.Set("Inferno", func);
   return exports;
 }
 
 Inferno::Inferno(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Inferno>(info) {
-  // Napi::Env env = info.Env();
+  if (info.Length() > 0 && info[0].IsFunction()) {
+    this->emit = Napi::Persistent(info[0].As<Napi::Function>());
+  }
 }
 
 Napi::Value Inferno::SetJudger(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   if (info.Length() < 6)   {
-    throwBindingError(env, "argument number error", "Inferno::Inferno()");
+    throwBindingError(env, "argument number error", "Inferno::setJudger()");
   }
   for (int i = 0; i < 6; i++) {
     if (i == 1 || i == 2 || i == 3) {
       if (!info[i].IsBoolean()) {
-        throwBindingError(env, "argument type error", "Inferno::Inferno()");
+        throwBindingError(env, "argument type error", "Inferno::setJudger()");
       } else {
         continue;
       }
     } 
     if (!info[i].IsString()) {
-      throwBindingError(env, "argument type error", "Inferno::Inferno()");
+      throwBindingError(env, "argument type error", "Inferno::setJudger()");
     }
   }
   string dir = info[0].As<Napi::String>().Utf8Value();
@@ -94,27 +100,24 @@ Napi::Value Inferno::SetTask(const Napi::CallbackInfo& info) {
 
 Napi::Value Inferno::Judge(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  log("Start Init");
+  this->emit.Call({Napi::String::New(env, "init")});
   try {
     this->judger.Init(&(this->task));
   } catch (string msg) {
     throwBindingError(env, msg, "Judger::Init()");
   }
-  log("End Init");
-  log("Start Compile");
+  this->emit.Call({Napi::String::New(env, "compile")});
   try {
     this->judger.Compile();
   } catch (string msg) {
     throwBindingError(env, msg, "Judger::Compile()");
   }
-  log("End Compile");
-  log("Start Judge");
+  this->emit.Call({Napi::String::New(env, "judge")});
   try {
     this->judger.Judge();
   } catch (string msg) {
     throwBindingError(env, msg, "Judger::Judge()");
   }
-  log("End Jduge");
   Napi::Object result = Napi::Object::New(env);
   result.Set("id", 1);
   result.Set("cec", this->judger.GetCec());
@@ -123,6 +126,17 @@ Napi::Value Inferno::Judge(const Napi::CallbackInfo& info) {
   result.Set("timerun", (this->task).time);
   result.Set("memory", (this->task).memory);
   return result;
+}
+
+Napi::Value Inferno::JudgeAsync(const Napi::CallbackInfo& info) {
+  log("here1");
+  Napi::Function callback = info[0].As<Napi::Function>();
+  log("here2");
+  JudgeWorker* judgeWorker = new JudgeWorker(callback, this->judger, this->task);
+  log("here3");
+  judgeWorker->Queue();
+  log("here4");
+  return info.Env().Undefined();
 }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {

@@ -1,17 +1,37 @@
 const pino = require("pino");
+const EventEmitter = require("events").EventEmitter;
 
 const { Inferno } = require("../build/Release/inferno");
 const config = require("../assets/config.json");
 const task = require("../assets/task.json");
 
+/**
+ * index.js
+ * 
+ * 测试判题核心代码
+ * 判题核心需要传入一个EventEmitter用于接收事件
+ */
+
 const logger = pino({
   prettyPrint: { colorize: true },
+});
+
+const emitter = new EventEmitter();
+
+emitter.on("init", function() {
+  logger.warn("START INIT");
+});
+emitter.on("compile", function() {
+  logger.warn("START COMPILE");
+});
+emitter.on("judge", function() {
+  logger.warn("START JUDGE");
 });
 
 let inferno;
 
 try {
-  inferno = new Inferno();
+  inferno = new Inferno(emitter.emit.bind(emitter));
   logger.info(
     inferno.setJudger(
       config.direcotry,
@@ -43,10 +63,14 @@ try {
 
 let result;
 
-try {
-  result = inferno.judge();
-} catch (err) {
-  logger.error(err);
-}
+// try {
+//   result = inferno.judge();
+// } catch (err) {
+//   logger.error(err);
+// }
 
-logger.info(result);
+// logger.info(result);
+
+inferno.judgeAsync(result => {
+  console.log(result);
+})
