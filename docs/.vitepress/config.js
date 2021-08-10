@@ -6,6 +6,15 @@ module.exports = {
       { text: 'Guide', link: '/guide/' },
       { text: 'Development', link: '/develop/' },
       { text: 'GitHub', link: 'https://github.com/CamWang/mirage' }
-    ]
+    ],
+    sidebar: {
+      '/guide/': [
+        '',
+        'git',
+      ],
+      '/develop/': [
+        '',
+      ],
+    }
   }
 }
