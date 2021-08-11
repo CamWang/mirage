@@ -7,7 +7,8 @@ module.exports = {
       ],
       '/develop': [
         { text: '开发指南', link: '/develop/' },
-        { text: 'Git', link: '/develop/git' },
+        { text: 'Git常用指令', link: '/develop/git' },
+        { text: '数据库', link: '/develop/database' },
       ]
     },
     nav: [
