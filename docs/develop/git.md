@@ -57,6 +57,11 @@ git push
 git pull --rebase
 ```
 
+获取远程仓库的所有分支的提交记录，想同步远程和本地整个仓库进度可以使用这个
+```shell
+git fetch
+```
+
 切换到其他分支（branch），使用-b加新分支名可以创建新分支并切换到新分支
 ```shell
 git checkout branchname
