@@ -31,8 +31,7 @@ jobs:
     - name: Run build
       run: npm run docs:build
     - name: Run deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v3
+      uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: docs/.vuepress/dist
+        branch: gh-pages # The branch the action should deploy to.
+        folder: build # The folder the action should deploy.
