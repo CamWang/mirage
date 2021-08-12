@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const {
   CleanWebpackPlugin
 } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const {
   VuetifyLoaderPlugin
@@ -44,6 +45,14 @@ module.exports = {
       },
       clearConsole: true
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "static",
+          to: "static"
+        }
+      ]
+    })
   ],
 
   module: {
