@@ -58,3 +58,63 @@ MongoDB Compass是MongoDB官方使用的数据库管理工具，方便用户使�
 
 ## Mongoose
 
+Mongoose是一个MongoDB的对象数据映射框架（ODM），虽然MongoDB的原生存储方式（BSON）已经十分接近JavaScript对象，但是仍有许多操作可以被简化。它管理数据之间的关系，提供数据验证，将MongoDB的对象形式转换为Node.js的对象形式。
+
+### 快速入门
+
+下面是Mongoose基本使用的例子，摘取自Mongoose的官方文档Quick Start
+#### 准备动作
+
+首先要保证Node.js与MongoDB已经被正确的安装，然后使用npm安装Mongoose依赖。
+```shell
+npm install --save mongoose
+```
+如果我们想保存所有小猫到MongoDB里，首先要做的是在项目中引入Mongoose依赖，并告诉Mongoose如何连接本机的MongoDB服务器。
+```js
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true, useUnifiedTopology: true});
+```
+由于数据库连接是异步的，所以我们为连接数据库过程的各个事件绑定处理器，来获取连接状态。如果你不想在连接后进行操作，那这一步大可省略
+```js
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+});
+```
+
+#### 操作数据
+
+在Mongoose里，所有数据对象都是由Schema（一种类似于面向对象编程中接口的概念的东西）衍生而来。让我们定义一个Kitten小猫Schema。
+```js
+const kittySchema = new mongoose.Schema({
+  name: String,
+  color: String
+});
+```
+::: tip
+更多关于Mongoose Schema的内容，请参考Mongoose的Schema、SchemaType文档。
+:::
+很明显，上面的小猫Schema具有name名字和color颜色两个属性，这将搭建MongoDB和JavaScript代码中对象的桥梁。然后我们在JavaScript代码中使用这个桥梁为模板，新建一个Model
+```js
+const Kitten = mongoose.model('Kitten', kittySchema);
+```
+::: tip
+更多关于Mongoose Model的内容，请参考Mongoose的Model文档。
+:::
+Model类似于类的概念，我们接下来使用Model来创建真正具有数据的Document
+```js
+const bill = new Kitten({ name: 'Bill', color: 'orange' });
+console.log(bill.name); // 'Bill'
+```
+::: tip
+更多关于Mongoose Document的内容，请参考Mongoose的Document、Subdocument文档。
+:::
+此时，我们就可以调用`save()`方法来保存我们的小猫Bill了。调用`save()`方法将令Mongoose对MongoDB发出新建Kitten集合（Collection）指令并在该集合中写入一条Bill文档（Document）。  
+从Kitten集合（在MongoDB的集合，是在Mongoose里的Model）内查找Bill，我们可以使用Model上的`find()`方法。
+```js
+Kitten.find({ name: 'Bill' }, callback);
+```
+::: tip
+更多关于Mongoose数据查询内容，请参考Mongoose的Queries文档。
+:::
