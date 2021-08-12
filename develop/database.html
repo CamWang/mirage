@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/mirage/assets/style.abb680c9.css">
     <link rel="modulepreload" href="/mirage/assets/Home.67a7102b.js">
     <link rel="modulepreload" href="/mirage/assets/app.feb34482.js">
-    <link rel="modulepreload" href="/mirage/assets/develop_database.md.7051ce83.lean.js">
+    <link rel="modulepreload" href="/mirage/assets/develop_database.md.1be00df4.lean.js">
     <link rel="modulepreload" href="/mirage/assets/app.feb34482.js">
     <meta name="twitter:title" content="数据库 | Mirage Documents">
     <meta property="og:title" content="数据库 | Mirage Documents">
@@ -39,7 +39,7 @@ db<span class="token punctuation">.</span><span class="token function">once</spa
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bill<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// &#39;Bill&#39;</span>
 </code></pre></div><div class="tip custom-block"><p class="custom-block-title">TIP</p><p>更多关于Mongoose Document的内容，请参考Mongoose的Document、Subdocument文档。</p></div><p>此时，我们就可以调用<code>save()</code>方法来保存我们的小猫Bill了。调用<code>save()</code>方法将令Mongoose对MongoDB发出新建Kitten集合（Collection）指令并在该集合中写入一条Bill文档（Document）。<br> 从Kitten集合（在MongoDB的集合，是在Mongoose里的Model）内查找Bill，我们可以使用Model上的<code>find()</code>方法。</p><div class="language-js"><pre><code>Kitten<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">{</span> name<span class="token operator">:</span> <span class="token string">&#39;Bill&#39;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre></div><div class="tip custom-block"><p class="custom-block-title">TIP</p><p>更多关于Mongoose数据查询内容，请参考Mongoose的Queries文档。</p></div></div></div><footer class="page-footer" data-v-7eddb2c4 data-v-fb8d84c6><div class="edit" data-v-fb8d84c6><div class="edit-link" data-v-fb8d84c6 data-v-1ed99556><!----></div></div><div class="updated" data-v-fb8d84c6><!----></div></footer><div class="next-and-prev-link" data-v-7eddb2c4 data-v-38ede35f><div class="container" data-v-38ede35f><div class="prev" data-v-38ede35f><a class="link" href="/mirage/develop/git" data-v-38ede35f><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" class="icon icon-prev" data-v-38ede35f><path d="M19,11H7.4l5.3-5.3c0.4-0.4,0.4-1,0-1.4s-1-0.4-1.4,0l-7,7c-0.1,0.1-0.2,0.2-0.2,0.3c-0.1,0.2-0.1,0.5,0,0.8c0.1,0.1,0.1,0.2,0.2,0.3l7,7c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L7.4,13H19c0.6,0,1-0.4,1-1S19.6,11,19,11z"></path></svg><span class="text" data-v-38ede35f>Git常用指令</span></a></div><div class="next" data-v-38ede35f><!----></div></div></div><!--[--><!--]--></div></main></div><!----><!--]--></div>
-    <script>__VP_HASH_MAP__ = JSON.parse("{\"index.md\":\"df96ed62\",\"develop_database.md\":\"7051ce83\",\"develop_git.md\":\"8fd8c7d7\",\"develop_index.md\":\"52bb78b0\",\"guide_index.md\":\"78d323c2\"}")</script>
+    <script>__VP_HASH_MAP__ = JSON.parse("{\"index.md\":\"e2c538aa\",\"develop_database.md\":\"1be00df4\",\"develop_git.md\":\"14835bc0\",\"develop_index.md\":\"98510fc5\",\"guide_index.md\":\"e3204f1e\"}")</script>
     <script type="module" async src="/mirage/assets/app.feb34482.js"></script>
   </body>
 </html>
