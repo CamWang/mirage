@@ -1,5 +1,6 @@
 module.exports = {
   title: "Mirage Documents",
+  base: "/mirage/",
   themeConfig: {
     sidebar: {
       '/guide': [
