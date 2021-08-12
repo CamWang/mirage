@@ -28,7 +28,11 @@ jobs:
         cache: 'npm'
     - name: Run install
       run: npm install
+    - name: Run build
+      run: npm run docs:build
     - name: Run deploy
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      run: npm run docs:deploy
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: docs/.vuepress/dist
