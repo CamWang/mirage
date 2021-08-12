@@ -3,7 +3,7 @@
 # Mirage
 一个基于Node.js与Vue.js的在线判题系统  
   
-[![Mirage CI](https://github.com/CamWang/mirage/actions/workflows/ci.yml/badge.svg)](https://github.com/CamWang/mirage/actions/workflows/ci.yml)
+[![Mirage CI](https://github.com/CamWang/mirage/actions/workflows/ci.yml/badge.svg)](https://github.com/CamWang/mirage/actions/workflows/ci.yml) ![MIT License](https://img.shields.io/badge/license-MIT-green) [![Documents](https://img.shields.io/badge/docs-passing-success)](https://camwang.github.io/mirage/)
 ## 项目背景
 在过去的几年里，我给齐工大的ICPC队伍部署过一些在线判题系统，比如HustOJ和Domjudge。但是当老师要求一些新功能时我总是会遇到很多扩展的困难，俩系统都不能完全满足需求。感觉除了对系统有百分百的控制，我才能乐意去做老师和队员对系统提出的功能扩展。我曾经和一些同学做过几次尝试，但由于我有点懒然后又naive（也是因为懒），所以几次尝试都失败了。毕设ddl临近，我又有信心这次能把这个系统做完，这次我会尽力完成我一直想从零开始（伪，还是用到了很多框架）做一个真正能放在线上跑的在线判题系统。我希望这个项目能进展顺利。Vue3和Vite，我现在能用的就只能是Vue2和Webpack了，所以你们不要搞得太完美。
 
