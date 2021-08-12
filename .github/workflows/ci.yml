@@ -3,6 +3,7 @@ name: Mirage CI
 on:
   push:
     branches: [ main ]
+    path: 'docs/**'
   pull_request:
     branches: [ main ]
 
