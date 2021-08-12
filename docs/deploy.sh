@@ -27,6 +27,6 @@ git commit -m "${msg}"
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
-git push -f githubUrl main:gh-pages
+git push -f $githubUrl main:gh-pages
 
 cd -
