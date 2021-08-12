@@ -41,7 +41,8 @@ module.exports = {
     database: "mirage",
     options: [
       "poolSize=20",
-      "writeConcern=majority"
+      "writeConcern=majority",
+      "authSource=admin"
     ]
   },
   logger: {
