@@ -1,15 +1,3 @@
-dist: focal
 language: node_js
-node_js: 
-  - lts/*
-install:
-  - npm ci
-script:
-  - npm run docs:build
-deploy:
-  provider: pages
-  skip_cleanup: true
-  local_dir: docs/.vitepress/dist
-  keep_history: true
-  on:
-    branch: main
+script: true
+install: true
