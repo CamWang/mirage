@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "env": "cd frontend && npm run install && cd ../backend && npm run install && cd ../core && npm install",
+    "env": "cd frontend && npm install && cd ../backend && npm install && cd ../core && npm install",
     "build:frontend": "cd frontend && npm run build",
     "build:core": "cd core && npm run build",
     "build": "cd backend && npm build",

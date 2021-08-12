@@ -1,3 +1,7 @@
 language: node_js
-script: true
-install: true
+node_js:
+  - lts/*
+install:
+  - npm run env
+script:
+  - npm run docs:build
