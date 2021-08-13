@@ -71,6 +71,8 @@ let result;
 
 // logger.info(result);
 
-inferno.judgeAsync(result => {
+inferno.judgeAsync((result) => {
   console.log(result);
 })
+
+console.log("this should comes first");

@@ -1,10 +1,40 @@
 #include <napi.h>
 #include "judger/judger.h"
-#include "judger/async.h"
 #include <unistd.h>
 
 void throwBindingError(Napi::Env env, const string& msg, const string& name);
 void log(const string& msg);
+
+class JudgeWorker : public Napi::AsyncWorker {
+  public:
+    JudgeWorker(Napi::Function& callback, Judger& judger, Task& task) : Napi::AsyncWorker(callback), judger(judger), task(task) {
+    }
+
+    ~JudgeWorker() {}
+
+    void Execute() {
+      // this->emit.Call({Napi::String::New(Env(), "init")});
+      this->judger.Init(&(this->task));
+      this->judger.Compile();
+      this->judger.Judge();
+    }
+
+    void OnOK() {
+      Napi::Object result = Napi::Object::New(Env());
+      result.Set("id", 1);
+      result.Set("cec", this->judger.GetCec());
+      result.Set("result", int((this->task).result));
+      result.Set("testcase", (this->task).record);
+      result.Set("timerun", (this->task).time);
+      result.Set("memory", (this->task).memory);
+      Callback().Call({result});
+    }
+
+  private:
+    Judger& judger;
+    Task& task;
+    // Napi::FunctionReference& emit;
+};
 
 class Inferno : public Napi::ObjectWrap<Inferno> {
 public:
