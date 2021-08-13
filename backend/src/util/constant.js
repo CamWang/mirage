@@ -32,20 +32,32 @@ const lang = [
     memoryFactor: 1,
   }, {
     index: 2,
-    abbr: "java",
-    name: "Java",
-    timeFactor: 5,
-    memoryFactor: 10
+    abbr: "csharp",
+    name: "C#",
+    timeFactor: 2,
+    memoryFactor: 2
   }, {
     index: 3,
-    abbr: "javascript",
-    name: "JavaScript",
+    abbr: "java",
+    name: "Java",
     timeFactor: 5,
     memoryFactor: 10
   }, {
     index: 4,
     abbr: "python",
     name: "Python",
+    timeFactor: 5,
+    memoryFactor: 10
+  }, {
+    index: 5,
+    abbr: "golang",
+    name: "Go",
+    timeFactor: 2,
+    memoryFactor: 2
+  }, {
+    index: 6,
+    abbr: "javascript",
+    name: "JavaScript",
     timeFactor: 5,
     memoryFactor: 10
   }
