@@ -227,6 +227,8 @@ void Judger::Judge() {
   struct user_regs_struct regs;
   
   for (map<string, string>::iterator d = data_map.begin(); d != data_map.end(); d++) {
+    // if this testcase result wrong
+    bool isWrong = false;
     // change directory to test data directory
     if (chdir((this->task)->data.c_str()) == -1) {
       throw "change dir to " + (this->task)->data + " error";
@@ -372,11 +374,11 @@ void Judger::Judge() {
         if (fgets(ubuf, BUF_SIZE, uout)) {
           for (long unsigned int i = 0; i < sizeof(sbuf); i++) {
             if (sbuf[i] != ubuf[i]) {
-              (this->task)->result = Result::WA;
+              isWrong = true;
             }
           }
         } else {
-          (this->task)->result = Result::WA;
+          isWrong = true;
         }
       }
       if (fclose(uout) == -1 || fclose(sout) == -1) {
@@ -386,12 +388,9 @@ void Judger::Judge() {
     if (close(tifd) == -1) {
       cout << "close test in file error" << endl;
     }
-    if ((this->task)->result == Result::DEF) {
-      flipFlag(&((this->task)->record), testcase_index, true);
-      cout << testcase_index << ":" << (this->task)->record << endl;
-    }
-    if ((this->task)->result == Result::WA) {
-      flipFlag(&((this->task)->record), testcase_index, false);
+    flipFlag(&((this->task)->record), testcase_index, !isWrong);
+    if (isWrong && (this->task)->result == Result::DEF) {
+      (this->task)->result = Result::WA;
       if (mode == Mode::ACM) {
         return;
       }
@@ -510,9 +509,9 @@ int removeWorkDir(string& work_dir) {
 
 // Flip the accept for each test case of record
 int flipFlag(uint64_t *record, int i, bool result) {
-  *record = *record << i;
+  *record = *record << 1;
   if (result) {
-    *record = 1;
+    *record = *record + 1;
   } 
   return 0;
 }
