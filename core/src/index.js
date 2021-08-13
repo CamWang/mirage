@@ -52,6 +52,7 @@ try {
       task.mlmt,
       task.lang,
       task.type,
+      task.mode,
       task.data,
       task.spj,
       task.code
