@@ -62,8 +62,8 @@ map<string, string> getDataMapFromDir(string& data_dir);
 // Remove workdir for better storage management
 int removeWorkDir(string& work_dir);
 
-// Filp AC flag at test case i of the record uint64, so the max testcase count is 64
-int flipAcFlag(uint64_t *record, int i);
+// Filp result flag test case of the record uint64, so the max testcase count is 64
+int flipFlag(uint64_t *record, int i, bool result);
 
 // Add up rusage
 void updateTotalTime(uint32_t *total_time, struct rusage *usage);
@@ -213,6 +213,7 @@ void Judger::Sandbox() {
  */
 void Judger::Judge() {
   map<string, string> data_map = getDataMapFromDir((this->task)->data);
+  this->testcase = data_map.size();
   if (data_map.size() < 1) {
     throw "no data in the data directory";
   }
@@ -353,48 +354,47 @@ void Judger::Judge() {
       (this->task)->memory = usage.ru_maxrss;
 
       // compare
-      if ((this->task)->result == Result::DEF) {
-        char ubuf[BUF_SIZE] = {};
-        char sbuf[BUF_SIZE] = {};
-        FILE* uout, * sout;
-        string ufile = "./out";
-        string sfile = (this->task)->data + "/" + d->second;
-        if (chdir(this->work_dir.c_str()) == -1) {
-          throw "change directory to work directory error when compare";
-        }
-        if ((uout = fopen(ufile.c_str(), TR.c_str())) == NULL) {
-          throw "open user out file error";
-        }
-        if ((sout = fopen(sfile.c_str(), TR.c_str())) == NULL) {
-          throw "open standard data: " + d->second + " error";
-        }
-        while (fgets(sbuf, BUF_SIZE, sout)) {
-          if (fgets(ubuf, BUF_SIZE, uout)) {
-            for (long unsigned int i = 0; i < sizeof(sbuf); i++) {
-              if (sbuf[i] != ubuf[i]) {
-                (this->task)->result = Result::WA;
-                if (mode == Mode::ACM) {
-                  return;
-                }
-              }
-            }
-          } else {
-            (this->task)->result = Result::WA;
-            if (mode == Mode::ACM) {
-              return;
+      char ubuf[BUF_SIZE] = {};
+      char sbuf[BUF_SIZE] = {};
+      FILE* uout, * sout;
+      string ufile = "./out";
+      string sfile = (this->task)->data + "/" + d->second;
+      if (chdir(this->work_dir.c_str()) == -1) {
+        throw "change directory to work directory error when compare";
+      }
+      if ((uout = fopen(ufile.c_str(), TR.c_str())) == NULL) {
+        throw "open user out file error";
+      }
+      if ((sout = fopen(sfile.c_str(), TR.c_str())) == NULL) {
+        throw "open standard data: " + d->second + " error";
+      }
+      while (fgets(sbuf, BUF_SIZE, sout)) {
+        if (fgets(ubuf, BUF_SIZE, uout)) {
+          for (long unsigned int i = 0; i < sizeof(sbuf); i++) {
+            if (sbuf[i] != ubuf[i]) {
+              (this->task)->result = Result::WA;
             }
           }
+        } else {
+          (this->task)->result = Result::WA;
         }
-        if (fclose(uout) == -1 || fclose(sout) == -1) {
-          cout << "close user out or standard out error" << endl;
-        }
+      }
+      if (fclose(uout) == -1 || fclose(sout) == -1) {
+        cout << "close user out or standard out error" << endl;
       }
     }
     if (close(tifd) == -1) {
       cout << "close test in file error" << endl;
     }
     if ((this->task)->result == Result::DEF) {
-      flipAcFlag(&((this->task)->record), testcase_index);
+      flipFlag(&((this->task)->record), testcase_index, true);
+      cout << testcase_index << ":" << (this->task)->record << endl;
+    }
+    if ((this->task)->result == Result::WA) {
+      flipFlag(&((this->task)->record), testcase_index, false);
+      if (mode == Mode::ACM) {
+        return;
+      }
     }
     testcase_index++;
   }
@@ -509,14 +509,11 @@ int removeWorkDir(string& work_dir) {
 }
 
 // Flip the accept for each test case of record
-int flipAcFlag(uint64_t *record, int i) {
-  if (i < -1) {
-    return -1;
-  } else if (i == 0) {
+int flipFlag(uint64_t *record, int i, bool result) {
+  *record = *record << i;
+  if (result) {
     *record = 1;
-  } else {
-    *record = *record << i;
-  }
+  } 
   return 0;
 }
 

@@ -23,8 +23,9 @@ class JudgeWorker : public Napi::AsyncWorker {
       Napi::Object result = Napi::Object::New(Env());
       result.Set("id", 1);
       result.Set("cec", this->judger.GetCec());
+      result.Set("testcase", this->judger.GetTestCase());
       result.Set("result", int((this->task).result));
-      result.Set("testcase", (this->task).record);
+      result.Set("record", (this->task).record);
       result.Set("timerun", (this->task).time);
       result.Set("memory", (this->task).memory);
       Callback().Call({result});
@@ -152,7 +153,8 @@ Napi::Value Inferno::Judge(const Napi::CallbackInfo& info) {
   result.Set("id", 1);
   result.Set("cec", this->judger.GetCec());
   result.Set("result", int((this->task).result));
-  result.Set("testcase", (this->task).record);
+  result.Set("testcase", this->judger.GetTestCase());
+  result.Set("result", int((this->task).result));
   result.Set("timerun", (this->task).time);
   result.Set("memory", (this->task).memory);
   return result;

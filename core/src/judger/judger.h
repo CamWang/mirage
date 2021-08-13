@@ -18,6 +18,7 @@ private:
   uint32_t ctlmt = 10;  // compile time limit
   uint32_t rtlmt = 10;  // run time limit
   int cec = 0;          // user solution run exit code
+  int testcase = 0;     // how many testcase total
   bool debug = false;
   bool isPtrace = false;
   bool isSeccomp = false;
@@ -42,6 +43,10 @@ public:
 
   int GetCec() {
     return this->cec;
+  }
+
+  int GetTestCase() {
+    return this->testcase;
   }
 
   void SetPtrace(bool ptrace) {

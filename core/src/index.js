@@ -63,16 +63,17 @@ try {
 
 let result;
 
-// try {
-//   result = inferno.judge();
-// } catch (err) {
-//   logger.error(err);
-// }
+try {
+  result = inferno.judge();
+} catch (err) {
+  logger.error(err);
+}
+logger.info(parseInt(result.testcase).toString(2))
 
-// logger.info(result);
+logger.info(result);
 
-inferno.judgeAsync((result) => {
-  console.log(result);
-})
+// inferno.judgeAsync((result) => {
+//   console.log(result);
+// })
 
-console.log("this should comes first");
+// console.log("this should comes first");
