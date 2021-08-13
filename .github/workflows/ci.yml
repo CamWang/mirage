@@ -2,10 +2,10 @@ name: Mirage CI
 
 on:
   push:
-    # branches: [ main ]
-    paths: 'docs/**'
-#   pull_request:
-    # branches: [ main ]
+    branches:
+      - main
+    paths:
+      - docs/**
 
 jobs:
   build_docs:
