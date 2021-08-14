@@ -47,7 +47,6 @@ try {
   logger.info(
     inferno.setTask(
       task.id,
-      task.pid,
       task.tlmt,
       task.mlmt,
       task.lang,

@@ -107,26 +107,29 @@ Napi::Value Inferno::SetJudger(const Napi::CallbackInfo& info) {
 
 Napi::Value Inferno::SetTask(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
-  if (info.Length() < 9)   {
+  if (info.Length() < 8)   {
     throwBindingError(env, "argument number error", "Inferno::SetTask()");
   }
-  uint32_t intArr[7];
-  string strArr[3];
-  for (int i = 0; i < 10; i++) {
-    if (i < 7)     {
+  uint32_t intArr[5];
+  string strArr[4];
+  for (int i = 0; i < 9; i++) {
+    if (i < 6 && i != 0)     {
       if (!info[i].IsNumber()) {
         throwBindingError(env, "argument type error", "Inferno::SetTask()");
       }
-      intArr[i] = info[i].As<Napi::Number>().Uint32Value();
+      intArr[i - 1] = info[i].As<Napi::Number>().Uint32Value();
     } else {
       if (!info[i].IsString()) {
         throwBindingError(env, "argument type error", "Inferno::SetTask()");
       }
-      strArr[i - 7] = info[i].As<Napi::String>().Utf8Value();
+      if (i == 0) {
+        strArr[i] = info[i].As<Napi::String>().Utf8Value();
+      }
+      strArr[i - 5] = info[i].As<Napi::String>().Utf8Value();
     }
   }
-  this->task = Task(intArr[0], intArr[1], intArr[2], intArr[3], intArr[4],
-    intArr[5], intArr[6], strArr[0], strArr[1], strArr[2]);
+  this->task = Task(strArr[0], intArr[0], intArr[1], intArr[2], intArr[3],
+    intArr[4], strArr[1], strArr[2], strArr[3]);
   return Napi::String::New(env, string(this->task));
 }
 

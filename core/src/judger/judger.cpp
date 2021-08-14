@@ -117,7 +117,7 @@ void Judger::Init(Task* task) {
       throw "mkdir " + inferno_work_path + " error";
     }
   }
-  string work_path = this->work_dir = this->work_dir + WORK_PATH_PREFIX + to_string((this->task)->id);
+  string work_path = this->work_dir = this->work_dir + WORK_PATH_PREFIX + (this->task)->id;
   if (IsDirExist(work_path)) {
     if (removeWorkDir(work_path) == -1) {
       throw "remove work dir error";
