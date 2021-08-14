@@ -27,7 +27,6 @@ private:
 
 public:
   Judger();
-  ~Judger();
   friend ostream& operator<<(ostream& os, const Judger& judger);
   operator string() const;
 

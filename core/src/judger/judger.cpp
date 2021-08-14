@@ -81,13 +81,6 @@ Judger::Judger(string dir, string source_name, string exec_name, string comp_cmd
   this->run_cmd = run_cmd;
 }
 
-Judger::~Judger() {
-  // string work_path = this->work_dir + WORK_PATH_PREFIX + to_string((this->task)->id);
-  // if (rmdir(work_path.c_str()) == -1) {
-  //   throw "rmdir " + work_path + " error";
-  // }
-}
-
 ostream& operator<<(ostream& os, const Judger& judger) {
   os << "{work_dir:" + judger.work_dir +
     ", source_name:" + judger.source_name +

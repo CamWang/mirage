@@ -124,8 +124,9 @@ Napi::Value Inferno::SetTask(const Napi::CallbackInfo& info) {
       }
       if (i == 0) {
         strArr[i] = info[i].As<Napi::String>().Utf8Value();
+      } else {
+        strArr[i - 5] = info[i].As<Napi::String>().Utf8Value();
       }
-      strArr[i - 5] = info[i].As<Napi::String>().Utf8Value();
     }
   }
   this->task = Task(strArr[0], intArr[0], intArr[1], intArr[2], intArr[3],

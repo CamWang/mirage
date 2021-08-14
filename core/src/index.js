@@ -57,20 +57,20 @@ for (let i = 0; i < 5; i++) {
     logger.error(err);
   }
 
+  // SYNC TEST
   let result;
+  try {
+    result = inferno.judge();
+  } catch (err) {
+    logger.error(err);
+  }
+  logger.info(result);
+  // SYNC TEST ENDS
 
-  // try {
-  //   result = inferno.judge();
-  // } catch (err) {
-  //   logger.error(err);
-  // }
-  // logger.info(parseInt(result.record).toString(2))
-
-  // logger.info(result);
-
-  inferno.judgeAsync((result) => {
-    logger.info(result);
-  });
-
-  console.log("this should comes first when async");
+  // ASYNC TEST
+  // inferno.judgeAsync((result) => {
+  //   logger.info(result);
+  // });
+  // console.log("this should comes first when async");
+  // ASYNC TEST ENDS
 }
