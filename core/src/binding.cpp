@@ -115,12 +115,12 @@ Napi::Value Inferno::SetTask(const Napi::CallbackInfo& info) {
   for (int i = 0; i < 9; i++) {
     if (i < 6 && i != 0)     {
       if (!info[i].IsNumber()) {
-        throwBindingError(env, "argument type error", "Inferno::SetTask()");
+        throwBindingError(env, "argument " + to_string(i) + " type error", "Inferno::SetTask()");
       }
       intArr[i - 1] = info[i].As<Napi::Number>().Uint32Value();
     } else {
       if (!info[i].IsString()) {
-        throwBindingError(env, "argument type error", "Inferno::SetTask()");
+        throwBindingError(env, "argument " +  to_string(i) + " type error", "Inferno::SetTask()");
       }
       if (i == 0) {
         strArr[i] = info[i].As<Napi::String>().Utf8Value();
