@@ -42,7 +42,7 @@ const userSchema = new Schema({
     minLength: 2,
     maxLength: 30
   },
-  time: {
+  created: {
     type: Date,
     default: Date.now
   },

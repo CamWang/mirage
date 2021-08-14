@@ -21,10 +21,20 @@ const submissionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Contest',
   },
+  created: {
+    type: Date,
+    default: Date.now
+  },
   language: {       // defined in constant.js
     type: Number,
     min: 0,
     max: 4,
+    default: 0
+  },
+  mode: {
+    type: Number,
+    min: 0,
+    max: 1,
     default: 0
   },
   code: {
