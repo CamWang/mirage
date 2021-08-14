@@ -56,6 +56,7 @@ module.exports = {
   },
   core: {
     direcotry: "/tmp",
+    data: "/home/ubuntu/data",
     ptrace: false,
     seccomp: false,
     rlimit: false,

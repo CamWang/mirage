@@ -36,11 +36,25 @@ const submissionSchema = new Schema({
     max: 10,
     default: 0
   },
+  testcase: {
+    type: Number,
+    default: 0
+  },
+  record: {
+    type: Number,
+    default: 0
+  },
+  cec: {
+    type: Number,
+    default: 0
+  },
   time: {
     type: Number,
+    default: 0
   },
   memory: {
     type: Number,
+    default: 0
   }
 });
 

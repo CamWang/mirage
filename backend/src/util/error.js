@@ -10,6 +10,7 @@
   GoneError              - 请求的实体不存在。取数据之后检查数据是否存在
   PayloadTooLargeError   - 参数过大
   UnprocessableEntityError    - 参数格式错误。比如应该数字的字段传来字符串
+  InternalServerError    - 服务器内部错误，由于代码bug等出现的错误
   NotImplementedError    - 该API未被实现
  *
  */
@@ -76,6 +77,14 @@ class UnprocessableEntityError extends Error {
   }
 }
 
+class InternalServerError extends Error {
+  constructor(message) {
+    super();
+    this.code = 500,
+    this.message = "Internal Server Error: " + message;
+  }
+}
+
 // 待开发
 class NotImplementedError extends Error {
   constructor(message) {
@@ -93,5 +102,6 @@ module.exports = {
   GoneError,
   PayloadTooLargeError,
   UnprocessableEntityError,
+  InternalServerError,
   NotImplementedError
 }
