@@ -25,6 +25,7 @@ class Server {
   http;
   koa;
   log;
+  io;
   development = true;
   production = false;
 
@@ -81,7 +82,7 @@ class Server {
 
     if (this.development) {
       app.use(cors({
-        origin: '*'
+        origin: 'http://localhost:9000'
       }));
     }
 
@@ -149,7 +150,15 @@ class Server {
   }
 
   setupSocketIO() {
-    this.io = new SocketServer(this.http);
+    let setting;
+    if (this.development) {
+      setting = {
+        cors: {
+          origin: "http://localhost:9000",
+        },
+      }
+    }
+    this.io = new SocketServer(this.http, setting).io;
   }
 }
 
