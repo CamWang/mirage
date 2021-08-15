@@ -129,7 +129,7 @@ class Server {
         const ms = Date.now() - start;
         ctx.set('X-Response-Time', `${ms}ms`);
         const rt = ctx.response.get('X-Response-Time');
-        global.log.info(`${ctx.method} ${ctx.url} - ${rt}`);
+        global.log.http(`${ctx.method} ${ctx.url} - ${rt}`);
       });
     }
 

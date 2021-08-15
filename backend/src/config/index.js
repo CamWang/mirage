@@ -1,14 +1,24 @@
 const winston = require("winston");
 const chalk = require("chalk");
 
+const mode = "development";
+
 let logToConsole = true;    // change here for log to console or to file
 
 let loggerFormat, transports;
 if (logToConsole) {
   loggerFormat = winston.format.printf(({ level, message, label, timestamp }) => {
+    let lev = chalk.bgWhite(` ${level} `);
+    if (level === "error") {
+      lev = chalk.bgRed(` ${level} `);
+    } else if (level === "warn") {
+      lev = chalk.bgYellow(` ${level} `);
+    } else if (level === "http") {
+      lev = chalk.bgGreen(` ${level} `);
+    }
     return chalk.black(chalk.bgMagenta(` ${timestamp} `)) +
       chalk.black(chalk.bgCyan(`[${label}]:`)) + 
-      chalk.black(chalk.bgGreen(` ${level} `)) + 
+      chalk.black(lev) + 
       ` ${message} `;
   });
   transports = [new winston.transports.Console()];
@@ -22,8 +32,11 @@ if (logToConsole) {
   ];
 }
 
+const logLevel = mode === "development"?"http":"info";
+
+// ACTUAL CONFIG STARTS HERE
 module.exports = {
-  mode: "development",
+  mode,
   server: {
     base: "/api",
     port: 3000,
@@ -46,7 +59,7 @@ module.exports = {
     ]
   },
   logger: {
-    level: "info",    // only log less than this. error,warn,info,http,verbose,debug,silly.
+    level: logLevel,    // only log less than this. error,warn,info,http,verbose,debug,silly.
     format: winston.format.combine(
       winston.format.label({ label: 'mirage' }),
       winston.format.timestamp(),
