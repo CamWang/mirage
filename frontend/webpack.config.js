@@ -130,6 +130,7 @@ module.exports = {
   devServer: {
     open: true,
     host: "localhost",
+    port: 9000,
     // useLocalIp: true,
     quiet: true,
     overlay: true,

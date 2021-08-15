@@ -2,6 +2,7 @@ const path = require('path');
 const Koa = require("koa");
 const serve = require("koa-static");
 const bodyParser = require("koa-bodyparser");
+const cors = require("koa2-cors");
 const Http = require("http");
 const { historyApiFallback } = require("koa2-connect-history-api-fallback");
 const Winston = require("winston");
@@ -34,16 +35,24 @@ class Server {
   init() {
     this.setupLogger();
     const log = global.log;
-    log.info("logger established");
+    if (typeof config.mode == "string") {
+      this.production = config.mode === "production";
+      this.development = config.mode === "development";
+    } else {
+      log.error("config wrong mode type");
+    }
+    if (this.development) {
+      log.warn("development mode");
+    } else {
+      log.warn("production mode");
+    }
     log.info("mongoose is initializing");
     this.setupDatabase();
-    log.info("mongoose established");
     log.info("server is initializing");
     this.setupServer();
     log.info(`server running at http://localhost:${config.server.port}`);
     log.info("socket.io is initializing");
     this.setupSocketIO();
-    log.info("socket.io is running");
   }
 
   setupLogger() {
@@ -63,18 +72,18 @@ class Server {
   }
 
   setupServer() {
-    if (typeof config.mode == "string") {
-      this.production = config.mode === "production";
-      this.development = config.mode === "development";
-    } else {
-      global.log.error("config wrong mode type");
-    }
 
     if (!Number.isInteger(config.server.port)) {
       global.log.error("config.server.port wrong port type");
     }
     this.port = config.server.port;
     const app = new Koa();
+
+    if (this.development) {
+      app.use(cors({
+        origin: '*'
+      }));
+    }
 
     app.use(serve('dist'), {
       gzip: true
