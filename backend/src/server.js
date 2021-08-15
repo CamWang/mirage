@@ -5,12 +5,11 @@ const bodyParser = require("koa-bodyparser");
 const Http = require("http");
 const { historyApiFallback } = require("koa2-connect-history-api-fallback");
 const Winston = require("winston");
-const Socket = require("socket.io").Server;
 
 const router = require("./router");
 const config = require("./config");
 const Database = require("./db");
-const { onlyExecInDev } = require("./util/constant");
+const SocketServer = require("./io");
 
 // even in other modules you should initialize log in constructor
 // or in other words, in a delayed manner. If you initialize log
@@ -146,7 +145,7 @@ class Server {
   }
 
   setupSocketIO() {
-    this.io = new Socket(this.http);
+    this.io = new SocketServer(this.http);
   }
 }
 

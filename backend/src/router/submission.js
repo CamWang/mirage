@@ -4,6 +4,7 @@ const { Submission } = require("../model/submission");
 
 const submission = new Router();
 
+// Get submit list controller
 submission.get('/list', async (ctx, next) => {
   const body = ctx.request.body;
   let page = 1, items = 30;

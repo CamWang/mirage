@@ -7,17 +7,11 @@ const { Submission } = require("../model/submission");
 const { Problem } = require("../model/problem");
 const {
   InternalServerError,
-  RequestError
+  RequestError,
+  UnprocessableEntityError
 } = require("../util/error");
 
-const emitter = new EventEmitter();
-
-emitter.on("init", () => {
-});
-emitter.on("compile", () => {
-});
-emitter.on("judge", () => {
-});
+let log = global.log;
 
 const judger = new Router();
 
@@ -39,6 +33,7 @@ function judge(task) {
   });
 }
 
+// Judge controller
 judger.post('/submit', async (ctx, next) => {
   // default task object
   const defaultTask = {
@@ -58,8 +53,20 @@ judger.post('/submit', async (ctx, next) => {
   }
   // actual task user submitted
   let userTask = ctx.request.body.task;
-  // compose data directory
-  userTask.data = `${config.data}/${userTask.pid}`;
+  const problemExist = await Problem.exists({_id: userTask.pid});
+  if (problemExist) {
+    userTask.data = `${config.data}/${userTask.pid}`;
+  } else {
+    throw new UnprocessableEntityError(`problem id:${userTask.pid} doesn't exists`);
+  }
+  
+  const emitter = new EventEmitter();
+  emitter.on("init", () => {
+  });
+  emitter.on("compile", () => {
+  });
+  emitter.on("judge", () => {
+  });
 
   // delete params user not supposed to submit
   const dels = ["type", "spj", "mlmt", "tlmt"];
@@ -92,7 +99,7 @@ judger.post('/submit', async (ctx, next) => {
   try {
     result = await judge(userTask);
   } catch(err) {
-    global.log.error(err);
+    log.error(err);
     throw new InternalServerError("[Inferno] Start judger fail. Please contact admin.")
   }
 
