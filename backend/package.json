@@ -5,7 +5,8 @@
   "repository": "github:CamWang/mirage",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "NODE_ENV=production node src/index.js",
+    "dev": "NODE_ENV=development node src/index.js",
     "test": "mocha --recursive",
     "build": "cd ../frontend && npm run build && cd ../core && npm run build",
     "build:fe": "cd ../frontend && npm run build",

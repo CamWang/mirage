@@ -1,7 +1,7 @@
 const winston = require("winston");
 const chalk = require("chalk");
 
-const mode = "development";
+const mode = process.env.NODE_ENV;
 
 let logToConsole = true;    // change here for log to console or to file
 

@@ -64,13 +64,8 @@ class Server {
 
   setupServer() {
     if (typeof config.mode == "string") {
-      if (config.mode === "production") {
-        this.production = true;
-        this.development = false;
-      } else if (config.mode === "development") {
-        this.production = false;
-        this.development = true;
-      }
+      this.production = config.mode === "production";
+      this.development = config.mode === "development";
     } else {
       global.log.error("config wrong mode type");
     }
