@@ -6,9 +6,6 @@ import Hljs from "@/plugins/highlight";
 import i18n from "@/locale";
 import axios from '@/api';
 import store from '@/store';
-import { io } from "socket.io-client";
-
-window.io = io;
 
 Vue.use(Hljs);
 

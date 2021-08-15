@@ -41,7 +41,7 @@ module.exports = {
     // }),
     new FriendlyErrorsWebpackPlugin({
       compilationSuccessInfo: {
-        messages: ["Mirage Frontend is running at: http://localhost:8080"],
+        messages: ["Mirage Frontend is running at: http://localhost:9000"],
       },
       clearConsole: true
     }),
