@@ -11,6 +11,8 @@ const {
   UnprocessableEntityError
 } = require("../util/error");
 
+// TODO Queue judge task
+// TODO WS active message push
 let log = global.log;
 
 const judger = new Router();
