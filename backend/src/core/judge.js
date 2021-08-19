@@ -21,7 +21,7 @@ const queueTask = function (task) {
     }
     return new Promise((resolve, reject) => {
       inferno.judgeAsync(result => {
-        resolve(result);
+          resolve(result);
       });
     });
   }
