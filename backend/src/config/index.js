@@ -68,6 +68,7 @@ module.exports = {
     transports: transports
   },
   core: {
+    concurrency: 4,
     direcotry: "/tmp",
     data: "/home/ubuntu/data",
     ptrace: false,
