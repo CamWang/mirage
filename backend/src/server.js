@@ -86,6 +86,7 @@ class Server {
       }));
     }
 
+    app.use(historyApiFallback({ whiteList: ['/api']}));
     app.use(serve('dist'), {
       gzip: true
     });
@@ -95,23 +96,26 @@ class Server {
       Error.stackTraceLimit = 5;
     }
 
-    app.on('error', (err, ctx) => {
-      if (ctx.status === 404) {
+    app.use(async (ctx, next) => {
+      try {
+        await next();
+      } catch(err) {
+        if (!err.status || !Number.isInteger(err.status)) {
+          err.status = 500;
+        // koa-jwt error handler
+        } else if (401 == err.status) {
+          ctx.status = 401;
+          ctx.body = 'Protected resource, use Authorization header to get access\n';
+        } else if (err.code && Number.isInteger(err.code)) {
+          ctx.status = err.code;
+        }
+        ctx.body = err.message;
+        global.log.error(err);
+      }
+      if (ctx.response.status === 404) {
         ctx.body = "Sorry. I didn't find that page on mirage";
         global.log.error(`404 visit to: ${ctx.url}`);
       }
-      
-      if (!err.status || !Number.isInteger(err.status)) {
-        err.status = 500;
-      // koa-jwt error handler
-      } else if (401 == err.status) {
-        ctx.status = 401;
-        ctx.body = 'Protected resource, use Authorization header to get access\n';
-      } else if (err.code && Number.isInteger(err.code)) {
-        ctx.status = err.code;
-      }
-      ctx.body = err.message;
-      global.log.error(err);
     });
 
     // time calculate
@@ -131,7 +135,7 @@ class Server {
 
     app.use(router.routes());
     app.use(router.allowedMethods());
-    app.use(historyApiFallback({ whiteList: ['/api']}));
+
     const http = Http.createServer(app.callback());
     http.listen(config.server.port);
     this.http = http;
