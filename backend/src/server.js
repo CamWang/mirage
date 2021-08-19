@@ -94,35 +94,24 @@ class Server {
     if (!this.development) {
       Error.stackTraceLimit = 5;
     }
-    app.use(async (ctx, next) => {
-      try {
-        await next();
-        // 404 error handler - koa default status is 404
-        if (ctx.status === 404) {
-          ctx.body = "Sorry. I didn't find that page on mirage";
-          global.log.error(`404 visit to: ${ctx.url}`);
-        }
-      } catch(err) {
-        console.log(err);
-        if (err) {
-          console.log("error status", err.status);
-          // koa-jwt error handler
-          if (401 == err.status) {
-            ctx.status = 401;
-            ctx.body = 'Protected resource, use Authorization header to get access\n';
-          }
-          if (err.status) {
-            ctx.status = err.status;
-          }
-          if (err.code) {
-            ctx.status = err.code;
-          }
-          global.log.error(err.message);
-          ctx.body = err.message;
-          ctx.app.emit("error", err, ctx);
-        }
-        global.log.error(err);
+
+    app.on('error', (err, ctx) => {
+      if (ctx.status === 404) {
+        ctx.body = "Sorry. I didn't find that page on mirage";
+        global.log.error(`404 visit to: ${ctx.url}`);
       }
+      
+      if (!err.status || !Number.isInteger(err.status)) {
+        err.status = 500;
+      // koa-jwt error handler
+      } else if (401 == err.status) {
+        ctx.status = 401;
+        ctx.body = 'Protected resource, use Authorization header to get access\n';
+      } else if (err.code && Number.isInteger(err.code)) {
+        ctx.status = err.code;
+      }
+      ctx.body = err.message;
+      global.log.error(err);
     });
 
     // time calculate

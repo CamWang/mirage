@@ -10,9 +10,6 @@ const {
 } = require("../util/error");
 const { queueTask } = require("../core/judge");
 
-// TODO Queue judge task
-// TODO WS active message push
-
 const judger = new Router();
 
 // Judge controller
