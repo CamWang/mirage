@@ -5,11 +5,11 @@ const uuidv4 = function() {
   });
 }
 
-const sessionId = function() {
+const ioSid = function() {
   return uuidv4().split('-')[0];
 }
 
 module.exports = {
   uuidv4,
-  sessionId
+  ioSid
 }

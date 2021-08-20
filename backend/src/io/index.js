@@ -1,4 +1,6 @@
 const Socket = require("socket.io").Server;
+const { ioSid } = require("../util/tool");
+const { User } = require("../model/user");
 
 class InMemorySessionStore {
   constructor() {
@@ -44,7 +46,7 @@ class SocketServer {
     });
   }
 
-  mwSession(socket, next) {
+  async mwSession(socket, next) {
     const sessionID = socket.handshake.auth.sessionID;
     if (sessionID) {
       // find existing session
@@ -61,8 +63,13 @@ class SocketServer {
       return next(new Error("invalid username"));
     }
 
-    socket.sessionID = randomId();
-    socket.userID = randomId();
+    let data = await User.findOne({ username: ctx.request.body.username }).select('+_id').exec();
+    if (!data) {
+      throw new GoneError("no entity matched");
+    }
+
+    socket.sessionID = ioSid();
+    socket.userID = data._id;
     socket.username = username;
     next();
   }
